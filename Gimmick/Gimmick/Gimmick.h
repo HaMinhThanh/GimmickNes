@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Star.h"
 #include "LoadingStar.h"
+#include"ScrollBar.h"
 
 #define GIMMICK_WALKING_SPEED		0.06f 
 //0.1f
@@ -114,6 +115,7 @@ public:
 	void isPrepareShot();
 
 	void SetLoadingStar();
+	
 
 };
 

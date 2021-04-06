@@ -48,7 +48,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 // Ground
 #define OBJECT_TYPE_BRICK	4
 #define OBJECT_TYPE_SLIDE	5
-#define OBJECT_TYPE_SCROLLBAR	6
+#define OBJECT_TYPE_SCROLLBAR_INCREASE	6
+#define OBJECT_TYPE_SCROLLBAR_DECREASE	7
 
 // Enemy
 #define OBJECT_TYPE_BOMB	21
@@ -204,7 +205,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_SCROLLBAR:
+	case OBJECT_TYPE_SCROLLBAR_INCREASE:
+		obj = new CScrollBar(SCROLLBAR_TYPE_INCREASE);
+		break;
+	case OBJECT_TYPE_SCROLLBAR_DECREASE:
+		obj = new CScrollBar(SCROLLBAR_TYPE_DECREASE);
 		break;
 
 	case OBJECT_TYPE_BOMB:
@@ -381,8 +386,9 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx > _xRight - SCREEN_WIDTH + 16) // cong them 16 vi thieu 1 frame
 		cx = _xRight - SCREEN_WIDTH + 16;
-
+	
 	CGame::GetInstance()->SetCamPos((int)cx, 200);
+
 }
 
 void CPlayScene::Render()
@@ -454,6 +460,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		{
 			gimmick->SetShoot(1);
 		}
+		break;
+	case DIK_T:
+		gimmick->SetPosition(992,224);
 		break;
 	}
 	
