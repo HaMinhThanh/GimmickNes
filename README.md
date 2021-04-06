@@ -1,1 +1,2 @@
-# GimmickNes
+# Nhập môn Game
+# MrGimmick
