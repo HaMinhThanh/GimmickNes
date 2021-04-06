@@ -3,7 +3,7 @@
 0	textures\gimmick.png	0	0	255
 10	textures\gimmick2.png	0	0	255
 20	textures\enemy.png	57	189	255
-30	textures\enemy2.png	57	189	255
+30	textures\enemy2.png	51	191	255
 40	textures\item.png	215	121	214
 # TileSet
 11	textures\tileset\1a.png	180	230	30
@@ -303,7 +303,7 @@
 4	976	304	401
 4	992	304	401
 
-# Brick above map 1a
+
 4	832	336	401
 4	0	0	401
 4	0	16	401
@@ -393,8 +393,10 @@
 4	96	112	401
 
 
+
+
 # Gimmick
-1	50	200	1
+1	50	272	1
 
 # Bomb
 21	100	300	3

@@ -17,7 +17,7 @@
 
 #define STAR_GOING_RIGHT	1
 #define STAR_GOING_LEFT		2	
-#define STAR_STATE_HIDDEN   3	
+#define STAR_STATE_IDLE   3	
 
 #define STAR_GRAVITY	0.001f
 #define STAR_SPEED_X	0.12f

@@ -130,8 +130,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
+		if (rdx != 0 && rdx != dx && nx == 0 && ny < 0)
+			x += nx*abs(rdx); 
 
 		// block every object first!
 		

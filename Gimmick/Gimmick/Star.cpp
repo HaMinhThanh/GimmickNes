@@ -67,10 +67,10 @@ void CStar::SetState(int state)
 
 		break;
 
-	case STAR_STATE_HIDDEN:
+	case STAR_STATE_IDLE:
 
 		vx = vy = 0;
-		isActive = false;
+		//isActive = false;
 
 		break;
 	}
@@ -106,15 +106,20 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				time_acting = 0;
 				acting = 0;
 
-				SetState(STAR_STATE_HIDDEN);
+				isActive = false;
 				isFinish = true;
 				isBubble = false;
 			}
 			else if (GetTickCount() - time_acting > STAR_ACTING_TIME 
 				&& GetTickCount() - time_acting < STAR_BUBBLE_TIME)
 			{				
-				isBubble = true;
+				isBubble = true;				
 			}
+		}
+
+		if (isBubble) {
+
+			SetState(STAR_STATE_IDLE);
 		}
 
 		vector<LPGAMEOBJECT> Bricks;
@@ -143,8 +148,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-			x += min_tx * dx + nx * 0.08f;
-			y += min_ty * dy + ny * 0.08f;
+			x += min_tx * dx + nx * 0.04f;
+			y += min_ty * dy + ny * 0.04f;
 
 			if (nx != 0 && ny == 0) vx *= STAR_SPEED_AFTER_COLLISION;
 			if (ny != 0) {
