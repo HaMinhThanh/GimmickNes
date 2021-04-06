@@ -81,11 +81,16 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			isCanShot = true;			
 		}
+		else {
+
+			load_star->TurnToBegin(x - LOADING_STAR_ALIGN, y - LOADING_STAR_ALIGN);
+		}
 	}
 
 	if (isCanShot) {
 
 		star->SetPosition(x, y - STAR_BBOX_HEIGHT + 4);
+		star->isFinish = false;
 	}
 
 	if (star != NULL)
@@ -93,7 +98,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (loading == 1) {
 
-		load_star->TurnToBegin(x- LOADING_STAR_ALIGN, y - LOADING_STAR_ALIGN);
 		load_star->Update(dt, coObjects);
 	}
 

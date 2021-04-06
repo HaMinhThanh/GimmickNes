@@ -14,11 +14,13 @@ LoadingStar::~LoadingStar()
 
 void LoadingStar::TurnToBegin(float x, float y)
 {
+	// reset star position above the gimmick head
+
 	x1 = x - 32;
-	x2 = x ;
-	x3 = x + 32;
-	x4 = x + 25;
-	x5 = x - 25;
+	x2 = x + 8;
+	x3 = x + 40;
+	x4 = x + 40;
+	x5 = x - 24;
 
 	y1 = y - 10;
 	y2 = y - 32;

@@ -26,7 +26,8 @@
 
 #define STAR_SPEED_MAX_Y	0.0001f
 
-#define STAR_ACTING_TIME	5000
+#define STAR_ACTING_TIME	4000
+#define STAR_BUBBLE_TIME	4500
 
 #define STAR_ANIMATION_SET		2
 
@@ -40,18 +41,13 @@ public:
 	virtual void SetState(int state);
 
 public:
-	/*int GetFly() { return Fly; };
-	void SetFly(int fly) { Fly = fly; };
-	DWORD Firinng_start;
-	void FiringStart() { Fly = 1; Firinng_start = GetTickCount(); };
-	void SetY(float y) { Y = y+30.0f; };
-	CStar();*/
 
 	CStar();
 	~CStar();
 
 	bool isFinish;
 	bool isActive;
+	bool isBubble;
 
 	int acting = 0;
 	DWORD time_acting;

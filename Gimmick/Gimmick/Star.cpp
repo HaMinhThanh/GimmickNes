@@ -17,6 +17,7 @@ CStar::CStar()
 
 	isFinish = false;
 	isActive = false;
+	isBubble = false;
 
 	x = y = 0;
 
@@ -24,11 +25,18 @@ CStar::CStar()
 	vx = 0;
 }
 
+CStar::~CStar()
+{
+}
+
 void CStar::Render()
 {
-	//if (isActive == false) return;
+	if (isFinish == true) return;
 
-	animation_set->at(0)->Render(x, y);
+	if (isBubble)
+		animation_set->at(1)->Render(x, y);		// star bubble in the end
+	else 
+		animation_set->at(0)->Render(x, y);		// normal
 
 	//RenderBoundingBox();
 }
@@ -93,13 +101,19 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (acting == 1) {
 
-			if (GetTickCount() - time_acting > STAR_ACTING_TIME)
-			{
+			if (GetTickCount() - time_acting > STAR_BUBBLE_TIME) {
+				
 				time_acting = 0;
 				acting = 0;
 
-				isFinish = true;
 				SetState(STAR_STATE_HIDDEN);
+				isFinish = true;
+				isBubble = false;
+			}
+			else if (GetTickCount() - time_acting > STAR_ACTING_TIME 
+				&& GetTickCount() - time_acting < STAR_BUBBLE_TIME)
+			{				
+				isBubble = true;
 			}
 		}
 

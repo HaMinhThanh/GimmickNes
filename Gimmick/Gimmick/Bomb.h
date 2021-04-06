@@ -9,8 +9,8 @@
 
 #define BOMB_GRAVITY				0.002f
 
-#define BOMB_SPEED_X			0.01f
-#define BOMB_SPEED_Y_NORMAL		0.01f
+#define BOMB_SPEED_X			0.1f
+#define BOMB_SPEED_Y_NORMAL		0.3f
 #define BOMB_SPEED_Y_COLLISION	0.03f
 
 #define BOMB_BBOX_WIDTH		16
@@ -25,5 +25,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void SetState(int state);
 };
 
