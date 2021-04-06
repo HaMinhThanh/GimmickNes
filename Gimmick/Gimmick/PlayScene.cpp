@@ -42,6 +42,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_MAP	8
 #define SCENE_SECTION_CAMERA 9
 
+
+//// OBJECT
 #define OBJECT_TYPE_GIMMICK	1
 #define	OBJECT_TYPE_STAR 2
 
@@ -484,7 +486,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 		gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
 	}	
-	else if (gimmick->vy == 0 && gimmick->vx != 0) {
+	else if (gimmick->vy == 0 && gimmick->vx != 0 && !gimmick->isScrollBar) {
 
 		gimmick->SetState(GIMMICK_STATE_IDLE);
 	}

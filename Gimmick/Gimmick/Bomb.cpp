@@ -1,5 +1,7 @@
 #include "Bomb.h"
 #include "Brick.h"
+#include "ScrollBar.h"
+#include "Gimmick.h"
 
 CBomb::CBomb(float _x, float _y)
 {
@@ -27,7 +29,8 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	for (UINT i = 0; i < coObjects->size(); i++) {
 
-		if (dynamic_cast<CBrick*>(coObjects->at(i))) {
+		if (dynamic_cast<CBrick*>(coObjects->at(i))
+			|| dynamic_cast<CScrollBar*>(coObjects->at(i))) {
 
 			Bricks.push_back(coObjects->at(i));
 		}
@@ -50,6 +53,12 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx, rdy;
 
+		float max = 0, min = 999999999;
+
+		float l, t, r, b;
+		float l1, t1, r1, b1;
+		GetBoundingBox(l1, t1, r1, b1);
+
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		x += min_tx * dx + nx * 0.04f;
@@ -60,25 +69,59 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 		}
 
+		for (UINT i = 0; i < coEvents.size(); i++) {
+
+			coEvents[i]->obj->GetBoundingBox(l, t, r, b);
+
+			if (r > max /*&& t1 < t*/)
+			{
+				max = r;
+			}
+			if (l < min /*&& t1 < t*/)
+			{
+				min = l;
+			}
+		}
+
+		if (r1 - BOMB_JUMP_ALIGN > max && vx > 0 || l1 + BOMB_JUMP_ALIGN < min && vx < 0) {
+
+			Jumping();			
+		}	
+
+		if (abs(CGimmick::GetInstance(0, 0)->GetX() - x) >= BOMB_MAX_DISTANCE_WITH_GIMMICK) {
+
+			if (GetState() == BOMB_STATE_WALKING_LEFT && CGimmick::GetInstance(0, 0)->GetX() > x)
+				SetState(BOMB_STATE_WALKING_RIGHT);
+			
+			if (GetState() == BOMB_STATE_WALKING_RIGHT && CGimmick::GetInstance(0, 0)->GetX() < x)
+				SetState(BOMB_STATE_WALKING_LEFT);
+		}
+
 		if (nx != 0 && ny == 0) {
 
-			if (GetState() == BOMB_STATE_WALKING_LEFT) {
+			if ((x < CGimmick::GetInstance(0, 0)->GetX() && vx < 0)
+				|| (x > CGimmick::GetInstance(0, 0)->GetX() && vx > 0)) {
 
-				SetState(BOMB_STATE_WALKING_RIGHT);
-			}
-			else {
+				if (GetState() == BOMB_STATE_WALKING_LEFT) {
 
-				SetState(BOMB_STATE_WALKING_LEFT);
+					SetState(BOMB_STATE_WALKING_RIGHT);
+				}
+				else {
+
+					SetState(BOMB_STATE_WALKING_LEFT);
+				}
 			}
-			
-			//vx *= -1;
-			vy = -BOMB_SPEED_Y_NORMAL;
+		
+			Jumping();
 		}
 
 		if (ny != 0) {
 
 			vy = 0;
 		}
+
+		min = 0;
+		max = 9999999;
 	}
 }
 
@@ -88,12 +131,16 @@ void CBomb::Render()
 
 	if (state == BOMB_STATE_WALKING_RIGHT)
 		animation_set->at(0)->Render(x, y);
+
 	else if (state == BOMB_STATE_WALKING_LEFT)
 		animation_set->at(1)->Render(x, y);
+
 	else if (state == BOMB_STATE_FLY_RIGHT)
 		animation_set->at(2)->Render(x, y);
+
 	else if (state == BOMB_STATE_FLY_LEFT)
 		animation_set->at(3)->Render(x, y);
+
 	else if (state == BOMB_STATE_DIE)
 		animation_set->at(4)->Render(x, y);
 }

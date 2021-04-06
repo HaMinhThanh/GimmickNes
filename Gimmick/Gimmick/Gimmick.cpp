@@ -39,7 +39,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!isSlide)
 		vy += GIMMICK_GRAVITY * dt;
 
-	
+
 
 
 	// reset untouchable timer if untouchable time has passed
@@ -60,7 +60,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (maxjumping == 1)
 	{
-		 if (GetTickCount() - time_maxjumping >= 200)
+		if (GetTickCount() - time_maxjumping >= 200)
 		{
 			maxjumping = 0;
 			time_maxjumping = 0;
@@ -79,7 +79,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			loading = 2;
 			time_load = 0;
 
-			isCanShot = true;			
+			isCanShot = true;
 		}
 		else {
 
@@ -131,10 +131,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
 		if (rdx != 0 && rdx != dx && nx == 0 && ny < 0)
-			x += nx*abs(rdx); 
+			x += nx * abs(rdx);
 
 		// block every object first!
-		
+
 
 		//mario touches ground
 		if (ny != 0 && nx == 0)
@@ -163,33 +163,35 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CBomb*>(e->obj) && isSlide == false) {
 
 				if (e->ny != 0 && e->nx == 0)
-					vy = 0;
-				
+					vy = -0.2f;
+
 			}
 
-			if (dynamic_cast<CScrollBar*>(e->obj)) // if e->obj is Goomba 
-			{
-				
+			if (dynamic_cast<CScrollBar*>(e->obj)) { 
+
+				isScrollBar = true;
+
 				CScrollBar* scrollbar = dynamic_cast<CScrollBar*>(e->obj);
-				if (scrollbar->GetType() == SCROLLBAR_ANI_INCREASE)
-				{
-					if (GetState() == GIMMICK_STATE_IDLE)
-					{
-						if(nx>0)
-						vx = -SCROLLBAR_SPEED;
+
+				if (scrollbar->GetType() == SCROLLBAR_ANI_INCREASE){
+				
+					if (GetState() == GIMMICK_STATE_IDLE) {
+
+						if (nx > 0)
+							vx = -SCROLLBAR_SPEED;
 						else
 							vx = SCROLLBAR_SPEED;
 					}
-					else if (nx > 0)
-					{
+					else //if (GetState() == GIMMICK_STATE_WALKING_RIGHT) {
+
 						vx += SCROLLBAR_SPEED;
-					}
-					else
-					{
+					//}
+					/*else if (GetState() == GIMMICK_STATE_WALKING_LEFT) {
+
 						vx -= SCROLLBAR_SPEED;
-					}
+					}*/
 				}
-				else
+				else 
 				{
 					if (GetState() == GIMMICK_STATE_IDLE)
 					{
@@ -209,12 +211,16 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
-			
+			else {
 
-			
+				isScrollBar = false;
+			}
+
 			if (dynamic_cast<CSlide*>(e->obj)) {
+
 				/*vx = 0.01f;
 				vy = -0.01f;*/
+
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
 				float l1, t1, r1, b1;
@@ -224,7 +230,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				slide->GetBoundingBox(l2, t2, r2, b2);
 
 				//if (this->isCollision(l1, t1, r1, b1, l2, t2, r2, b2)) {
-				
+
 				if (slide->state == 0) {
 					if (tan((slide->x1 - x) / (slide->y2 - y)) <= tan(slide->slidePos)) {
 
@@ -237,17 +243,17 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				/*}
 				else {
-					
+
 					isSlide = false;
 				}*/
-				
+
 			}
 			else {
 				isSlide = false;
 			}
 		}
 
-		if (!isSlide ) {
+		if (!isSlide) {
 
 			x += min_tx * dx + nx * 0.4f;
 			y += min_ty * dy + ny * 0.4f;
@@ -258,7 +264,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else {
 			x += dx;
 			y += dy;
-		}		
+		}
 	}
 
 	// clean up collision events
@@ -269,46 +275,46 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CGimmick::Render()
 {
-		int ani = -1;
+	int ani = -1;
 
-		if (jump == 1)
+	if (jump == 1)
+	{
+		if (nx > 0)
+			ani = GIMMICK_ANI_JUMPING_RIGHT;
+		else
+			ani = GIMMICK_ANI_JUMPING_LEFT;
+	}
+	else if (state == GIMMICK_STATE_WALKING_RIGHT)
+	{
+		ani = GIMMICK_ANI_WALKING_RIGHT;
+
+	}
+	else if (state == GIMMICK_STATE_WALKING_LEFT)
+	{
+		ani = GIMMICK_ANI_WALKING_LEFT;
+	}
+	else//if (state == GIMMICK_STATE_IDLE)
+	{
+		if (nx > 0)
 		{
-			if (nx > 0)
-				ani = GIMMICK_ANI_JUMPING_RIGHT;
-			else
-				ani = GIMMICK_ANI_JUMPING_LEFT;
+			ani = GIMMICK_ANI_IDLE_RIGHT;
 		}
-		else if (state == GIMMICK_STATE_WALKING_RIGHT)
-		{
-			ani = GIMMICK_ANI_WALKING_RIGHT;
-		
-		}
-		else if (state == GIMMICK_STATE_WALKING_LEFT)
-		{
-			ani = GIMMICK_ANI_WALKING_LEFT;
-		}
-		else//if (state == GIMMICK_STATE_IDLE)
-		{
-			if (nx > 0)
-			{
-				ani = GIMMICK_ANI_IDLE_RIGHT;
-			}
-			else
-				ani = GIMMICK_ANI_IDLE_LEFT;
-		}
+		else
+			ani = GIMMICK_ANI_IDLE_LEFT;
+	}
 
-		int alpha = 255;
-		if (untouchable) alpha = 128;
+	int alpha = 255;
+	if (untouchable) alpha = 128;
 
-		animation_set->at(ani)->Render(x, y, alpha);
+	animation_set->at(ani)->Render(x, y, alpha);
 
-		if (star != NULL)
-			star->Render();
-		
-		if (loading == 1)
-			load_star->Render();
+	if (star != NULL)
+		star->Render();
 
-		RenderBoundingBox();
+	if (loading == 1)
+		load_star->Render();
+
+	RenderBoundingBox();
 }
 
 void CGimmick::SetState(int state)
@@ -321,16 +327,18 @@ void CGimmick::SetState(int state)
 		vx = GIMMICK_WALKING_SPEED;
 		nx = 1;
 		break;
+
 	case GIMMICK_STATE_WALKING_LEFT:
 		vx = -GIMMICK_WALKING_SPEED;
 		nx = -1;
 		break;
+
 	case GIMMICK_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		vy = -GIMMICK_JUMP_SPEED_Y;
 		isSlide = false;
-
 		break;
+
 	case GIMMICK_STATE_IDLE:
 		vx = 0;
 		break;
@@ -347,8 +355,8 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 	left = x;
 	top = y + GIMMICK_BBOX_HORN;
 
-	if (jump == 1){
-	
+	if (jump == 1) {
+
 		right = x + GIMMICK_BBOX_WIDTH;
 		bottom = y + GIMMICK_JUMP_BBOX_HEIGHT;
 	}
@@ -368,7 +376,7 @@ void CGimmick::isCanSlide(vector<LPGAMEOBJECT>& listObj)
 	for (int i = 0; i < listObj.size(); i++) {
 
 		if (listObj.at(i)->GetState() == SLIDE_TYPE_UP
-			|| listObj.at(i)->GetState()== SLIDE_TYPE_DOWN) {
+			|| listObj.at(i)->GetState() == SLIDE_TYPE_DOWN) {
 
 			listObj.at(i)->GetBoundingBox(l1, t1, r1, b1);
 

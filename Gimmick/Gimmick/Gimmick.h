@@ -61,10 +61,14 @@ class CGimmick : public CGameObject
 
 	int shootFire = 0;
 	int holdStar = 0;
+public:
 
 	// slide
 	bool isSlide = false;
 	bool isColisionWithBrick = true;
+
+	// scrollbar
+	bool isScrollBar = false;
 	
 public:
 	static CGimmick* GetInstance(float x, float y);

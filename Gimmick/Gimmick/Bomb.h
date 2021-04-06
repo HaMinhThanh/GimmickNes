@@ -17,7 +17,8 @@
 #define BOMB_BBOX_WIDTH		16
 #define BOMB_BBOX_HEIGHT	16
 
-#define BOMB_BOUNDING
+#define BOMB_MAX_DISTANCE_WITH_GIMMICK	80
+#define BOMB_JUMP_ALIGN		5
 
 class CBomb: public CGameObject
 {
@@ -31,5 +32,7 @@ public:
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetState(int state);
+
+	void Jumping() { vy = -BOMB_SPEED_Y_NORMAL; }
 };
 
