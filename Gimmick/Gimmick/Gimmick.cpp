@@ -166,6 +166,52 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vy = 0;
 				
 			}
+
+			if (dynamic_cast<CScrollBar*>(e->obj)) // if e->obj is Goomba 
+			{
+				
+				CScrollBar* scrollbar = dynamic_cast<CScrollBar*>(e->obj);
+				if (scrollbar->GetType() == SCROLLBAR_ANI_INCREASE)
+				{
+					if (GetState() == GIMMICK_STATE_IDLE)
+					{
+						if(nx>0)
+						vx = -SCROLLBAR_SPEED;
+						else
+							vx = SCROLLBAR_SPEED;
+					}
+					else if (nx > 0)
+					{
+						vx += SCROLLBAR_SPEED;
+					}
+					else
+					{
+						vx -= SCROLLBAR_SPEED;
+					}
+				}
+				else
+				{
+					if (GetState() == GIMMICK_STATE_IDLE)
+					{
+						if (nx < 0)
+							vx = -SCROLLBAR_SPEED;
+						else
+							vx = SCROLLBAR_SPEED;
+					}
+					else if (nx < 0)
+					{
+						vx += SCROLLBAR_SPEED;
+					}
+					else
+					{
+						vx -= SCROLLBAR_SPEED;
+					}
+				}
+
+			}
+			
+
+			
 			if (dynamic_cast<CSlide*>(e->obj)) {
 				/*vx = 0.01f;
 				vy = -0.01f;*/
@@ -241,7 +287,7 @@ void CGimmick::Render()
 		{
 			ani = GIMMICK_ANI_WALKING_LEFT;
 		}
-		else //if (state == GIMMICK_STATE_IDLE)
+		else//if (state == GIMMICK_STATE_IDLE)
 		{
 			if (nx > 0)
 			{
