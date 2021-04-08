@@ -480,28 +480,73 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 
-		gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
+		if (!gimmick->isScrollBar && !gimmick->isSlide) {
+
+			gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
+		}
+
+		else if (gimmick->isSlide && !gimmick->isScrollBar) {
+
+			if (gimmick->trendSlide == GIMMICK_TREND_SLIDE_RIGHT)
+
+				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_SLIDE_DOWN);
+		}
+		else if (!gimmick->isSlide && gimmick->isScrollBar) {
+
+			if (gimmick->trendScrollBar == GIMMICK_TREND_SCROLLBAR_INCREASE)
+
+				gimmick->SetState(GIMMICK_STATE_INCREASE);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_DECREASE);
+		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
 
-		gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
+		if (!gimmick->isScrollBar && !gimmick->isSlide) {
+
+			gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
+		}
+
+		else if (gimmick->isSlide && !gimmick->isScrollBar) {
+
+			if (gimmick->trendSlide == GIMMICK_TREND_SLIDE_LEFT)
+
+				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_SLIDE_DOWN);
+		}
+		else if (!gimmick->isSlide && gimmick->isScrollBar) {
+
+			if (gimmick->trendScrollBar == GIMMICK_TREND_SCROLLBAR_DECREASE)
+
+				gimmick->SetState(GIMMICK_STATE_INCREASE);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_DECREASE);
+		}
 	}	
-	else if (gimmick->vy == 0 && gimmick->vx != 0 && !gimmick->isScrollBar) {
+	else if (gimmick->isScrollBar) {
+
+		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
+	}
+	else if (gimmick->vy == 0 && gimmick->vx != 0 ) {
 
 		gimmick->SetState(GIMMICK_STATE_IDLE);
 	}
+	
 
-	if (game->IsKeyDown(DIK_A))
-	{
-		/*if (gimmick->GetHoldStar() == 0)
-			gimmick->SetHoldStar(1);*/
-
+	if (game->IsKeyDown(DIK_A)){
+	
 		if (gimmick->loading == 0 && gimmick->star->isActive == false) {
 
 			gimmick->SetLoadingStar();
 			gimmick->StarLoading();
 		}
-
 	}
 	else {
 

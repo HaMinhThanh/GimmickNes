@@ -164,7 +164,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->ny != 0 && e->nx == 0)
 					vy = -0.2f;
-
 			}
 
 			if (dynamic_cast<CScrollBar*>(e->obj)) { 
@@ -173,43 +172,32 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CScrollBar* scrollbar = dynamic_cast<CScrollBar*>(e->obj);
 
-				if (scrollbar->GetType() == SCROLLBAR_ANI_INCREASE){
+				if (scrollbar->GetType() == SCROLLBAR_TYPE_INCREASE){
 				
 					if (GetState() == GIMMICK_STATE_IDLE) {
-
-						if (nx > 0)
-							vx = -SCROLLBAR_SPEED;
-						else
-							vx = SCROLLBAR_SPEED;
+						
+							//vx = SCROLLBAR_SPEED;	
+						addVx = GIMMICK_AUTO_GO_SPEED * dt;
 					}
-					else //if (GetState() == GIMMICK_STATE_WALKING_RIGHT) {
+					else {
 
-						vx += SCROLLBAR_SPEED;
-					//}
-					/*else if (GetState() == GIMMICK_STATE_WALKING_LEFT) {
-
-						vx -= SCROLLBAR_SPEED;
-					}*/
+						trendScrollBar = scrollbar->GetType();						
+						addVx = SCROLLBAR_SPEED;
+					}
 				}
 				else 
 				{
-					if (GetState() == GIMMICK_STATE_IDLE)
-					{
-						if (nx < 0)
-							vx = -SCROLLBAR_SPEED;
-						else
-							vx = SCROLLBAR_SPEED;
+					if (GetState() == GIMMICK_STATE_IDLE){
+										
+						//vx = -SCROLLBAR_SPEED;	
+						addVx = -GIMMICK_AUTO_GO_SPEED * dt;
 					}
-					else if (nx < 0)
-					{
-						vx += SCROLLBAR_SPEED;
-					}
-					else
-					{
-						vx -= SCROLLBAR_SPEED;
+					else {
+
+						trendScrollBar = scrollbar->GetType();
+						addVx = -SCROLLBAR_SPEED;
 					}
 				}
-
 			}
 			else {
 
@@ -284,14 +272,22 @@ void CGimmick::Render()
 		else
 			ani = GIMMICK_ANI_JUMPING_LEFT;
 	}
-	else if (state == GIMMICK_STATE_WALKING_RIGHT)
+	else if (state == GIMMICK_STATE_WALKING_RIGHT || state == GIMMICK_STATE_INCREASE)
 	{
 		ani = GIMMICK_ANI_WALKING_RIGHT;
 
 	}
-	else if (state == GIMMICK_STATE_WALKING_LEFT)
+	else if (state == GIMMICK_STATE_WALKING_LEFT || state == GIMMICK_STATE_DECREASE)
 	{
 		ani = GIMMICK_ANI_WALKING_LEFT;
+	}
+	else if (state == GIMMICK_STATE_SLIDE_UP)
+	{
+
+	}
+	else if (state == GIMMICK_STATE_SLIDE_DOWN)
+	{
+
 	}
 	else//if (state == GIMMICK_STATE_IDLE)
 	{
@@ -337,14 +333,29 @@ void CGimmick::SetState(int state)
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		vy = -GIMMICK_JUMP_SPEED_Y;
 		isSlide = false;
+		isScrollBar = false;
 		break;
 
 	case GIMMICK_STATE_IDLE:
 		vx = 0;
 		break;
 
+	case GIMMICK_STATE_INCREASE:
+		vx += addVx;
+		break;
+
+	case GIMMICK_STATE_DECREASE:
+		vx += addVx;
+		break;
+
+	case GIMMICK_STATE_AUTO_GO:
+		vx = addVx;
+		break;
+
 	case MARIO_STATE_JUMP_HIGH_SPEED:
 		vy = -MARIO_JUMP_HIGHT_SPEED_Y;
+		isSlide = false;
+		isScrollBar = false;
 		break;
 
 	}
@@ -352,7 +363,11 @@ void CGimmick::SetState(int state)
 
 void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
+	if (isScrollBar)
+		left = x + 7;
+	else
+		left = x;
+
 	top = y + GIMMICK_BBOX_HORN;
 
 	if (jump == 1) {
@@ -361,7 +376,10 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 		bottom = y + GIMMICK_JUMP_BBOX_HEIGHT;
 	}
 
-	right = x + GIMMICK_BBOX_WIDTH;
+	if (isScrollBar)
+		right = x + 9;
+	else
+		right = x + GIMMICK_BBOX_WIDTH;
 	bottom = y + GIMMICK_BBOX_HEIGHT;
 
 }

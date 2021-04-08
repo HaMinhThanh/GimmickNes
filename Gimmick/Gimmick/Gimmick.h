@@ -5,6 +5,7 @@
 #include"ScrollBar.h"
 
 #define GIMMICK_WALKING_SPEED		0.06f 
+#define GIMMICK_AUTO_GO_SPEED		0.2f
 //0.1f
 #define GIMMICK_JUMP_SPEED_Y		0.24f
 #define MARIO_JUMP_SPEED_Y_2		-0.1f
@@ -24,6 +25,9 @@
 #define MARIO_STATE_JUMP_HIGH_SPEED	500
 #define GIMMICK_STATE_SLIDE_DOWN	600
 #define GIMMICK_STATE_SLIDE_UP		700
+#define GIMMICK_STATE_INCREASE		800
+#define GIMMICK_STATE_DECREASE		900
+#define GIMMICK_STATE_AUTO_GO		1000
 
 #define GIMMICK_ANI_IDLE_RIGHT		0
 #define GIMMICK_ANI_IDLE_LEFT			1
@@ -43,6 +47,13 @@
 #define LOADING_STAR_ALIGN		8
 
 #define GIMMICK_JUMP_BBOX_HEIGHT 24
+
+// trend of dynamic ground
+#define GIMMICK_TREND_SLIDE_RIGHT	1
+#define GIMMICK_TREND_SLIDE_LEFT	-1
+
+#define GIMMICK_TREND_SCROLLBAR_INCREASE	1
+#define GIMMICK_TREND_SCROLLBAR_DECREASE	-1
 
 
 class CGimmick : public CGameObject
@@ -65,10 +76,13 @@ public:
 
 	// slide
 	bool isSlide = false;
+	int trendSlide;
 	bool isColisionWithBrick = true;
 
 	// scrollbar
 	bool isScrollBar = false;
+	int trendScrollBar;
+	float addVx;
 	
 public:
 	static CGimmick* GetInstance(float x, float y);

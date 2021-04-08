@@ -24,3 +24,7 @@ CScrollBar::CScrollBar(int t)
 	type = t;
 
 }
+
+CScrollBar::~CScrollBar()
+{
+}

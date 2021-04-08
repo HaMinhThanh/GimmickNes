@@ -126,8 +126,11 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		Bricks.clear();
 
 		for (UINT i = 0; i < coObjects->size(); i++)
-			if (dynamic_cast<CBrick*>(coObjects->at(i)))
+			if (dynamic_cast<CBrick*>(coObjects->at(i))
+				|| dynamic_cast<CScrollBar*>(coObjects->at(i))) {
+
 				Bricks.push_back(coObjects->at(i));
+			}
 
 		vector<LPCOLLISIONEVENT>  coEvents;
 		vector<LPCOLLISIONEVENT>  coEventsResult;
