@@ -6,14 +6,19 @@
 #include "Brick.h"
 #include "Gimmick.h"
 #include "Map.h"
+#include "HUD.h"
 
 
 class CPlayScene : public CScene
 {
 protected:
+
 	CGimmick* player;					// A play scene has to have player, right? 
 	CMap* map;
+	CHUD* HUD;
+
 	int _xLeft, _xRight;
+	int _yTop;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -28,6 +33,7 @@ protected:
 
 
 public:
+
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();

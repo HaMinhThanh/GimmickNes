@@ -15,8 +15,8 @@ using namespace std;
 #define MARIO_TEXTURE_PATH L"gimmick.ico"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(156,252,240)
-#define SCREEN_WIDTH 336
-#define SCREEN_HEIGHT 272
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 254
 
 #define MAX_FRAME_RATE 90
 CGame* game;

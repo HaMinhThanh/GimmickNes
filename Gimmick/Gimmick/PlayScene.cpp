@@ -15,6 +15,7 @@
 #include "Brick.h"
 #include "ScrollBar.h"
 #include "Slide.h"
+#include "MovingBrick.h"
 
 #include "Bomb.h"
 
@@ -52,6 +53,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_SLIDE	5
 #define OBJECT_TYPE_SCROLLBAR_INCREASE	6
 #define OBJECT_TYPE_SCROLLBAR_DECREASE	7
+#define OBJECT_TYPE_MOVING_BRICK	8
 
 // Enemy
 #define OBJECT_TYPE_BOMB	21
@@ -214,6 +216,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CScrollBar(SCROLLBAR_TYPE_DECREASE);
 		break;
 
+	case OBJECT_TYPE_MOVING_BRICK:
+	{
+		int min = atof(tokens[4].c_str());
+		int max = atof(tokens[5].c_str());
+		int type = atof(tokens[6].c_str());
+
+		obj = new CMovingBrick(min, max, type);
+		break;
+	}
 	case OBJECT_TYPE_BOMB:
 		obj = new CBomb(x, y);
 		break;
@@ -271,6 +282,9 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 	if (tokens.size() < 2)return;	// skip invalid lines
 	_xLeft = atoi(tokens[0].c_str());
 	_xRight = atoi(tokens[1].c_str());
+	_yTop = atoi(tokens[2].c_str());
+
+	CGame::GetInstance()->SetCamBoundary(_xLeft, _xRight, _yTop);
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -289,9 +303,10 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 void CPlayScene::Load()
 {
+	_xLeft = _xRight = _yTop = -1;
 
-	_xLeft = _xRight = -1;
 	map = CMap::GetInstance();
+	HUD = CHUD::GetInstance();
 
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
@@ -381,15 +396,19 @@ void CPlayScene::Update(DWORD dt)
 	CGame* game = CGame::GetInstance();
 
 	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	//cy -= game->GetScreenHeight() / 2;
 
-	if (cx < _xLeft) 
-		cx = _xLeft;
+	float xRight, xLeft, yTop;
+	game->GetCamBoundary(xLeft, xRight, yTop);
 
-	if (cx > _xRight - SCREEN_WIDTH + 16) // cong them 16 vi thieu 1 frame
-		cx = _xRight - SCREEN_WIDTH + 16;
+	if (cx < xLeft) 
+		cx = xLeft;
+
+	if (cx > xRight - SCREEN_WIDTH + 16) // cong them 16 vi thieu 1 frame
+		cx = xRight - SCREEN_WIDTH + 16;
+
 	
-	CGame::GetInstance()->SetCamPos((int)cx, 200);
+	CGame::GetInstance()->SetCamPos((int)cx, (int)_yTop);
 
 }
 
@@ -398,10 +417,12 @@ void CPlayScene::Render()
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
-	map->DrawMap(cx, cy);
+	map->DrawMap(cx, cy);	
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	HUD->Render();
 }
 
 /*

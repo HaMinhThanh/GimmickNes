@@ -81,9 +81,6 @@
     <ClInclude Include="Game.h">
       <Filter>Framework\GameManager</Filter>
     </ClInclude>
-    <ClInclude Include="Code.h">
-      <Filter>Framework\HUD</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Framework\HUD</Filter>
     </ClInclude>
@@ -147,6 +144,24 @@
     <ClInclude Include="Die.h">
       <Filter>Objects\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Pipes.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingBrick.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Medicine.h">
+      <Filter>Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="BombItem.h">
+      <Filter>Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Framework\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -160,9 +175,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Code.cpp">
-      <Filter>Framework\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Framework\HUD</Filter>
@@ -223,6 +235,24 @@
     </ClCompile>
     <ClCompile Include="LoadingStar.cpp">
       <Filter>Objects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingBrick.cpp">
+      <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipes.cpp">
+      <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Medicine.cpp">
+      <Filter>Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="BombItem.cpp">
+      <Filter>Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Framework\HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

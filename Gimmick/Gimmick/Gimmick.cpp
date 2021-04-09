@@ -168,6 +168,9 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CScrollBar*>(e->obj)) { 
 
+				if (isScrollBar)
+					break;
+
 				isScrollBar = true;
 
 				CScrollBar* scrollbar = dynamic_cast<CScrollBar*>(e->obj);
@@ -177,7 +180,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (GetState() == GIMMICK_STATE_IDLE) {
 						
 							//vx = SCROLLBAR_SPEED;	
-						addVx = GIMMICK_AUTO_GO_SPEED * dt;
+						addVx = GIMMICK_AUTO_GO_SPEED ;
 					}
 					else {
 
@@ -190,7 +193,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (GetState() == GIMMICK_STATE_IDLE){
 										
 						//vx = -SCROLLBAR_SPEED;	
-						addVx = -GIMMICK_AUTO_GO_SPEED * dt;
+						addVx = -GIMMICK_AUTO_GO_SPEED ;
 					}
 					else {
 
@@ -320,6 +323,7 @@ void CGimmick::SetState(int state)
 	switch (state)
 	{
 	case GIMMICK_STATE_WALKING_RIGHT:
+		
 		vx = GIMMICK_WALKING_SPEED;
 		nx = 1;
 		break;
