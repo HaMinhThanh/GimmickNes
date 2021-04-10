@@ -32,15 +32,42 @@ CGimmick::CGimmick(float x, float y) : CGameObject()
 	start_y = y;
 	this->x = x;
 	this->y = y;
+
+	backupX = x;
+	backupY = y;
+
+	score = 0;
+	rest = 7;
+	energy = 3;
+	item = 0;
 }
 
 void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (!isSlide)
-		vy += GIMMICK_GRAVITY * dt;
+	if (GetState() == GIMMICK_STATE_DIE) {
 
+		if (waitToReset == 0) {
+			StartReset();
+			SetAniDie();
+		}
+	}
 
+	if (waitToReset == 1) {
 
+		die_effect->Update(dt, coObjects);
+
+		if (GetTickCount() - time_reset > GIMMICK_TIME_WAIT_RESET) {
+
+			waitToReset = 0;
+			time_reset = 0;
+
+			Reset();
+
+			if (rest <= 0)
+				return;
+
+		}
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > GIMMiCK_UNTOUCHABLE_TIME)
@@ -97,10 +124,11 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		star->Update(dt, coObjects);
 
 	if (loading == 1) {
-
 		load_star->Update(dt, coObjects);
 	}
 
+	if (!isSlide)
+		vy += GIMMICK_GRAVITY * dt;
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -160,16 +188,17 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CBomb*>(e->obj) && isSlide == false) {
+			if (dynamic_cast<CBomb*>(e->obj) && !isSlide) {
 
-				if (e->ny != 0 && e->nx == 0)
-					vy = -0.2f;
+				/*if (e->ny != 0 && e->nx == 0)
+					vy = -0.2f;*/
+				SetState(GIMMICK_STATE_DIE);
 			}
 
 			if (dynamic_cast<CScrollBar*>(e->obj)) { 
 
-				if (isScrollBar)
-					break;
+				/*if (isScrollBar)
+					break;*/
 
 				isScrollBar = true;
 
@@ -249,7 +278,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x += min_tx * dx + nx * 0.4f;
 			y += min_ty * dy + ny * 0.4f;
 
-			if (nx != 0) vx = 0;
+			if (nx != 0 && !isScrollBar) vx = 0;
 			if (ny != 0) vy = 0;
 		}
 		else {
@@ -260,8 +289,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-
 }
 
 void CGimmick::Render()
@@ -291,8 +318,15 @@ void CGimmick::Render()
 	else if (state == GIMMICK_STATE_SLIDE_DOWN)
 	{
 
+	}	
+	else if (state == GIMMICK_STATE_DIE )
+	{
+		if (waitToReset)
+			die_effect->Render();
+		
+		return;
 	}
-	else//if (state == GIMMICK_STATE_IDLE)
+	else //if (state == GIMMICK_STATE_IDLE || state == GIMMICK_STATE_AUTO_GO)
 	{
 		if (nx > 0)
 		{
@@ -313,7 +347,7 @@ void CGimmick::Render()
 	if (loading == 1)
 		load_star->Render();
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CGimmick::SetState(int state)
@@ -367,6 +401,8 @@ void CGimmick::SetState(int state)
 
 void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	if (GetState() == GIMMICK_STATE_DIE) return;
+
 	if (isScrollBar)
 		left = x + 7;
 	else
@@ -449,7 +485,7 @@ void CGimmick::isPrepareShot()
 void CGimmick::SetLoadingStar()
 {
 	if (load_star == NULL)
-		load_star = new LoadingStar(x + 8, y - 8);
+		load_star = new CLoadingStar(x + 8, y - 8);
 
 	load_star->TurnToBegin(x + 8, y - 8);
 }
@@ -459,6 +495,19 @@ void CGimmick::SetLoadingStar()
 */
 void CGimmick::Reset()
 {
+	SetState(GIMMICK_STATE_IDLE);
+	SetPosition(backupX, backupY);
 
+	rest -= 1;
+	energy = 3;
+}
+
+void CGimmick::SetAniDie()
+{
+	if (die_effect == NULL)
+		die_effect = new CDie(x, y);
+
+	die_effect->StarRender();
+	die_effect->TurnToBegin(x, y);
 }
 

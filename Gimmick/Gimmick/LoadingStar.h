@@ -17,12 +17,12 @@
 #define LOADING_STAR_ANIMATION	21
 
 
-class LoadingStar: public CGameObject
+class CLoadingStar: public CGameObject
 {
 public:
 
-	LoadingStar(float x, float y);
-	~LoadingStar();
+	CLoadingStar(float x, float y);
+	~CLoadingStar();
 
 	float x1, x2, x3, x4, x5;
 	float y1, y2, y3, y4, y5;

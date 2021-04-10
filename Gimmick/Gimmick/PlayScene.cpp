@@ -19,6 +19,8 @@
 
 #include "Bomb.h"
 
+#include "Treasures.h"
+
 
 using namespace std;
 
@@ -59,6 +61,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BOMB	21
 
 // Item
+#define OBJECT_TYPE_TREASURE	31
+
 // Effect
 
 
@@ -229,6 +233,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBomb(x, y);
 		break;
 
+	case OBJECT_TYPE_TREASURE:
+	{
+		int w = atof(tokens[4].c_str());
+		int h = atof(tokens[5].c_str());
+
+		obj = new CTreasures(w, h);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -404,8 +416,8 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < xLeft) 
 		cx = xLeft;
 
-	if (cx > xRight - SCREEN_WIDTH + 16) // cong them 16 vi thieu 1 frame
-		cx = xRight - SCREEN_WIDTH + 16;
+	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
+		cx = xRight - SCREEN_WIDTH + 32;
 
 	
 	CGame::GetInstance()->SetCamPos((int)cx, (int)_yTop);
@@ -459,10 +471,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 			}
 		}
-		break;
-	
-	} 
-	
+		break;	
+	} 	
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -477,18 +487,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		gimmick->ResetDoubleJumpStart();
 		break;
-	case DIK_A:
-		gimmick->SetHoldStar(0);
-		if (gimmick->GetShoot() == 0)
-		{
-			gimmick->SetShoot(1);
-		}
-		break;
+
 	case DIK_T:
 		gimmick->SetPosition(992,224);
 		break;
-	}
-	
+	}	
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
@@ -498,6 +501,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
 
 	// disable control key when Mario die 
+	if (gimmick->GetState() == GIMMICK_STATE_DIE) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 

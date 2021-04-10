@@ -162,6 +162,9 @@
     <ClInclude Include="HUD.h">
       <Filter>Framework\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="Treasures.h">
+      <Filter>Objects\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="HUD.cpp">
       <Filter>Framework\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasures.cpp">
+      <Filter>Objects\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

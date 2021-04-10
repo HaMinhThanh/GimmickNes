@@ -19,6 +19,7 @@ void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void CHUD::Render()
 {
 	CGame* game = CGame::GetInstance();
+	CGimmick* gimmick = CGimmick::GetInstance(0, 0);
 
 	float cx, cy;
 	game->GetCamPos(cx, cy);
@@ -28,13 +29,13 @@ void CHUD::Render()
 	sprite->Get(80010)->Draw(cx, cy + game->GetScreenHeight() - 32);
 
 	// Draw score
-	event->DrawNumber(8, cx + 15, cy + game->GetScreenHeight() - 16, 987654);
+	event->DrawNumber(8, cx + 15, cy + game->GetScreenHeight() - 16, gimmick->GetScore());
 
 	// Draw rest
-	event->DrawNumber(2, cx + 95, cy + game->GetScreenHeight() - 16, 7);
+	event->DrawNumber(2, cx + 95, cy + game->GetScreenHeight() - 16, gimmick->GetRest());
 
 	// Draw energy
-	event->DrawEnergy(cx + 126, cy + game->GetScreenHeight() - 21, 3);
+	event->DrawEnergy(cx + 126, cy + game->GetScreenHeight() - 21, gimmick->GetEnergy());
 
 	// Draw item
 }

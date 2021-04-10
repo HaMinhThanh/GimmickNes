@@ -16,20 +16,16 @@ class CHUD
 	int dola;
 	int score;
 
-	bool isStop;
-	DWORD timeItem;
-
 	Event* event;
 
 	static CHUD* instance;
+
 public:
 	CHUD()
 	{
-		isStop = false;
 		number = 0;
 		dola = 0;
 		score = 0;
-		timeItem = 0;
 		it1 = it2 = it3 = -1;
 		event = new Event();
 	}

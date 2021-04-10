@@ -2,7 +2,8 @@
 #include "GameObject.h"
 #include "Star.h"
 #include "LoadingStar.h"
-#include"ScrollBar.h"
+#include "ScrollBar.h"
+#include "Die.h"
 
 #define GIMMICK_WALKING_SPEED		0.06f 
 #define GIMMICK_AUTO_GO_SPEED		0.2f
@@ -28,6 +29,7 @@
 #define GIMMICK_STATE_INCREASE		800
 #define GIMMICK_STATE_DECREASE		900
 #define GIMMICK_STATE_AUTO_GO		1000
+#define GIMMICK_STATE_DIE			9999
 
 #define GIMMICK_ANI_IDLE_RIGHT		0
 #define GIMMICK_ANI_IDLE_LEFT			1
@@ -44,6 +46,7 @@
 
 // declare time
 #define GIMMICK_TIME_LOADING_STAR	1000
+#define GIMMICK_TIME_WAIT_RESET		2000
 #define LOADING_STAR_ALIGN		8
 
 #define GIMMICK_JUMP_BBOX_HEIGHT 24
@@ -63,6 +66,12 @@ class CGimmick : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 
+	int waitToReset = 0;
+	DWORD time_reset = 0;
+
+	DWORD doubleJump_start = 0;
+	DWORD time_maxjumping = 0;
+
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 
@@ -73,6 +82,19 @@ class CGimmick : public CGameObject
 	int shootFire = 0;
 	int holdStar = 0;
 public:
+	
+	// Object depend
+	CStar* star = NULL;
+	CLoadingStar* load_star = NULL;
+	CDie* die_effect = NULL;
+
+	// Backup position
+	float backupX;
+	float backupY;
+
+	// new star
+	DWORD time_load = 0;
+	int loading = 0;
 
 	// slide
 	bool isSlide = false;
@@ -83,47 +105,41 @@ public:
 	bool isScrollBar = false;
 	int trendScrollBar;
 	float addVx;
+
+	// Game parameter
+	int score;
+	int rest;
+	int energy;
+	int item;
 	
 public:
+
 	static CGimmick* GetInstance(float x, float y);
 
-	CStar* star = NULL;
-	LoadingStar* load_star = NULL;
-
 	CGimmick(float x = 0.0f, float y = 0.0f);
+
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	void SetState(int state);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Reset();
+	void StartReset() { waitToReset = 1; time_reset = GetTickCount(); }
+	void SetAniDie();
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
-	int Jumping() { return jump; };
 	void SetJumping(int jump) { this->jump = jump; };
 	int GetJumping() { return jump; };
-	DWORD time_maxjumping = 0;
 
 	// Check for double jump
-	DWORD doubleJump_start = 0;
+	DWORD GetDoubleJumpStart() { return doubleJump_start; }
 	void StartJumpingMax() { maxjumping = 1, time_maxjumping = GetTickCount(); }
 	void ResetDoubleJumpStart() { doubleJump_start = 0; }
 	void SetDoubleJumpStart() { doubleJump_start = GetTickCount(); }
 
-	DWORD GetDoubleJumpStart() { return doubleJump_start; }
-	int GetShoot() { return shootFire; };
-	void SetShoot(int shoot) { shootFire=shoot; };
-	int GetHoldStar() { return holdStar; };
-	void SetHoldStar(int hold) { holdStar = hold; };
-
 	// set slide
 	void isCanSlide(vector<LPGAMEOBJECT>& listObj);
-
-	// new star
-	DWORD time_load;
-	int loading = 0;
 
 	void StarLoading() { time_load = GetTickCount(); loading = 1; }
 	void ReSetLoading() { time_load = 0; loading = 0; }
@@ -132,8 +148,12 @@ public:
 	void ShotStar();
 	void isPrepareShot();
 
-	void SetLoadingStar();
-	
+	void SetLoadingStar();	
+
+	// HUD
+	int GetScore() { return score; }
+	int GetRest() { return rest; }
+	int GetEnergy() { return energy; }
 
 };
 
