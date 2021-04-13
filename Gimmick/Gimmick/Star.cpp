@@ -127,7 +127,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 			if (dynamic_cast<CBrick*>(coObjects->at(i))
-				|| dynamic_cast<CScrollBar*>(coObjects->at(i))) {
+				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
+				|| dynamic_cast<CBomb*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
 			}
@@ -150,6 +151,23 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float rdx, rdy;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+			
+
+			for (UINT i = 0; i < coEventsResult.size(); i++) {
+
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CBomb*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
+						bomb->SetState(BOMB_STATE_DIE);
+
+						nx = ny = 0;
+					}
+				}
+			}
 
 			x += min_tx * dx + nx * 0.04f;
 			y += min_ty * dy + ny * 0.04f;
@@ -158,14 +176,6 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (ny != 0) {
 
 				vy *= STAR_SPEED_AFTER_COLLISION;
-
-				/*if (vy < 0) {
-
-					vy = vy * -0.8f;
-				}
-				else {
-					vy = vy * -0.8f;
-				}*/
 			}
 
 			//vy *= -1;

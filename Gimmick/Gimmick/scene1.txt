@@ -1,9 +1,10 @@
 #F# id	file_path	transparent_color_r	g	b
 [TEXTURES]
-0	textures\gimmick.png	0	0	255
-10	textures\gimmick2.png	0	0	255
-20	textures\enemy.png	57	189	255
-30	textures\enemy2.png	51	191	255
+0	textures\gimmick_R.png	0	0	255
+10	textures\gimmick_L.png	0	0	255
+20	textures\enemy_R.png	57	189	255
+30	textures\enemy_L.png	51	191	255
+35	textures\enemy_Die.png	57	189	255
 40	textures\item.png	215	121	214
 50	textures\Items&HUD.png	10	100	200
 60	textures\Hazards&Interactables.png	203	102	185
@@ -125,6 +126,8 @@
 30014	624	19	640	36	30
 30015	606	19	622	36	30
 
+# ---Die
+30016	642	863	658	879	35
 
 # =============== brick ===============
 40000	120	52	136	68	40
@@ -227,6 +230,8 @@
 302	30006	100	30007	100	30008	100	30009	100	30010	100
 #fly left
 303	30011	100	30012	100	30013	100	30014	100	30015	100
+#Die
+304	30016	100
 
 #brick
 400	40000	100
@@ -264,7 +269,7 @@
 1	100	101	102	103	104	105	106	107
 
 #black enemy
-3	300	301	302	303
+3	300	301	302	303	304
 
 #brick
 4	400

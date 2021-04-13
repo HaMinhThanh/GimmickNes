@@ -44,6 +44,16 @@ CGimmick::CGimmick(float x, float y) : CGameObject()
 
 void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (GetState() != GIMMICK_STATE_IDLE) {
+
+		isFollow = false;
+	}
+
+	if (isFollow ) {
+
+		FollowObject(obj);
+	}
+
 	if (GetState() == GIMMICK_STATE_DIE) {
 
 		if (waitToReset == 0) {
@@ -123,11 +133,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (star != NULL)
 		star->Update(dt, coObjects);
 
-	if (loading == 1) {
+	if (loading == 1) 
 		load_star->Update(dt, coObjects);
-	}
 
-	if (!isSlide)
+	if (!isSlide && !isFollow)
 		vy += GIMMICK_GRAVITY * dt;
 
 	// Calculate dx, dy 
@@ -143,7 +152,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 
 	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
+	if (coEvents.size() == 0 && !isFollow)
 	{
 		x += dx;
 		y += dy;
@@ -158,8 +167,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		if (rdx != 0 && rdx != dx && nx == 0 && ny < 0)
-			x += nx * abs(rdx);
+		/*if (rdx != 0 && rdx != dx )
+			x += nx * abs(rdx);*/
 
 		// block every object first!
 
@@ -190,9 +199,41 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CBomb*>(e->obj) && !isSlide) {
 
-				/*if (e->ny != 0 && e->nx == 0)
-					vy = -0.2f;*/
-				SetState(GIMMICK_STATE_DIE);
+				CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1 && bomb->GetState() != BOMB_STATE_DIE) {
+
+					if (e->ny < 0)
+					{
+						//if (vx==0 && vy==0) {							
+							isFollow = true;
+							obj = bomb;
+							SetState(GIMMICK_STATE_IDLE);
+							
+						//}
+					}
+					else //if (e->nx != 0)
+					{
+						isNotCollide = true;
+						isFollow = false;
+
+						if (untouchable == 0)
+						{
+							if (GetState() != GIMMICK_STATE_DIE)
+							{
+								if (energy > 0)
+								{
+									energy -= 1;
+									StartUntouchable();
+								}
+								else
+								{
+									SetState(GIMMICK_STATE_DIE);
+								}
+							}
+						}
+					}
+				}
 			}
 
 			if (dynamic_cast<CScrollBar*>(e->obj)) { 
@@ -273,10 +314,14 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		if (!isSlide) {
+		if (!isSlide ) {
 
 			x += min_tx * dx + nx * 0.4f;
-			y += min_ty * dy + ny * 0.4f;
+
+			if (isNotCollide) 
+				isNotCollide = false;
+			else
+				y += min_ty * dy + ny * 0.4f;
 
 			if (nx != 0 && !isScrollBar) vx = 0;
 			if (ny != 0) vy = 0;
@@ -368,7 +413,7 @@ void CGimmick::SetState(int state)
 		break;
 
 	case GIMMICK_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
+		
 		vy = -GIMMICK_JUMP_SPEED_Y;
 		isSlide = false;
 		isScrollBar = false;
@@ -509,5 +554,12 @@ void CGimmick::SetAniDie()
 
 	die_effect->StarRender();
 	die_effect->TurnToBegin(x, y);
+}
+
+void CGimmick::FollowObject(LPGAMEOBJECT obj)
+{
+	//vx = obj->GetVx();
+	x = obj->GetX();
+	y = obj->GetY() - GIMMICK_BBOX_HEIGHT -0.4;
 }
 

@@ -4,6 +4,7 @@
 #include "LoadingStar.h"
 #include "ScrollBar.h"
 #include "Die.h"
+#include "Bomb.h"
 
 #define GIMMICK_WALKING_SPEED		0.06f 
 #define GIMMICK_AUTO_GO_SPEED		0.2f
@@ -11,7 +12,7 @@
 #define GIMMICK_JUMP_SPEED_Y		0.24f
 #define MARIO_JUMP_SPEED_Y_2		-0.1f
 #define MARIO_DOUBLE_JUMP_SPEED	0.245f
-#define MARIO_JUMP_HIGHT_SPEED_Y		0.12f
+#define MARIO_JUMP_HIGHT_SPEED_Y		0.13f
 
 #define GIMMICK_JUMP_DEFLECT_SPEED 0.2f
 #define GIMMICK_GRAVITY			0.0008f
@@ -87,6 +88,7 @@ public:
 	CStar* star = NULL;
 	CLoadingStar* load_star = NULL;
 	CDie* die_effect = NULL;
+	CGameObject* obj = NULL;
 
 	// Backup position
 	float backupX;
@@ -111,6 +113,9 @@ public:
 	int rest;
 	int energy;
 	int item;
+
+	bool isFollow = false;		// follow blob, moving brick when at the these's head
+	bool isNotCollide = false;
 	
 public:
 
@@ -131,6 +136,8 @@ public:
 
 	void SetJumping(int jump) { this->jump = jump; };
 	int GetJumping() { return jump; };
+
+	void FollowObject(LPGAMEOBJECT obj);
 
 	// Check for double jump
 	DWORD GetDoubleJumpStart() { return doubleJump_start; }

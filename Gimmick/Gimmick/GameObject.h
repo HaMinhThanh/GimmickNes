@@ -58,6 +58,8 @@ public:
 
 	int state;
 
+	bool isFinish = false;
+
 	DWORD dt;
 
 	LPANIMATION_SET animation_set;

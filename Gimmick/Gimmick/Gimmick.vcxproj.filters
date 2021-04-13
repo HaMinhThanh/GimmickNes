@@ -70,6 +70,9 @@
     <Filter Include="Objects\Ground">
       <UniqueIdentifier>{0b127285-c144-4ec4-ac26-c621a4208cd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Weapon">
+      <UniqueIdentifier>{bf5c9b62-79d2-4c8b-bb1b-663812f3c707}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -129,9 +132,6 @@
     <ClInclude Include="Bomb.h">
       <Filter>Objects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Star.h">
-      <Filter>Objects\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Slide.h">
       <Filter>Objects\Ground</Filter>
     </ClInclude>
@@ -164,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="Treasures.h">
       <Filter>Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Objects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,9 +227,6 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Objects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Star.cpp">
-      <Filter>Objects\Item</Filter>
-    </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
       <Filter>Objects\Ground</Filter>
     </ClCompile>
@@ -259,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="Treasures.cpp">
       <Filter>Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Objects\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

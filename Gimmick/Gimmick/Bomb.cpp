@@ -23,16 +23,19 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	vy += BOMB_GRAVITY * dt;
-
+	
 	vector<LPGAMEOBJECT> Bricks;
 	Bricks.clear();
 
-	for (UINT i = 0; i < coObjects->size(); i++) {
+	if (GetState() != BOMB_STATE_DIE) {		
 
-		if (dynamic_cast<CBrick*>(coObjects->at(i))
-			|| dynamic_cast<CScrollBar*>(coObjects->at(i))) {
+		for (UINT i = 0; i < coObjects->size(); i++) {
 
-			Bricks.push_back(coObjects->at(i));
+			if (dynamic_cast<CBrick*>(coObjects->at(i))
+				|| dynamic_cast<CScrollBar*>(coObjects->at(i))) {
+
+				Bricks.push_back(coObjects->at(i));
+			}
 		}
 	}
 
@@ -174,6 +177,8 @@ void CBomb::SetState(int state)
 		break;
 
 	case BOMB_STATE_DIE:
+		vy = -BOMB_SPEED_Y_NORMAL;
+		vx *= -1;
 		break;
 	}
 }

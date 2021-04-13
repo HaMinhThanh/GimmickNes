@@ -26,6 +26,8 @@ public:
 	CBomb(float x, float y);
 	~CBomb();
 
+	bool isDie = false;
+
 public:
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
