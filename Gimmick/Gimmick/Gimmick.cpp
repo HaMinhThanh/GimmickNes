@@ -292,7 +292,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				//if (this->isCollision(l1, t1, r1, b1, l2, t2, r2, b2)) {
 
-				if (slide->state == 0) {
+				/*if (slide->state == 0) {
 					if (tan((slide->x1 - x) / (slide->y2 - y)) <= tan(slide->slidePos)) {
 
 						vx = -0.03f;
@@ -301,7 +301,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					isSlide = true;
 					isColisionWithBrick = false;
-				}
+				}*/
 				/*}
 				else {
 

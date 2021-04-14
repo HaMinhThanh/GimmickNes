@@ -419,6 +419,9 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
+	if (game->GetCurrentSceneId() == 1)
+		if (cy < 200) yTop = 0;
+
 	
 	CGame::GetInstance()->SetCamPos((int)cx, (int)_yTop);
 

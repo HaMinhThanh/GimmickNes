@@ -28,6 +28,9 @@ public:
 
 	bool isDie = false;
 
+	DWORD waitToFly = 0;
+	int flying = 0;
+
 public:
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -36,5 +39,7 @@ public:
 	void SetState(int state);
 
 	void Jumping() { vy = -BOMB_SPEED_Y_NORMAL; }
+
+	void StartFlying() { flying = 1; waitToFly = GetTickCount(); }
 };
 
