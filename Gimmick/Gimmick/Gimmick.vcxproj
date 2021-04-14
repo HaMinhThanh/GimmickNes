@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AniBrick.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombItem.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AniBrick.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombItem.cpp" />

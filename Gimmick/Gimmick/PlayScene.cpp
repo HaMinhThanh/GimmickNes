@@ -16,7 +16,7 @@
 #include "ScrollBar.h"
 #include "Slide.h"
 #include "MovingBrick.h"
-
+#include"AniBrick.h"
 #include "Bomb.h"
 
 #include "Treasures.h"
@@ -56,6 +56,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_SCROLLBAR_INCREASE	6
 #define OBJECT_TYPE_SCROLLBAR_DECREASE	7
 #define OBJECT_TYPE_MOVING_BRICK	8
+#define OBJECT_TYPE_ANI_BRICK	9
 
 // Enemy
 #define OBJECT_TYPE_BOMB	21
@@ -201,6 +202,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_STAR:
 		obj = new CStar();
+		break;
+	case OBJECT_TYPE_ANI_BRICK:
+		obj = new CAniBrick();
 		break;
 
 	case OBJECT_TYPE_SLIDE:
@@ -424,6 +428,8 @@ void CPlayScene::Update(DWORD dt)
 
 	
 	CGame::GetInstance()->SetCamPos((int)cx, (int)_yTop);
+	//CGame::GetInstance()->SetCamPos((int)cx, 190);
+	//CGame::GetInstance()->SetCamPos((int)cx, 40);
 
 }
 
@@ -493,6 +499,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 	case DIK_T:
 		gimmick->SetPosition(992,224);
+		break;
+	case DIK_U:
+		gimmick->SetPosition(736, 480);
 		break;
 	}	
 }
