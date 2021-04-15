@@ -168,6 +168,12 @@
     <ClInclude Include="Star.h">
       <Filter>Objects\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="AniBrick.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -262,6 +268,12 @@
     </ClCompile>
     <ClCompile Include="Star.cpp">
       <Filter>Objects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="AniBrick.cpp">
+      <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Objects\Ground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

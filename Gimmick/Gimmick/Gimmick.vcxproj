@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AniBrick.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombItem.h" />
@@ -50,8 +51,10 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Treasures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Water.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AniBrick.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombItem.cpp" />
@@ -83,6 +86,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Treasures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Water.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
