@@ -18,7 +18,7 @@
 #include "MovingBrick.h"
 #include"AniBrick.h"
 #include "Bomb.h"
-
+#include "Water.h"
 #include "Treasures.h"
 
 
@@ -57,6 +57,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_SCROLLBAR_DECREASE	7
 #define OBJECT_TYPE_MOVING_BRICK	8
 #define OBJECT_TYPE_ANI_BRICK	9
+#define OBJECT_TYPE_WATER	10
 
 // Enemy
 #define OBJECT_TYPE_BOMB	21
@@ -205,6 +206,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_ANI_BRICK:
 		obj = new CAniBrick();
+		break;
+	case OBJECT_TYPE_WATER:
+		obj = new CWater();
 		break;
 
 	case OBJECT_TYPE_SLIDE:

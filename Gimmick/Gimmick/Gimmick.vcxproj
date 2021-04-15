@@ -51,6 +51,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Treasures.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Water.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AniBrick.cpp" />
@@ -85,6 +86,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Treasures.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Water.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
