@@ -1,16 +1,8 @@
 #include "Slide.h"
 
-CSlide::CSlide(float _x1, float _y1, float _x2, float _y2, int _state)
+CSlide::CSlide(float x, float y, int direct, int _size)
 {
-	x1 = _x1;
-	y1 = _y1;
-
-	x2 = _x2;
-	y2 = _y2;
-
-	state = _state;
-	
-	slidePos = (x1 - x2) / (y1 - y2);
+	size = _size;
 }
 
 CSlide::~CSlide()
@@ -27,9 +19,12 @@ void CSlide::Render()
 
 void CSlide::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x1;
-	right = x2;
+	left = x;
+	top = y;
+	bottom = y + SLIDE_SIZE_QUAD;
 
-	top = y1 < y2 ? y1 : y2;	
-	bottom = y1 < y2 ? y2 : y1;
+	if (size == 1)
+		right = x + SLIDE_SIZE_QUAD;
+	else
+		right = x + SLIDE_SIZE_REC;
 }

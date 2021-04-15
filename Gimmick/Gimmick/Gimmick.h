@@ -11,8 +11,8 @@
 //0.1f
 #define GIMMICK_JUMP_SPEED_Y		0.24f
 #define MARIO_JUMP_SPEED_Y_2		-0.1f
-#define MARIO_DOUBLE_JUMP_SPEED	0.245f
-#define MARIO_JUMP_HIGHT_SPEED_Y		0.13f
+#define MARIO_DOUBLE_JUMP_SPEED		0.24f
+#define MARIO_JUMP_HIGHT_SPEED_Y		0.15f
 
 #define GIMMICK_JUMP_DEFLECT_SPEED 0.2f
 #define GIMMICK_GRAVITY			0.0008f
@@ -73,22 +73,20 @@ class CGimmick : public CGameObject
 	DWORD doubleJump_start = 0;
 	DWORD time_maxjumping = 0;
 
-	float start_x;			// initial position of Mario at scene
+	float start_x;			// initial position of Gimmick at scene
 	float start_y;
 
 	int jump = 0;
 	int maxjumping = 0;
 	bool isMaxJumping = false;
 
-	int shootFire = 0;
-	int holdStar = 0;
 public:
 	
 	// Object depend
-	CStar* star = NULL;
-	CLoadingStar* load_star = NULL;
-	CDie* die_effect = NULL;
-	CGameObject* obj = NULL;
+	CStar* star = NULL;					// star weapon of gimmick
+	CLoadingStar* load_star = NULL;		// loading star effect when A key was pressed
+	CDie* die_effect = NULL;			// effect when die
+	CGameObject* obj = NULL;			// follow this obj if was idle state
 
 	// Backup position
 	float backupX;
@@ -99,9 +97,9 @@ public:
 	int loading = 0;
 
 	// slide
-	bool isSlide = false;
-	int trendSlide;
-	bool isColisionWithBrick = true;
+	bool isSlide = false;				// check for sliding
+	int trendSlide;						// trend of slide
+	bool isColisionWithBrick = true;	// if gimmick is sliding will not collide w brick
 
 	// scrollbar
 	bool isScrollBar = false;
@@ -115,7 +113,7 @@ public:
 	int item;
 
 	bool isFollow = false;		// follow blob, moving brick when at the these's head
-	bool isNotCollide = false;
+	bool isNotCollide = false;	// 
 	
 public:
 

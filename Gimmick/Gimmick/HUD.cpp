@@ -25,7 +25,7 @@ void CHUD::Render()
 	game->GetCamPos(cx, cy);
 
 	CSprites* sprite = CSprites::GetInstance();
-	sprite->Get(80020)->Draw(cx, cy + game->GetScreenHeight() - 32);
+	//sprite->Get(80020)->Draw(cx, cy + game->GetScreenHeight() - 32);
 	sprite->Get(80010)->Draw(cx, cy + game->GetScreenHeight() - 32);
 
 	// Draw score

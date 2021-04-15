@@ -173,6 +173,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
+	bool isObj = true;
+
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
@@ -181,22 +183,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 	
 	case OBJECT_TYPE_GIMMICK:
+	{
+		isObj = false;
 
 		obj = CGimmick::GetInstance(x, y);
+		obj->SetPosition(x, y);
 
-		if (player != NULL)
-		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
-		}
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
 
-		/*obj = new CGimmick(x, y);
-		player = (CGimmick*)obj;*/
-
-		player = CGimmick::GetInstance(x, y);
+		player = (CGimmick*)obj;
 
 		DebugOut(L"[INFO] Player object created!\n");
-		break;
+	}
+	break;
 
 	case OBJECT_TYPE_BRICK: 
 		obj = new CBrick(); 
@@ -213,13 +213,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_SLIDE:
 	{
-		float x2 = atof(tokens[4].c_str());
-		float y2 = atof(tokens[5].c_str());
-		int state = atoi(tokens[6].c_str());
+		float d = atof(tokens[4].c_str());
+		float s = atof(tokens[5].c_str());
 
-		obj = new CSlide(x, y, x2, y2, state);
-		break;
+		obj = new CSlide(x, y, d, s);
 	}
+	break;
 
 	case OBJECT_TYPE_SCROLLBAR_INCREASE:
 		obj = new CScrollBar(SCROLLBAR_TYPE_INCREASE);
@@ -235,8 +234,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int type = atof(tokens[6].c_str());
 
 		obj = new CMovingBrick(min, max, type);
-		break;
 	}
+	break;
+
 	case OBJECT_TYPE_BOMB:
 		obj = new CBomb(x, y);
 		break;
@@ -247,16 +247,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int h = atof(tokens[5].c_str());
 
 		obj = new CTreasures(w, h);
-		break;
 	}
+	break;
+
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
-	}
+	}	
 	break;
+
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -268,7 +270,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+
+	if (isObj)
+		objects.push_back(obj);
 }
 
 void CPlayScene::_ParseSection_MAP_TEXTURES(string line)
@@ -409,6 +413,8 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
+	player->Update(dt, &coObjects);
+
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -427,18 +433,17 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
-	if (game->GetCurrentSceneId() == 1)
-		if (cy < 200) yTop = 0;
+	if (cy < yTop) yTop -= SCREEN_HEIGHT_MAP;
 
 	
-	CGame::GetInstance()->SetCamPos((int)cx, (int)_yTop);
-	//CGame::GetInstance()->SetCamPos((int)cx, 190);
-	//CGame::GetInstance()->SetCamPos((int)cx, 40);
+	CGame::GetInstance()->SetCamPos((int)cx, (int)yTop);
 
 }
 
 void CPlayScene::Render()
 {
+	if (player == NULL) return;
+
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
@@ -446,6 +451,9 @@ void CPlayScene::Render()
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	if (player != NULL)
+		player->Render();
 
 	HUD->Render();
 }
@@ -459,6 +467,7 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -469,6 +478,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
+
 	switch (KeyCode)
 	{
 	case DIK_S:
@@ -491,10 +501,13 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	CGame* game = CGame::GetInstance();
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
+
 	float x, y;
 	gimmick->GetPosition(x, y);
+
 	switch (KeyCode)
 	{
 	case DIK_S:
@@ -502,7 +515,23 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 
 	case DIK_T:
-		gimmick->SetPosition(992,224);
+		gimmick->SetPosition(992,216);
+		break;
+
+	case DIK_Y:
+		gimmick->SetPosition(128, 114);
+		break;
+
+	case DIK_1:
+		game->SwitchScene(MAP_ID_1A);
+		break;
+
+	case DIK_2:
+		game->SwitchScene(MAP_ID_1B);
+		break;
+
+	case DIK_3:
+		game->SwitchScene(MAP_ID_1C);
 		break;
 	case DIK_U:
 		gimmick->SetPosition(736, 480);
@@ -571,11 +600,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				gimmick->SetState(GIMMICK_STATE_DECREASE);
 		}
 	}	
-	else if (gimmick->isScrollBar) {
+	else if (gimmick->isScrollBar || gimmick->isSlide) {
 
 		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
 	}
-	else if (gimmick->vy == 0 && gimmick->vx != 0 ) {
+	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/ ) {
 
 		gimmick->SetState(GIMMICK_STATE_IDLE);
 	}

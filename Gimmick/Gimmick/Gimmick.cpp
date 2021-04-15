@@ -279,8 +279,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CSlide*>(e->obj)) {
 
-				/*vx = 0.01f;
-				vy = -0.01f;*/
+				isSlide = true;
 
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
@@ -290,23 +289,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				this->GetBoundingBox(l1, t1, r1, b1);
 				slide->GetBoundingBox(l2, t2, r2, b2);
 
-				//if (this->isCollision(l1, t1, r1, b1, l2, t2, r2, b2)) {
-
-				/*if (slide->state == 0) {
-					if (tan((slide->x1 - x) / (slide->y2 - y)) <= tan(slide->slidePos)) {
-
-						vx = -0.03f;
-						vy = 0.015f;
-					}
-
-					isSlide = true;
-					isColisionWithBrick = false;
-				}*/
-				/*}
-				else {
-
-					isSlide = false;
-				}*/
+				addVx = -GIMMICK_AUTO_GO_SPEED;
 
 			}
 			else {
@@ -347,12 +330,11 @@ void CGimmick::Render()
 		else
 			ani = GIMMICK_ANI_JUMPING_LEFT;
 	}
-	else if (state == GIMMICK_STATE_WALKING_RIGHT || state == GIMMICK_STATE_INCREASE)
+	else if (state == GIMMICK_STATE_WALKING_RIGHT || state == GIMMICK_STATE_INCREASE || state == GIMMICK_STATE_SLIDE_UP)
 	{
 		ani = GIMMICK_ANI_WALKING_RIGHT;
-
 	}
-	else if (state == GIMMICK_STATE_WALKING_LEFT || state == GIMMICK_STATE_DECREASE)
+	else if (state == GIMMICK_STATE_WALKING_LEFT || state == GIMMICK_STATE_DECREASE || state == GIMMICK_STATE_SLIDE_DOWN)
 	{
 		ani = GIMMICK_ANI_WALKING_LEFT;
 	}
@@ -431,6 +413,12 @@ void CGimmick::SetState(int state)
 		vx += addVx;
 		break;
 
+	case GIMMICK_STATE_SLIDE_UP:
+		break;
+
+	case GIMMICK_STATE_SLIDE_DOWN:
+		break;
+
 	case GIMMICK_STATE_AUTO_GO:
 		vx = addVx;
 		break;
@@ -451,7 +439,7 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 	if (isScrollBar)
 		left = x + 7;
 	else
-		left = x;
+		left = x +1;
 
 	top = y + GIMMICK_BBOX_HORN;
 
@@ -464,7 +452,7 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 	if (isScrollBar)
 		right = x + 9;
 	else
-		right = x + GIMMICK_BBOX_WIDTH;
+		right = x + GIMMICK_BBOX_WIDTH - 1;
 	bottom = y + GIMMICK_BBOX_HEIGHT;
 
 }

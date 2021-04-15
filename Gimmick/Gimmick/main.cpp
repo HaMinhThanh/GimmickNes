@@ -14,7 +14,7 @@ using namespace std;
 
 #define MARIO_TEXTURE_PATH L"gimmick.ico"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(156,252,240)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 262
 
