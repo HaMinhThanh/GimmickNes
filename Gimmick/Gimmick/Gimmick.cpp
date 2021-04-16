@@ -156,6 +156,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += dx;
 		y += dy;
+
+		isSlide = false;
 	}
 	else
 	{
@@ -281,16 +283,58 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isSlide = true;
 
+				float tran_y;
+
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
-				float l1, t1, r1, b1;
-				float l2, t2, r2, b2;
+				//addVx = -GIMMICK_AUTO_GO_SPEED;
 
-				this->GetBoundingBox(l1, t1, r1, b1);
-				slide->GetBoundingBox(l2, t2, r2, b2);
+				if (vx > 0) {
 
-				addVx = -GIMMICK_AUTO_GO_SPEED;
+					direct_go = 1;
 
+					if (slide->direct == 1) {
+
+						direct_slide = 1;
+
+						tran_y = isOnTriangle(slide->x, slide->y + 1, slide->x + 2, slide->y, slide->x + 2, slide->y + 1, x, y);
+						if (tran_y <= 0)
+							y -= 1;			// discount y to fall through slide
+					}
+					else {
+						direct_slide = -1;
+					}
+				}
+				else if (vx < 0) {
+
+					direct_go = -1;
+
+					if (slide->direct == 1) {
+
+						direct_slide = 1;
+					}
+					else {
+						direct_slide = -1;
+					}
+				}
+				else /*if (GetState() == GIMMICK_STATE_JUMP)*/ {
+
+					if (GetState() != GIMMICK_STATE_AUTO_GO)
+						SetState(GIMMICK_STATE_IDLE);
+
+					if (slide->direct == 1) {
+
+						slide_vx = -0.1f;
+						slide_vy = 0.05f;
+					}
+
+					else {
+
+						slide_vx = 0.1f;
+						slide_vy = 0.05f;
+					}
+
+				}
 			}
 			else {
 				isSlide = false;
@@ -414,13 +458,43 @@ void CGimmick::SetState(int state)
 		break;
 
 	case GIMMICK_STATE_SLIDE_UP:
+	{
+		if (direct_go == 1)
+		{
+			vx = 0.1f;
+			vy = -0.05f;;
+		}
+		else
+		{
+			vx = -0.1f;
+			vy = -0.05f;
+		}
+	}
 		break;
 
 	case GIMMICK_STATE_SLIDE_DOWN:
+	{
+		if (direct_go == 1)
+		{
+			vx = 0.1f;
+			vy = 0.05f;
+		}
+		else
+		{
+			vx = -0.1f;
+			vy = 0.05f;
+		}
+	}
 		break;
 
 	case GIMMICK_STATE_AUTO_GO:
-		vx = addVx;
+		if (isSlide) {
+			vx = slide_vx;
+			vy = slide_vy;
+		}
+		else if (isScrollBar) {
+			vx = addVx;
+		}
 		break;
 
 	case MARIO_STATE_JUMP_HIGH_SPEED:
@@ -486,6 +560,24 @@ void CGimmick::isCanSlide(vector<LPGAMEOBJECT>& listObj)
 			}
 		}
 	}
+}
+
+float CGimmick::isOnTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float x, float y)
+{
+	float q, w, e;
+	q = (x - x1) / (x2 - x1) - (y - y1) / (y2 - y1);
+	w = (x - x2) / (x3 - x2) - (y - y2) / (y3 - y2);
+	e = (x - x3) / (x1 - x3) - (y - y3) / (y1 - y3);
+
+	float tich = q * w * e;
+
+	/*if (tich > 0)
+		cout << "diem khong thuoc tam giac! " << endl;
+
+	else
+		cout << "diem thuoc tam giac! " << endl;*/
+
+	return tich;
 }
 
 void CGimmick::ShotStar()

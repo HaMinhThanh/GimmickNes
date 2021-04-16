@@ -98,7 +98,11 @@ public:
 
 	// slide
 	bool isSlide = false;				// check for sliding
-	int trendSlide;						// trend of slide
+	int direct_slide;						// trend of slide
+	int direct_go;
+
+	float slide_vx, slide_vy;
+
 	bool isColisionWithBrick = true;	// if gimmick is sliding will not collide w brick
 
 	// scrollbar
@@ -145,7 +149,9 @@ public:
 
 	// set slide
 	void isCanSlide(vector<LPGAMEOBJECT>& listObj);
+	float isOnTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float x, float y);
 
+	// Star and Loading star
 	void StarLoading() { time_load = GetTickCount(); loading = 1; }
 	void ReSetLoading() { time_load = 0; loading = 0; }
 

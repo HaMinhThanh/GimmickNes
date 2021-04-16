@@ -20,8 +20,7 @@ public:
 	int size;
 
 	int state;
-	int trendX;
-	int trendY;
+	int direct;
 
 	float slidePos;
 

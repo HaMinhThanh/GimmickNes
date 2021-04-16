@@ -1,8 +1,9 @@
 #include "Slide.h"
 
-CSlide::CSlide(float x, float y, int direct, int _size)
+CSlide::CSlide(float x, float y, int _direct, int _size)
 {
 	size = _size;
+	direct = _direct;
 }
 
 CSlide::~CSlide()

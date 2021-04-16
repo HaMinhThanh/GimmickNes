@@ -399,6 +399,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (gimmick->GetJumping() == 0)
 		{
 			gimmick->SetState(GIMMICK_STATE_JUMP);
+
 			gimmick->SetJumping(1);
 
 			if (gimmick->GetDoubleJumpStart() == 0)
@@ -471,7 +472,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 		else if (gimmick->isSlide && !gimmick->isScrollBar) {
 
-			if (gimmick->trendSlide == GIMMICK_TREND_SLIDE_RIGHT)
+			if (gimmick->direct_slide == GIMMICK_TREND_SLIDE_RIGHT)
 
 				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
 
@@ -497,7 +498,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 		else if (gimmick->isSlide && !gimmick->isScrollBar) {
 
-			if (gimmick->trendSlide == GIMMICK_TREND_SLIDE_LEFT)
+			if (gimmick->direct_slide == GIMMICK_TREND_SLIDE_LEFT)
 
 				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
 
