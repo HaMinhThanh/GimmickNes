@@ -90,7 +90,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (GetTickCount() - doubleJump_start > 100)
 		{
-			vy = -MARIO_DOUBLE_JUMP_SPEED;
+			vy = -GIMMICK_DOUBLE_JUMP_SPEED;
 			doubleJump_start = 0;
 		}
 	}
@@ -291,9 +291,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
-				//addVx = -GIMMICK_AUTO_GO_SPEED;
+				if (slide->size == 1)
+					slide_size = 1;
+				else
+					slide_size = 2;
 
-				if ((vx > 0 && GetState() != GIMMICK_STATE_JUMP ) 
+				if ((vx > 0 && GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 					|| GetState()== GIMMICK_STATE_WALKING_RIGHT) {
 
 					direct_go = 1;
@@ -307,8 +310,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else if ((vx < 0 && GetState() != GIMMICK_STATE_JUMP) 
-					|| GetState() == GIMMICK_STATE_WALKING_RIGHT){
+				else if ((vx < 0 && GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_LEFT)) 
+					|| GetState() == GIMMICK_STATE_WALKING_LEFT){
 
 					direct_go = -1;
 
@@ -327,14 +330,30 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					if (slide->direct == 1) {
 
-						slide_vx = -0.1f;
-						slide_vy = 0.05f;
+						if (slide->size == 1) {
+
+							slide_vx = -GIMMICK_SLIDE_DOWN_SPEED_X_1;
+							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+						}
+						else {
+
+							slide_vx = -GIMMICK_SLIDE_DOWN_SPEED_X_2;
+							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+						}
 					}
 
 					else {
 
-						slide_vx = 0.1f;
-						slide_vy = 0.05f;
+						if (slide->size == 1) {
+
+							slide_vx = GIMMICK_SLIDE_DOWN_SPEED_X_1;
+							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+						}
+						else {
+
+							slide_vx = GIMMICK_SLIDE_DOWN_SPEED_X_2;
+							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+						}
 					}
 
 				}
@@ -376,7 +395,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else {
 			x += dx;
-			y += min_ty * dy + ny * 0.1f;
+			y += min_ty * dy /*+ ny * 0.1f*/;
 		}
 	}
 
@@ -403,14 +422,14 @@ void CGimmick::Render()
 	{
 		ani = GIMMICK_ANI_WALKING_LEFT;
 	}
-	else if (state == GIMMICK_STATE_SLIDE_UP)
+	/*else if (state == GIMMICK_STATE_SLIDE_UP)
 	{
 
 	}
 	else if (state == GIMMICK_STATE_SLIDE_DOWN)
 	{
 
-	}	
+	}	*/
 	else if (state == GIMMICK_STATE_DIE )
 	{
 		if (waitToReset)
@@ -418,7 +437,16 @@ void CGimmick::Render()
 		
 		return;
 	}
-	else //if (state == GIMMICK_STATE_IDLE || state == GIMMICK_STATE_AUTO_GO)
+	else if (state == GIMMICK_STATE_AUTO_GO)
+	{
+		if (vx > 0)
+		{
+			ani = GIMMICK_ANI_IDLE_RIGHT;
+		}
+		else
+			ani = GIMMICK_ANI_IDLE_LEFT;
+	}
+	else
 	{
 		if (nx > 0)
 		{
@@ -483,13 +511,29 @@ void CGimmick::SetState(int state)
 	{
 		if (direct_go == 1)
 		{
-			vx = 0.1f;
-			vy = -0.05f;
+			if (slide_size == 1) {
+
+				vx = GIMMICK_SLIDE_UP_SPEED_X_1;
+				vy = -GIMMICK_SLIDE_UP_SPEED_Y_1;
+			}
+			else {
+
+				vx = GIMMICK_SLIDE_UP_SPEED_X_2;
+				vy = -GIMMICK_SLIDE_UP_SPEED_Y_2;
+			}
 		}
 		else if (direct_go == -1)
 		{
-			vx = -0.1f;
-			vy = -0.05f;
+			if (slide_size == 1) {
+
+				vx = -GIMMICK_SLIDE_UP_SPEED_X_1;
+				vy = -GIMMICK_SLIDE_UP_SPEED_Y_1;
+			}
+			else {
+
+				vx = -GIMMICK_SLIDE_UP_SPEED_X_2;
+				vy = -GIMMICK_SLIDE_UP_SPEED_Y_2;
+			}
 		}
 	}
 		break;
@@ -498,19 +542,36 @@ void CGimmick::SetState(int state)
 	{
 		if (direct_go == 1)
 		{
-			vx = 0.1f;
-			vy = 0.05f;
+			if (slide_size == 1) {
+
+				vx = GIMMICK_SLIDE_DOWN_SPEED_X_1;
+				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+			}
+			else {
+
+				vx = GIMMICK_SLIDE_DOWN_SPEED_X_2;
+				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+			}
 		}
 		else if (direct_go == -1)
 		{
-			vx = -0.1f;
-			vy = 0.05f;
+			if (slide_size == 1) {
+
+				vx = -GIMMICK_SLIDE_DOWN_SPEED_X_1;
+				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+			}
+			else {
+
+				vx = -GIMMICK_SLIDE_DOWN_SPEED_X_2;
+				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+			}
 		}
 	}
 		break;
 
 	case GIMMICK_STATE_AUTO_GO:
 		if (isSlide) {
+
 			vx = slide_vx;
 			vy = slide_vy;
 		}
@@ -520,7 +581,7 @@ void CGimmick::SetState(int state)
 		break;
 
 	case MARIO_STATE_JUMP_HIGH_SPEED:
-		vy = -MARIO_JUMP_HIGHT_SPEED_Y;
+		vy = -GIMMICK_JUMP_HIGHT_SPEED_Y;
 		isSlide = false;
 		isScrollBar = false;
 		break;

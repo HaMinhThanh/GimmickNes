@@ -10,9 +10,20 @@
 #define GIMMICK_AUTO_GO_SPEED		0.2f
 //0.1f
 #define GIMMICK_JUMP_SPEED_Y		0.24f
-#define MARIO_JUMP_SPEED_Y_2		-0.1f
-#define MARIO_DOUBLE_JUMP_SPEED		0.24f
-#define MARIO_JUMP_HIGHT_SPEED_Y		0.15f
+#define GIMMICK_JUMP_SPEED_Y_2		-0.1f
+#define GIMMICK_DOUBLE_JUMP_SPEED		0.24f
+#define GIMMICK_JUMP_HIGHT_SPEED_Y		0.15f
+
+// slide speed
+#define GIMMICK_SLIDE_UP_SPEED_X_1		0.05f
+#define GIMMICK_SLIDE_UP_SPEED_X_2		0.075f
+#define GIMMICK_SLIDE_DOWN_SPEED_X_1		0.125f
+#define GIMMICK_SLIDE_DOWN_SPEED_X_2		0.1f
+
+#define GIMMICK_SLIDE_UP_SPEED_Y_1		0.025f
+#define GIMMICK_SLIDE_UP_SPEED_Y_2		0.0375f
+#define GIMMICK_SLIDE_DOWN_SPEED_Y_1		0.0625f
+#define GIMMICK_SLIDE_DOWN_SPEED_Y_2		0.05f
 
 #define GIMMICK_JUMP_DEFLECT_SPEED 0.2f
 #define GIMMICK_GRAVITY			0.0008f
@@ -98,8 +109,9 @@ public:
 
 	// slide
 	bool isSlide = false;				// check for sliding
-	int direct_slide;						// trend of slide
-	int direct_go;
+	int slide_size;						// size of slide
+	int direct_slide;
+	int direct_go;						// trend of slide
 
 	float slide_vx, slide_vy;
 
