@@ -158,6 +158,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += dy;
 
 		isSlide = false;
+		//isScrollBar = false;
 	}
 	else
 	{
@@ -171,6 +172,9 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
 		/*if (rdx != 0 && rdx != dx )
 			x += nx * abs(rdx);*/
+
+		if (rdy != 0 && rdy != dy)
+			y += ny * abs(rdy);
 
 		// block every object first!
 
@@ -279,17 +283,18 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isScrollBar = false;
 			}
 
-			if (dynamic_cast<CSlide*>(e->obj)) {
+			if (dynamic_cast<CSlide*>(e->obj)) {				
 
 				isSlide = true;
 
-				float tran_y;
+				float tran_y = 1;
 
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
 				//addVx = -GIMMICK_AUTO_GO_SPEED;
 
-				if (vx > 0) {
+				if ((vx > 0 && GetState() != GIMMICK_STATE_JUMP ) 
+					|| GetState()== GIMMICK_STATE_WALKING_RIGHT) {
 
 					direct_go = 1;
 
@@ -297,15 +302,13 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						direct_slide = 1;
 
-						tran_y = isOnTriangle(slide->x, slide->y + 1, slide->x + 2, slide->y, slide->x + 2, slide->y + 1, x, y);
-						if (tran_y <= 0)
-							y -= 1;			// discount y to fall through slide
 					}
 					else {
 						direct_slide = -1;
 					}
 				}
-				else if (vx < 0) {
+				else if ((vx < 0 && GetState() != GIMMICK_STATE_JUMP) 
+					|| GetState() == GIMMICK_STATE_WALKING_RIGHT){
 
 					direct_go = -1;
 
@@ -317,10 +320,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else /*if (GetState() == GIMMICK_STATE_JUMP)*/ {
+				else /*if (GetState() != GIMMICK_STATE_AUTO_GO)*/ {
 
-					if (GetState() != GIMMICK_STATE_AUTO_GO)
-						SetState(GIMMICK_STATE_IDLE);
+					
+					//SetState(GIMMICK_STATE_IDLE);					
 
 					if (slide->direct == 1) {
 
@@ -335,9 +338,27 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 
 				}
+
+				if (slide->direct == 1) {
+
+					tran_y = isOnTriangle(slide->x, slide->y + 1, slide->x + slide->size, slide->y, slide->x + slide->size, slide->y + 1, x, y);
+					if (tran_y <= 0)
+						y -= 1;			// discount y to fall through slide
+				}
+				else {
+
+					tran_y = isOnTriangle(slide->x, slide->y, slide->x, slide->y + 1, slide->x + slide->size, slide->y + 1, x, y);
+					if (tran_y <= 0)
+						y -= 1;			// discount y to fall through slide
+				}
 			}
 			else {
 				isSlide = false;
+			}
+
+			if (dynamic_cast<CBrick*>(e->obj)) {
+
+				//isSlide = false;
 			}
 		}
 
@@ -355,7 +376,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else {
 			x += dx;
-			y += dy;
+			y += min_ty * dy + ny * 0.1f;
 		}
 	}
 
@@ -441,8 +462,9 @@ void CGimmick::SetState(int state)
 	case GIMMICK_STATE_JUMP:
 		
 		vy = -GIMMICK_JUMP_SPEED_Y;
-		isSlide = false;
 		isScrollBar = false;
+		Slide_reset();
+
 		break;
 
 	case GIMMICK_STATE_IDLE:
@@ -462,9 +484,9 @@ void CGimmick::SetState(int state)
 		if (direct_go == 1)
 		{
 			vx = 0.1f;
-			vy = -0.05f;;
+			vy = -0.05f;
 		}
-		else
+		else if (direct_go == -1)
 		{
 			vx = -0.1f;
 			vy = -0.05f;
@@ -479,7 +501,7 @@ void CGimmick::SetState(int state)
 			vx = 0.1f;
 			vy = 0.05f;
 		}
-		else
+		else if (direct_go == -1)
 		{
 			vx = -0.1f;
 			vy = 0.05f;
@@ -510,24 +532,24 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 {
 	if (GetState() == GIMMICK_STATE_DIE) return;
 
-	if (isScrollBar)
+	/*if (isScrollBar)
 		left = x + 7;
-	else
-		left = x +1;
+	else*/
+	left = x + 1;
 
 	top = y + GIMMICK_BBOX_HORN;
 
-	if (jump == 1) {
+	/*if (jump == 1) {
 
-		right = x + GIMMICK_BBOX_WIDTH;
-		bottom = y + GIMMICK_JUMP_BBOX_HEIGHT;
-	}
-
-	if (isScrollBar)
-		right = x + 9;
-	else
 		right = x + GIMMICK_BBOX_WIDTH - 1;
-	bottom = y + GIMMICK_BBOX_HEIGHT;
+		bottom = y + GIMMICK_JUMP_BBOX_HEIGHT;
+	}*/
+
+	/*if (isScrollBar)
+		right = x + 9;
+	else*/
+	right = x + GIMMICK_BBOX_WIDTH - 1;
+	bottom = y + GIMMICK_BBOX_HEIGHT ;
 
 }
 
@@ -578,6 +600,12 @@ float CGimmick::isOnTriangle(float x1, float y1, float x2, float y2, float x3, f
 		cout << "diem thuoc tam giac! " << endl;*/
 
 	return tich;
+}
+
+void CGimmick::Slide_reset()
+{
+	isSlide = false;
+	direct_go = 0;
 }
 
 void CGimmick::ShotStar()

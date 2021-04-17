@@ -150,6 +150,7 @@ public:
 	// set slide
 	void isCanSlide(vector<LPGAMEOBJECT>& listObj);
 	float isOnTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float x, float y);
+	void Slide_reset();
 
 	// Star and Loading star
 	void StarLoading() { time_load = GetTickCount(); loading = 1; }
