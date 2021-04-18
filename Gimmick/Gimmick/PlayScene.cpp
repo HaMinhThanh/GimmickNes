@@ -465,6 +465,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 
+		gimmick->key_down = 1;
+
 		if (!gimmick->isScrollBar && !gimmick->isSlide) {
 
 			gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
@@ -490,6 +492,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
+
+		gimmick->key_down = -1;
 
 		if (!gimmick->isScrollBar && !gimmick->isSlide) {
 
@@ -517,9 +521,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}	
 	else if (gimmick->isScrollBar || gimmick->isSlide) {
 
+		//gimmick->key_down = 0;
+
 		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
 	}
 	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/ ) {
+
+		//gimmick->key_down = 0;
 
 		gimmick->SetState(GIMMICK_STATE_IDLE);
 	}

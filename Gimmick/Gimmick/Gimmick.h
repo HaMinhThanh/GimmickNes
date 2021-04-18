@@ -20,9 +20,9 @@
 #define GIMMICK_SLIDE_DOWN_SPEED_X_1		0.125f
 #define GIMMICK_SLIDE_DOWN_SPEED_X_2		0.1f
 
-#define GIMMICK_SLIDE_UP_SPEED_Y_1		0.025f
+#define GIMMICK_SLIDE_UP_SPEED_Y_1		0.05f
 #define GIMMICK_SLIDE_UP_SPEED_Y_2		0.0375f
-#define GIMMICK_SLIDE_DOWN_SPEED_Y_1		0.0625f
+#define GIMMICK_SLIDE_DOWN_SPEED_Y_1		0.125f
 #define GIMMICK_SLIDE_DOWN_SPEED_Y_2		0.05f
 
 #define GIMMICK_JUMP_DEFLECT_SPEED 0.2f
@@ -112,6 +112,7 @@ public:
 	int slide_size;						// size of slide
 	int direct_slide;
 	int direct_go;						// trend of slide
+	int key_down = 0;
 
 	float slide_vx, slide_vy;
 

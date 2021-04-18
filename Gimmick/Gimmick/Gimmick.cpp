@@ -296,7 +296,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 					slide_size = 2;
 
-				if ((vx > 0 && GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+				if ((/*vx > 0 &&*/ GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 					|| GetState()== GIMMICK_STATE_WALKING_RIGHT) {
 
 					direct_go = 1;
@@ -310,7 +310,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else if ((vx < 0 && GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_LEFT)) 
+				else if ((/*vx < 0 &&*/ GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 					|| GetState() == GIMMICK_STATE_WALKING_LEFT){
 
 					direct_go = -1;
@@ -395,7 +395,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else {
 			x += dx;
-			y += min_ty * dy /*+ ny * 0.1f*/;
+			y += min_ty * dy + ny * 0.1f;
 		}
 	}
 
@@ -414,22 +414,28 @@ void CGimmick::Render()
 		else
 			ani = GIMMICK_ANI_JUMPING_LEFT;
 	}
-	else if (state == GIMMICK_STATE_WALKING_RIGHT || state == GIMMICK_STATE_INCREASE || state == GIMMICK_STATE_SLIDE_UP)
+	else if (state == GIMMICK_STATE_WALKING_RIGHT || state == GIMMICK_STATE_INCREASE)
 	{
 		ani = GIMMICK_ANI_WALKING_RIGHT;
 	}
-	else if (state == GIMMICK_STATE_WALKING_LEFT || state == GIMMICK_STATE_DECREASE || state == GIMMICK_STATE_SLIDE_DOWN)
+	else if (state == GIMMICK_STATE_WALKING_LEFT || state == GIMMICK_STATE_DECREASE)
 	{
 		ani = GIMMICK_ANI_WALKING_LEFT;
 	}
-	/*else if (state == GIMMICK_STATE_SLIDE_UP)
+	else if (state == GIMMICK_STATE_SLIDE_UP)
 	{
-
+		if (vx > 0)
+			ani = GIMMICK_ANI_WALKING_RIGHT;
+		else
+			ani = GIMMICK_ANI_WALKING_LEFT;
 	}
 	else if (state == GIMMICK_STATE_SLIDE_DOWN)
 	{
-
-	}	*/
+		if (vx > 0)
+			ani = GIMMICK_ANI_WALKING_RIGHT;
+		else
+			ani = GIMMICK_ANI_WALKING_LEFT;
+	}	
 	else if (state == GIMMICK_STATE_DIE )
 	{
 		if (waitToReset)
@@ -437,21 +443,17 @@ void CGimmick::Render()
 		
 		return;
 	}
-	else if (state == GIMMICK_STATE_AUTO_GO)
+	else if( state== GIMMICK_STATE_IDLE)
 	{
-		if (vx > 0)
-		{
+		if (nx > 0)		
 			ani = GIMMICK_ANI_IDLE_RIGHT;
-		}
 		else
 			ani = GIMMICK_ANI_IDLE_LEFT;
 	}
-	else
+	else //if (state == GIMMICK_STATE_AUTO_GO)
 	{
-		if (nx > 0)
-		{
+		if (key_down == 1)
 			ani = GIMMICK_ANI_IDLE_RIGHT;
-		}
 		else
 			ani = GIMMICK_ANI_IDLE_LEFT;
 	}
@@ -522,7 +524,7 @@ void CGimmick::SetState(int state)
 				vy = -GIMMICK_SLIDE_UP_SPEED_Y_2;
 			}
 		}
-		else if (direct_go == -1)
+		else //if (direct_go == -1)
 		{
 			if (slide_size == 1) {
 
@@ -553,7 +555,7 @@ void CGimmick::SetState(int state)
 				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
 			}
 		}
-		else if (direct_go == -1)
+		else //if (direct_go == -1)
 		{
 			if (slide_size == 1) {
 
