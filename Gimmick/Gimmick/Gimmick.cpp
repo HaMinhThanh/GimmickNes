@@ -297,7 +297,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					slide_size = 2;
 
 				if ((/*vx > 0 &&*/ GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
-					|| GetState()== GIMMICK_STATE_WALKING_RIGHT) {
+					|| GetState() == GIMMICK_STATE_WALKING_RIGHT) {
 
 					direct_go = 1;
 
@@ -311,7 +311,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 				else if ((/*vx < 0 &&*/ GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_LEFT))
-					|| GetState() == GIMMICK_STATE_WALKING_LEFT){
+					|| GetState() == GIMMICK_STATE_WALKING_LEFT) {
 
 					direct_go = -1;
 
@@ -323,10 +323,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else /*if (GetState() != GIMMICK_STATE_AUTO_GO)*/ {
-
-					
-					//SetState(GIMMICK_STATE_IDLE);					
+				else if (GetState() != GIMMICK_STATE_JUMP) {				
 
 					if (slide->direct == 1) {
 

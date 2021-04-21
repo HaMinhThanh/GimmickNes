@@ -347,7 +347,9 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
-	if (cy < yTop) yTop -= SCREEN_HEIGHT_MAP;
+	int index = cy / SCREEN_HEIGHT_MAP;
+
+	yTop = SCREEN_HEIGHT_MAP * index;
 
 	
 	CGame::GetInstance()->SetCamPos((int)cx, (int)yTop);
@@ -450,6 +452,12 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_U:
 		gimmick->SetPosition(736, 480);
+		break;
+	case DIK_7:
+		gimmick->SetPosition(1424, 320);
+		break;
+	case DIK_8:
+		gimmick->SetPosition(1344, 144);
 		break;
 	}	
 }
