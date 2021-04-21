@@ -192,8 +192,9 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			//CanFall = 0;
 		}
 
-		if (nx != 0 && ny == 0)
+		if (nx != 0 && ny == 0) {
 			SetState(GIMMICK_STATE_IDLE);
+		}
 
 		//
 		// Collision logic with other objects
