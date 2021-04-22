@@ -10,6 +10,7 @@
 #include "Bomb.h"
 #include "Slide.h"
 #include "Brick.h"
+#include "HiddenObject.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -53,6 +54,9 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FollowObject(obj);
 	}
+	else {
+		obj = NULL;
+	}
 
 	if (GetState() == GIMMICK_STATE_DIE) {
 
@@ -75,7 +79,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (rest <= 0)
 				return;
-
 		}
 	}
 
@@ -149,6 +152,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+
+	coObjects->push_back(star);
 	CalcPotentialCollisions(coObjects, coEvents);
 
 	// No collision occured, proceed normally
@@ -240,6 +245,28 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}
 						}
 					}
+				}
+			}
+
+			if (dynamic_cast<CStar*>(e->obj)) {
+
+				CStar* st = dynamic_cast<CStar*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1 && st->acting == 1) {
+
+					if (e->ny < 0)
+					{
+						//if (vx==0 && vy==0) {							
+						isFollow = true;
+						obj = st;
+						SetState(GIMMICK_STATE_IDLE);
+
+						//}
+					}
+				}
+				else {
+
+					isFollow = false;
 				}
 			}
 
@@ -377,9 +404,43 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				//isSlide = false;
 			}
+
+			if (dynamic_cast<CHiddenObject*>(e->obj)) {
+
+				isGoThrough = true;
+
+				if (!resetCam) {
+					resetCam = true;
+
+					CHiddenObject* hidden = dynamic_cast<CHiddenObject*>(e->obj);
+
+					CCamera* camera = CCamera::GetInstance();
+
+					if (!hidden->isBackUp)
+						hidden->BackUpCam(camera->_xLeft, camera->_xRight);
+
+					if ((x > camera->_xRight && vx > 0) || (x < camera->_xLeft && vx < 0)) {
+
+						if (!camera->isMovingCam) {
+
+							camera->SetCamBoundary(hidden->cam_left, hidden->cam_right, camera->_yTop);
+							camera->isMovingCam = true;
+						}
+						else {
+
+							camera->SetCamBoundary(hidden->backup_camLeft, hidden->backup_camRight, camera->_yTop);
+							camera->isMovingCam = false;
+							hidden->isBackUp = false;
+						}
+					}
+				}
+			}
+			else {
+				resetCam = false;
+			}
 		}
 
-		if (!isSlide ) {
+		if (!isSlide && !isGoThrough) {
 
 			x += min_tx * dx + nx * 0.4f;
 
@@ -394,6 +455,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else {
 			x += dx;
 			y += min_ty * dy + ny * 0.1f;
+
+			isGoThrough = false;
 		}
 	}
 

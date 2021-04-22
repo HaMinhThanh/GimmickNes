@@ -819,6 +819,8 @@
 
 # Gimmick
 1	928	140	1
+# Hidden
+11	256	128	4	1	32	0	240
 
 [MAP_TEXTURES]
 #idScene	rowSprites	columnSprites	IDTileSet
@@ -829,4 +831,4 @@ map/map_1c.txt	32	6	0	0
 
 [CAMERA]
 #xLeft	xRight	yTop
-0	1008	0
+256	1008	0

@@ -91,6 +91,7 @@ class CGimmick : public CGameObject
 	int maxjumping = 0;
 	bool isMaxJumping = false;
 
+
 public:
 	
 	// Object depend
@@ -117,6 +118,9 @@ public:
 	float slide_vx, slide_vy;
 
 	bool isColisionWithBrick = true;	// if gimmick is sliding will not collide w brick
+
+	bool isGoThrough = false;
+	bool resetCam = true;
 
 	// scrollbar
 	bool isScrollBar = false;

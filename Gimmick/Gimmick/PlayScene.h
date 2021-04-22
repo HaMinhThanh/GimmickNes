@@ -6,6 +6,7 @@
 #include "Brick.h"
 #include "Gimmick.h"
 #include "Map.h"
+#include "Camera.h"
 #include "HUD.h"
 
 
@@ -15,6 +16,7 @@ protected:
 
 	CGimmick* player;					// A play scene has to have player, right? 
 	CMap* map;
+	CCamera* camera;
 	CHUD* HUD;
 
 	int _xLeft, _xRight;

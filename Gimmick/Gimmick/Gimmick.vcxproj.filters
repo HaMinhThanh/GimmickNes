@@ -73,6 +73,12 @@
     <Filter Include="Objects\Weapon">
       <UniqueIdentifier>{bf5c9b62-79d2-4c8b-bb1b-663812f3c707}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\HiddenObject">
+      <UniqueIdentifier>{ea372c3a-e0e9-4abf-aab1-3850aa444ee3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Camera">
+      <UniqueIdentifier>{963286b0-3d0d-46af-986e-60a03be0556d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -174,6 +180,12 @@
     <ClInclude Include="Water.h">
       <Filter>Objects\Ground</Filter>
     </ClInclude>
+    <ClInclude Include="HiddenObject.h">
+      <Filter>Objects\HiddenObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Framework\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -274,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="Water.cpp">
       <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenObject.cpp">
+      <Filter>Objects\HiddenObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Framework\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

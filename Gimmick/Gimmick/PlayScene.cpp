@@ -16,10 +16,11 @@
 #include "ScrollBar.h"
 #include "Slide.h"
 #include "MovingBrick.h"
-#include"AniBrick.h"
+#include "AniBrick.h"
 #include "Bomb.h"
 #include "Water.h"
 #include "Treasures.h"
+#include "HiddenObject.h"
 
 
 using namespace std;
@@ -54,6 +55,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_MOVING_BRICK	8
 #define OBJECT_TYPE_ANI_BRICK	9
 #define OBJECT_TYPE_WATER	10
+#define OBJECT_TYPE_HIDDEN	11
 
 // Enemy
 #define OBJECT_TYPE_BOMB	21
@@ -95,7 +97,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	
+
 	case OBJECT_TYPE_GIMMICK:
 	{
 		isObj = false;
@@ -112,15 +114,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	break;
 
-	case OBJECT_TYPE_BRICK: 
-		obj = new CBrick(); 
+	case OBJECT_TYPE_BRICK:
+		obj = new CBrick();
 		break;
+
 	case OBJECT_TYPE_STAR:
 		obj = new CStar();
 		break;
+
 	case OBJECT_TYPE_ANI_BRICK:
 		obj = new CAniBrick();
 		break;
+
 	case OBJECT_TYPE_WATER:
 		obj = new CWater();
 		break;
@@ -137,6 +142,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SCROLLBAR_INCREASE:
 		obj = new CScrollBar(SCROLLBAR_TYPE_INCREASE);
 		break;
+
 	case OBJECT_TYPE_SCROLLBAR_DECREASE:
 		obj = new CScrollBar(SCROLLBAR_TYPE_DECREASE);
 		break;
@@ -164,13 +170,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	break;
 
+	case OBJECT_TYPE_HIDDEN:
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+		int cam_l = atof(tokens[6].c_str());
+		int cam_r = atof(tokens[7].c_str());
+
+		obj = new CHiddenObject(x, y, w, h, cam_l, cam_r);
+
+	}
+	break;
+
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
-	}	
+	}
 	break;
 
 	default:
@@ -222,7 +240,8 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 	_xRight = atoi(tokens[1].c_str());
 	_yTop = atoi(tokens[2].c_str());
 
-	CGame::GetInstance()->SetCamBoundary(_xLeft, _xRight, _yTop);
+	//CGame::GetInstance()->SetCamBoundary(_xLeft, _xRight, _yTop);
+	camera->SetCamBoundary(_xLeft, _xRight, _yTop);
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -244,6 +263,7 @@ void CPlayScene::Load()
 	_xLeft = _xRight = _yTop = -1;
 
 	map = CMap::GetInstance();
+	camera = CCamera::GetInstance();
 	HUD = CHUD::GetInstance();
 
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -277,7 +297,7 @@ void CPlayScene::Load()
 		if (line == "[MAP_TEXTURES]") {
 			section = SCENE_SECTION_MAP_TEXTURES; continue;
 		}
-		if (line == "[MAP]"){
+		if (line == "[MAP]") {
 			section = SCENE_SECTION_MAP; continue;
 		}
 		if (line == "[CAMERA]") {
@@ -290,10 +310,10 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{
-		/*case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;*/
+			/*case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;*/
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP_TEXTURES: _ParseSection_MAP_TEXTURES(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
@@ -310,10 +330,8 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-
 	vector<LPGAMEOBJECT> coObjects;
+
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -335,24 +353,23 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame* game = CGame::GetInstance();
 
-	cx -= game->GetScreenWidth() / 2;
-	//cy -= game->GetScreenHeight() / 2;
-
 	float xRight, xLeft, yTop;
-	game->GetCamBoundary(xLeft, xRight, yTop);
+	camera->GetCamBoundary(xLeft, xRight, yTop);
 
-	if (cx < xLeft) 
+	cx -= game->GetScreenWidth() / 2;
+
+	if (cx < xLeft)
 		cx = xLeft;
 
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
+
 	int index = cy / SCREEN_HEIGHT_MAP;
 
 	yTop = SCREEN_HEIGHT_MAP * index;
 
-	
-	CGame::GetInstance()->SetCamPos((int)cx, (int)yTop);
+	camera->SetCamPos((int)cx, (int)yTop);
 
 }
 
@@ -361,9 +378,10 @@ void CPlayScene::Render()
 	if (player == NULL) return;
 
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
 
-	map->DrawMap(cx, cy);	
+	camera->GetCamPos(cx, cy);
+
+	map->DrawMap(cx, cy);
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
@@ -411,8 +429,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 			}
 		}
-		break;	
-	} 	
+		break;
+	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -432,7 +450,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 
 	case DIK_T:
-		gimmick->SetPosition(992,216);
+		gimmick->SetPosition(992, 216);
 		break;
 
 	case DIK_Y:
@@ -459,7 +477,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_8:
 		gimmick->SetPosition(1344, 144);
 		break;
-	}	
+	}
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
@@ -526,23 +544,23 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			else
 				gimmick->SetState(GIMMICK_STATE_DECREASE);
 		}
-	}	
+	}
 	else if (gimmick->isScrollBar || gimmick->isSlide) {
 
 		//gimmick->key_down = 0;
 
 		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
 	}
-	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/ ) {
+	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/) {
 
 		//gimmick->key_down = 0;
 
 		gimmick->SetState(GIMMICK_STATE_IDLE);
 	}
-	
 
-	if (game->IsKeyDown(DIK_A)){
-	
+
+	if (game->IsKeyDown(DIK_A)) {
+
 		if (gimmick->loading == 0 && gimmick->star->isActive == false) {
 
 			gimmick->SetLoadingStar();

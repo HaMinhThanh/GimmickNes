@@ -26,7 +26,7 @@ using namespace std;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)
 
-#define SCREEN_WIDTH 288
+#define SCREEN_WIDTH 272
 #define SCREEN_HEIGHT 262
 
 #define SCENE_SECTION_UNKNOWN -1

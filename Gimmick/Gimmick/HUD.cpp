@@ -22,10 +22,10 @@ void CHUD::Render()
 	CGimmick* gimmick = CGimmick::GetInstance(0, 0);
 
 	float cx, cy;
-	game->GetCamPos(cx, cy);
+	game->cam->GetCamPos(cx, cy);
 
 	CSprites* sprite = CSprites::GetInstance();
-	//sprite->Get(80020)->Draw(cx, cy + game->GetScreenHeight() - 32);
+	sprite->Get(80020)->Draw(cx, cy + game->GetScreenHeight() - 32);
 	sprite->Get(80010)->Draw(cx, cy + game->GetScreenHeight() - 32);
 
 	// Draw score
