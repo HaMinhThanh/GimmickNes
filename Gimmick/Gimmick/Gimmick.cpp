@@ -12,6 +12,7 @@
 #include "Brick.h"
 #include "HiddenObject.h"
 #include "Pipes.h"
+#include "MiniBomb.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -239,6 +240,31 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			
+			if (dynamic_cast<CMiniBomb*>(e->obj)) {
+
+				CMiniBomb* mn = dynamic_cast<CMiniBomb*>(e->obj);
+
+				mn->StarEnding();
+
+				isGoThrough = true;
+
+				if (untouchable == 0)
+				{
+					if (GetState() != GIMMICK_STATE_DIE)
+					{
+						if (energy > 0)
+						{
+							energy -= 1;
+							StartUntouchable();
+						}
+						else
+						{
+							SetState(GIMMICK_STATE_DIE);
+						}
+					}
+				}
+			}
 
 			if (dynamic_cast<CStar*>(e->obj)) {
 
@@ -321,7 +347,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 					slide_size = 2;
 
-				if ((/*vx > 0 &&*/ /*GetState() != GIMMICK_STATE_JUMP &&*/ CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+				if (( /*GetState() != GIMMICK_STATE_JUMP &&*/ CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 					|| GetState() == GIMMICK_STATE_WALKING_RIGHT) {
 
 					direct_go = 1;
@@ -335,7 +361,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else if ((/*vx < 0 &&*/ /*GetState() != GIMMICK_STATE_JUMP &&*/ CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+				else if (( /*GetState() != GIMMICK_STATE_JUMP &&*/ CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 					|| GetState() == GIMMICK_STATE_WALKING_LEFT) {
 
 					direct_go = -1;
@@ -401,10 +427,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
 
-				//isPiping = true;
+				isPiping = true;
 				isGoThrough = true;
 
-				//SetState(GIMMICK_STATE_PIPING);
+				SetState(GIMMICK_STATE_PIPING);
 
 				if (!pipe->isDeversed) {
 
@@ -460,13 +486,16 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			x += dx;
 
-			if (isSlide)
-				y += min_ty * dy + ny * 0.1f;
-
+			if (isSlide) {
+				y += min_ty * dy + ny * 0.4f;
+			}
 			else if (isGoThrough) {
 				//y += dy;
 
 				isGoThrough = false;
+			}
+			else if (isPiping) {
+				y += dy;
 			}
 		}
 	}

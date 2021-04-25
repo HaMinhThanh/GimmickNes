@@ -25,9 +25,12 @@
     <ClInclude Include="BombItem.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cannon.h" />
+    <ClInclude Include="CannonBall.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Die.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Electrode.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Fireball.h" />
@@ -38,10 +41,13 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="KingElectrode.h" />
     <ClInclude Include="LoadingStar.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Medicine.h" />
+    <ClInclude Include="MiniBomb.h" />
     <ClInclude Include="MovingBrick.h" />
+    <ClInclude Include="NarrowSpot.h" />
     <ClInclude Include="Pipes.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
@@ -54,6 +60,7 @@
     <ClInclude Include="Treasures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Water.h" />
+    <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AniBrick.cpp" />
@@ -62,8 +69,11 @@
     <ClCompile Include="BombItem.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="CannonBall.cpp" />
     <ClCompile Include="Die.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Electrode.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Fireball.cpp" />
@@ -74,11 +84,14 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
+    <ClCompile Include="KingElectrode.cpp" />
     <ClCompile Include="LoadingStar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Medicine.cpp" />
+    <ClCompile Include="MiniBomb.cpp" />
     <ClCompile Include="MovingBrick.cpp" />
+    <ClCompile Include="NarrowSpot.cpp" />
     <ClCompile Include="Pipes.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -91,6 +104,7 @@
     <ClCompile Include="Treasures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Water.cpp" />
+    <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

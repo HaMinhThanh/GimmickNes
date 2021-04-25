@@ -18,8 +18,17 @@
 #include "Pipes.h"
 #include "MovingBrick.h"
 #include "AniBrick.h"
+
 #include "Bomb.h"
 #include "Water.h"
+#include "MiniBomb.h"
+#include "KingElectrode.h"
+#include "NarrowSpot.h"
+#include "Worm.h"
+#include "Cannon.h"
+#include "CannonBall.h"
+#include "Electrode.h"
+
 #include "Treasures.h"
 #include "HiddenObject.h"
 
@@ -60,13 +69,19 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_PIPE	12
 
 // Enemy
-#define OBJECT_TYPE_BOMB	21
+#define OBJECT_TYPE_BOMB			21
+#define OBJECT_TYPE_MINIBOMB		22
+#define OBJECT_TYPE_CANNON			23
+#define OBJECT_TYPE_CANNONBALL		24
+#define OBJECT_TYPE_WARM			25
+#define OBJECT_TYPE_NARROWSPOT		26
+#define OBJECT_TYPE_ELECTRODE		27
+#define OBJECT_TYPE_KING_ELECTRODE	28
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
 
 // Effect
-
 
 
 #define OBJECT_TYPE_PORTAL	50
@@ -161,6 +176,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_BOMB:
 		obj = new CBomb(x, y);
+		break;
+
+	case OBJECT_TYPE_MINIBOMB:
+		obj = new CMiniBomb();
+		break;
+
+	case OBJECT_TYPE_CANNON:
+	{
+		int n = atof(tokens[4].c_str());
+		obj = new CCannon(x, y, n); 
+	}
 		break;
 
 	case OBJECT_TYPE_TREASURE:

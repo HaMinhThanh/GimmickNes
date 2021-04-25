@@ -79,6 +79,18 @@
     <Filter Include="Framework\Camera">
       <UniqueIdentifier>{963286b0-3d0d-46af-986e-60a03be0556d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Enemy\BOSS">
+      <UniqueIdentifier>{9d18e669-6c6d-4de8-a75f-12e5eea794a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Enemy\Hazards">
+      <UniqueIdentifier>{3c3e1c45-937c-44db-b2e7-4c8ae7f1372b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Enemy\Interactables">
+      <UniqueIdentifier>{52b0f288-4acd-4aaf-9fce-14e843e74a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Support">
+      <UniqueIdentifier>{cb20132b-db1f-4ecf-b8e4-0fc5d45bd92a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -186,6 +198,27 @@
     <ClInclude Include="Camera.h">
       <Filter>Framework\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="KingElectrode.h">
+      <Filter>Objects\Enemy\BOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Electrode.h">
+      <Filter>Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="NarrowSpot.h">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniBomb.h">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonBall.h">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -292,6 +325,27 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="KingElectrode.cpp">
+      <Filter>Objects\Enemy\BOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Worm.cpp">
+      <Filter>Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Electrode.cpp">
+      <Filter>Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="NarrowSpot.cpp">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniBomb.cpp">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Objects\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonBall.cpp">
+      <Filter>Objects\Enemy\Hazards</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
