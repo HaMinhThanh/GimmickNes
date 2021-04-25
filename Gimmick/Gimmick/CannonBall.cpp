@@ -93,11 +93,18 @@ void CCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					StarEnding();
 				}
-			}
+				if (dynamic_cast<CSlide*>(e->obj)) {
 
-			if (nx != 0) {
-				vx *= -1;
+					CSlide* slide = dynamic_cast<CSlide*>(e->obj);
+
+					/*if (slide->direct == 1)
+						vx = CANNONBALL_SPEED_X;
+					else
+						vx = -CANNONBALL_SPEED_X;*/
+				}
 			}
+			if (nx != 0 && ny == 0)
+				vx *= -1;
 
 			if (ny != 0) {
 				vy = 0;

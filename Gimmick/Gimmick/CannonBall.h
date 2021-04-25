@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+#define CANNONBALL_SPEED_X		0.05f
+
 class CCannonBall: public CGameObject
 {
 public:

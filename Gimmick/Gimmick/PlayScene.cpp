@@ -187,6 +187,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int n = atof(tokens[4].c_str());
 		obj = new CCannon(x, y, n); 
 	}
+	break;
+
+	case OBJECT_TYPE_NARROWSPOT:
+		obj = new CNarrowSpot(x, y);
 		break;
 
 	case OBJECT_TYPE_TREASURE:

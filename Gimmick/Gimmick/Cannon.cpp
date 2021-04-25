@@ -88,6 +88,7 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		current_ball += 1;
 		cb->SetPosition(x + 16, y);
+		cb->SetSpeed(CANNONBALL_SPEED_X, 0);
 	}
 
 	if (current_ball >= ListBall.size() - 1)
@@ -95,7 +96,6 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CCannonBall* cb1 = (CCannonBall*)ListBall.at(current_ball);
 
-	//cb1->SetSpeed(0.02f, 0);
 	cb1->isRolling = true;
 	cb1->Update(dt, coObjects);
 }

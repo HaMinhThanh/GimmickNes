@@ -1210,6 +1210,9 @@
 23	48	239	9	2
 23	656	463	9	3
 
+# Narrow
+26	1330	449	11
+
 [MAP_TEXTURES]
 #idScene	rowSprites	columnSprites	IDTileSet
 1	18	12	12	
