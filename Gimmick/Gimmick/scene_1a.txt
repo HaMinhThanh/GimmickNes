@@ -189,7 +189,7 @@
 1	50	272	1
 
 # Bomb
-#21	100	300	3
+21	100	300	3
 
 # Slide 1
 # brick at footer
@@ -339,6 +339,14 @@
 # Treasures
 # id	x	y	ani_id	width	height
 31	53	69	7	22	43
+
+# Pipes
+12	976	336	4	5
+12	992	336	4	6
+12	992	352	4	7
+12	992	368	4	7
+# Portal
+50	992	383	4	1008	384	12
 
 [MAP_TEXTURES]
 #idScene	rowSprites	columnSprites	IDTileSet

@@ -41,6 +41,7 @@
 #define GIMMICK_STATE_INCREASE		800
 #define GIMMICK_STATE_DECREASE		900
 #define GIMMICK_STATE_AUTO_GO		1000
+#define GIMMICK_STATE_PIPING		1100
 #define GIMMICK_STATE_DIE			9999
 
 #define GIMMICK_ANI_IDLE_RIGHT		0
@@ -120,7 +121,10 @@ public:
 	bool isColisionWithBrick = true;	// if gimmick is sliding will not collide w brick
 
 	bool isGoThrough = false;
-	bool resetCam = true;
+
+	// pipe
+	bool isPiping = false;		// checking gimmick is piping
+	float pipeVx, pipeVy;		// set speed when piping
 
 	// scrollbar
 	bool isScrollBar = false;

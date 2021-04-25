@@ -15,6 +15,7 @@
 #include "Brick.h"
 #include "ScrollBar.h"
 #include "Slide.h"
+#include "Pipes.h"
 #include "MovingBrick.h"
 #include "AniBrick.h"
 #include "Bomb.h"
@@ -56,6 +57,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_ANI_BRICK	9
 #define OBJECT_TYPE_WATER	10
 #define OBJECT_TYPE_HIDDEN	11
+#define OBJECT_TYPE_PIPE	12
 
 // Enemy
 #define OBJECT_TYPE_BOMB	21
@@ -170,6 +172,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	break;
 
+	case OBJECT_TYPE_PIPE:
+	{
+		int t = atof(tokens[4].c_str());
+
+		obj = new CPipes(x, y, t);
+	}
+	break;
+
 	case OBJECT_TYPE_HIDDEN:
 	{
 		float w = atof(tokens[4].c_str());
@@ -187,7 +197,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
+
 		obj = new CPortal(x, y, r, b, scene_id);
+
+		DebugOut(L"Portal %d", scene_id);
 	}
 	break;
 
@@ -347,6 +360,9 @@ void CPlayScene::Update(DWORD dt)
 
 	player->Update(dt, &coObjects);
 
+	// skip update if colide uiwth portal
+	if (player == NULL) return;
+
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -440,9 +456,6 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
 
-	float x, y;
-	gimmick->GetPosition(x, y);
-
 	switch (KeyCode)
 	{
 	case DIK_S:
@@ -487,7 +500,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
 
 	// disable control key when Mario die 
-	if (gimmick->GetState() == GIMMICK_STATE_DIE) return;
+	if (gimmick->GetState() == GIMMICK_STATE_DIE || gimmick->GetState()== GIMMICK_STATE_PIPING) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 

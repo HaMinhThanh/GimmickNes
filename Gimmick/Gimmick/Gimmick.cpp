@@ -11,6 +11,7 @@
 #include "Slide.h"
 #include "Brick.h"
 #include "HiddenObject.h"
+#include "Pipes.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -50,7 +51,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isFollow = false;
 	}
 
-	if (isFollow ) {
+	if (isFollow) {
 
 		FollowObject(obj);
 	}
@@ -136,10 +137,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (star != NULL)
 		star->Update(dt, coObjects);
 
-	if (loading == 1) 
+	if (loading == 1)
 		load_star->Update(dt, coObjects);
 
-	if (!isSlide && !isFollow)
+	if (!isSlide && !isFollow && !isPiping)
 		vy += GIMMICK_GRAVITY * dt;
 
 	// Calculate dx, dy 
@@ -173,16 +174,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		/*if (rdx != 0 && rdx != dx )
-			x += nx * abs(rdx);*/
-
-		if (rdy != 0 && rdy != dy)
-			y += ny * abs(rdy);
-
-		// block every object first!
-
 
 		//mario touches ground
 		if (ny != 0 && nx == 0)
@@ -218,16 +209,17 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->ny < 0)
 					{
 						//if (vx==0 && vy==0) {							
-							isFollow = true;
-							obj = bomb;
-							SetState(GIMMICK_STATE_IDLE);
-							
+						isFollow = true;
+						obj = bomb;
+						SetState(GIMMICK_STATE_IDLE);
+
 						//}
 					}
 					else //if (e->nx != 0)
 					{
-						isNotCollide = true;
+						//isNotCollide = true;
 						isFollow = false;
+						isGoThrough = true;
 
 						if (untouchable == 0)
 						{
@@ -263,6 +255,11 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						//}
 					}
+					else
+					{
+						isFollow = false;
+						isGoThrough = true;
+					}
 				}
 				else {
 
@@ -270,7 +267,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			if (dynamic_cast<CScrollBar*>(e->obj)) { 
+			if (dynamic_cast<CScrollBar*>(e->obj)) {
 
 				/*if (isScrollBar)
 					break;*/
@@ -279,25 +276,25 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CScrollBar* scrollbar = dynamic_cast<CScrollBar*>(e->obj);
 
-				if (scrollbar->GetType() == SCROLLBAR_TYPE_INCREASE){
-				
+				if (scrollbar->GetType() == SCROLLBAR_TYPE_INCREASE) {
+
 					if (GetState() == GIMMICK_STATE_IDLE) {
-						
-							//vx = SCROLLBAR_SPEED;	
-						addVx = GIMMICK_AUTO_GO_SPEED ;
+
+						//vx = SCROLLBAR_SPEED;	
+						addVx = GIMMICK_AUTO_GO_SPEED;
 					}
 					else {
 
-						trendScrollBar = scrollbar->GetType();						
+						trendScrollBar = scrollbar->GetType();
 						addVx = SCROLLBAR_SPEED;
 					}
 				}
-				else 
+				else
 				{
-					if (GetState() == GIMMICK_STATE_IDLE){
-										
+					if (GetState() == GIMMICK_STATE_IDLE) {
+
 						//vx = -SCROLLBAR_SPEED;	
-						addVx = -GIMMICK_AUTO_GO_SPEED ;
+						addVx = -GIMMICK_AUTO_GO_SPEED;
 					}
 					else {
 
@@ -311,7 +308,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isScrollBar = false;
 			}
 
-			if (dynamic_cast<CSlide*>(e->obj)) {				
+			if (dynamic_cast<CSlide*>(e->obj)) {
 
 				isSlide = true;
 
@@ -324,7 +321,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 					slide_size = 2;
 
-				if ((/*vx > 0 &&*/ GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+				if ((/*vx > 0 &&*/ /*GetState() != GIMMICK_STATE_JUMP &&*/ CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 					|| GetState() == GIMMICK_STATE_WALKING_RIGHT) {
 
 					direct_go = 1;
@@ -338,7 +335,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else if ((/*vx < 0 &&*/ GetState() != GIMMICK_STATE_JUMP && CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+				else if ((/*vx < 0 &&*/ /*GetState() != GIMMICK_STATE_JUMP &&*/ CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 					|| GetState() == GIMMICK_STATE_WALKING_LEFT) {
 
 					direct_go = -1;
@@ -351,7 +348,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						direct_slide = -1;
 					}
 				}
-				else if (GetState() != GIMMICK_STATE_JUMP) {				
+				else /*if (GetState() != GIMMICK_STATE_JUMP)*/ {
 
 					if (slide->direct == 1) {
 
@@ -400,43 +397,50 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isSlide = false;
 			}
 
-			if (dynamic_cast<CBrick*>(e->obj)) {
+			if (dynamic_cast<CPipes*>(e->obj)) {
 
-				//isSlide = false;
+				CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
+
+				//isPiping = true;
+				isGoThrough = true;
+
+				//SetState(GIMMICK_STATE_PIPING);
+
+				if (!pipe->isDeversed) {
+
+					pipeVx = pipe->vx * dt;
+					pipeVy = pipe->vy * dt;
+				}
+				else {
+
+					pipeVx = pipe->vx * -1;
+					pipeVy = pipe->vy * -1;
+				}
+			}
+			else {
+				isPiping = false;
+
 			}
 
 			if (dynamic_cast<CHiddenObject*>(e->obj)) {
 
 				isGoThrough = true;
 
-				if (!resetCam) {
-					resetCam = true;
+				CHiddenObject* hidden = dynamic_cast<CHiddenObject*>(e->obj);
 
-					CHiddenObject* hidden = dynamic_cast<CHiddenObject*>(e->obj);
+				CCamera* camera = CCamera::GetInstance();
 
-					CCamera* camera = CCamera::GetInstance();
-
-					if (!hidden->isBackUp)
-						hidden->BackUpCam(camera->_xLeft, camera->_xRight);
-
-					if ((x > camera->_xRight && vx > 0) || (x < camera->_xLeft && vx < 0)) {
-
-						if (!camera->isMovingCam) {
-
-							camera->SetCamBoundary(hidden->cam_left, hidden->cam_right, camera->_yTop);
-							camera->isMovingCam = true;
-						}
-						else {
-
-							camera->SetCamBoundary(hidden->backup_camLeft, hidden->backup_camRight, camera->_yTop);
-							camera->isMovingCam = false;
-							hidden->isBackUp = false;
-						}
-					}
-				}
+				camera->SetCamBoundary(hidden->cam_left, hidden->cam_right, camera->_yTop);
 			}
-			else {
-				resetCam = false;
+
+			if (dynamic_cast<CPortal*>(e->obj)) {
+
+				CPortal* p = dynamic_cast<CPortal*>(e->obj);
+
+				DebugOut(L"SceneId %d", p->scene_id);
+
+				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+
 			}
 		}
 
@@ -444,7 +448,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			x += min_tx * dx + nx * 0.4f;
 
-			if (isNotCollide) 
+			if (isNotCollide)
 				isNotCollide = false;
 			else
 				y += min_ty * dy + ny * 0.4f;
@@ -453,10 +457,17 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (ny != 0) vy = 0;
 		}
 		else {
-			x += dx;
-			y += min_ty * dy + ny * 0.1f;
 
-			isGoThrough = false;
+			x += dx;
+
+			if (isSlide)
+				y += min_ty * dy + ny * 0.1f;
+
+			else if (isGoThrough) {
+				//y += dy;
+
+				isGoThrough = false;
+			}
 		}
 	}
 
@@ -496,17 +507,17 @@ void CGimmick::Render()
 			ani = GIMMICK_ANI_WALKING_RIGHT;
 		else
 			ani = GIMMICK_ANI_WALKING_LEFT;
-	}	
-	else if (state == GIMMICK_STATE_DIE )
+	}
+	else if (state == GIMMICK_STATE_DIE)
 	{
 		if (waitToReset)
 			die_effect->Render();
-		
+
 		return;
 	}
-	else if( state== GIMMICK_STATE_IDLE)
+	else if (state == GIMMICK_STATE_IDLE)
 	{
-		if (nx > 0)		
+		if (nx > 0)
 			ani = GIMMICK_ANI_IDLE_RIGHT;
 		else
 			ani = GIMMICK_ANI_IDLE_LEFT;
@@ -540,7 +551,7 @@ void CGimmick::SetState(int state)
 	switch (state)
 	{
 	case GIMMICK_STATE_WALKING_RIGHT:
-		
+
 		vx = GIMMICK_WALKING_SPEED;
 		nx = 1;
 		break;
@@ -551,7 +562,7 @@ void CGimmick::SetState(int state)
 		break;
 
 	case GIMMICK_STATE_JUMP:
-		
+
 		vy = -GIMMICK_JUMP_SPEED_Y;
 		isScrollBar = false;
 		Slide_reset();
@@ -599,7 +610,7 @@ void CGimmick::SetState(int state)
 			}
 		}
 	}
-		break;
+	break;
 
 	case GIMMICK_STATE_SLIDE_DOWN:
 	{
@@ -630,7 +641,7 @@ void CGimmick::SetState(int state)
 			}
 		}
 	}
-		break;
+	break;
 
 	case GIMMICK_STATE_AUTO_GO:
 		if (isSlide) {
@@ -642,6 +653,14 @@ void CGimmick::SetState(int state)
 			vx = addVx;
 		}
 		break;
+
+	case GIMMICK_STATE_PIPING:
+	{
+		vx = pipeVx;
+		vy = pipeVy;
+
+		break;
+	}
 
 	case MARIO_STATE_JUMP_HIGH_SPEED:
 		vy = -GIMMICK_JUMP_HIGHT_SPEED_Y;
@@ -673,7 +692,7 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 		right = x + 9;
 	else*/
 	right = x + GIMMICK_BBOX_WIDTH - 1;
-	bottom = y + GIMMICK_BBOX_HEIGHT ;
+	bottom = y + GIMMICK_BBOX_HEIGHT;
 
 }
 
@@ -792,6 +811,6 @@ void CGimmick::FollowObject(LPGAMEOBJECT obj)
 {
 	//vx = obj->GetVx();
 	x = obj->GetX();
-	y = obj->GetY() - GIMMICK_BBOX_HEIGHT -0.4;
+	y = obj->GetY() - GIMMICK_BBOX_HEIGHT - 0.4;
 }
 

@@ -6,6 +6,10 @@
 #define BOMB_STATE_WALKING_LEFT		200
 #define BOMB_STATE_FLY_RIGHT		300
 #define BOMB_STATE_FLY_LEFT			400
+#define BOMB_STATE_SLIDE_UP			500
+#define BOMB_STATE_SLIDE_DOWN			600
+#define BOMB_STATE_SCROLLBAR_IN			700
+#define BOMB_STATE_SCROLLBAR_DE			800
 #define BOMB_STATE_DIE				900
 
 #define BOMB_GRAVITY				0.0005f
@@ -30,6 +34,11 @@ public:
 
 	DWORD waitToFly = 0;
 	int flying = 0;
+
+	bool isScrollBar = false;
+	bool isSlide = false;
+
+	int go_direct = 0;
 
 public:
 

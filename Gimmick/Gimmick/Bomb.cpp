@@ -2,6 +2,7 @@
 #include "Brick.h"
 #include "ScrollBar.h"
 #include "Gimmick.h"
+#include "Slide.h"
 
 CBomb::CBomb(float _x, float _y)
 {
@@ -32,7 +33,8 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++) {
 
 			if (dynamic_cast<CBrick*>(coObjects->at(i))
-				|| dynamic_cast<CScrollBar*>(coObjects->at(i))) {
+				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
+				|| dynamic_cast<CSlide*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
 			}
@@ -70,6 +72,39 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++){
 
 			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<CScrollBar*>(e->obj)) {
+
+				CScrollBar* sc = dynamic_cast<CScrollBar*>(e->obj);
+
+				if (sc->GetType() == SCROLLBAR_TYPE_INCREASE) {
+
+					if (vx > 0) {
+						go_direct = 1;						
+					}
+					else {
+						go_direct = -1;						
+					}
+					SetState(BOMB_STATE_SCROLLBAR_IN);
+				}
+				else if (sc->GetType() == SCROLLBAR_TYPE_DECREASE) {
+
+					if (vx > 0) {
+						go_direct = 1;		
+					}
+					else {
+						go_direct = -1;						
+					}
+					SetState(BOMB_STATE_SCROLLBAR_DE);
+				}
+			}
+			else {
+
+				if (vx > 0)
+					SetState(BOMB_STATE_WALKING_RIGHT);
+				else
+					SetState(BOMB_STATE_WALKING_LEFT);
+			}
 		}
 
 		for (UINT i = 0; i < coEvents.size(); i++) {
@@ -146,6 +181,10 @@ void CBomb::Render()
 
 	else if (state == BOMB_STATE_DIE)
 		animation_set->at(4)->Render(x, y);
+	else if (vx > 0)
+		animation_set->at(0)->Render(x, y);
+	else
+		animation_set->at(1)->Render(x, y);
 }
 
 void CBomb::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -169,7 +208,28 @@ void CBomb::SetState(int state)
 	case BOMB_STATE_WALKING_LEFT:
 		vx = -BOMB_SPEED_X;
 		break;
+	case BOMB_STATE_SCROLLBAR_IN:
+	{
+		if (go_direct == 1)
+			vx = 0.075f;
+		else if (go_direct == -1)
+			vx = -0.025f; 
+	}
+		break;
 
+	case BOMB_STATE_SCROLLBAR_DE:
+	{
+		if (go_direct == 1)
+			vx = 0.025f;
+		else if (go_direct == -1)
+			vx = -0.075f;
+	}
+		break;
+
+	case BOMB_STATE_SLIDE_UP:
+		break;
+	case BOMB_STATE_SLIDE_DOWN:
+		break;
 	case BOMB_STATE_FLY_RIGHT:
 		break;
 

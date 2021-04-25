@@ -2,16 +2,21 @@
 
 #include "GameObject.h"
 
+#define PIPE_BBOX_WIDTH		16
+#define PIPE_BBOX_HEIGHT	16
+
+#define PIPE_SPEED_X	0.1f
+#define PIPE_SPEED_Y	0.1f
+
 class CPipes: public CGameObject
 {
 public:
 
-	CPipes(int x1, int x2, int t, int w, int h);
+	CPipes(float x, float y, int type);
 	~CPipes();
 
-	int xLeft, xRight, yTop;
-
-	int width, height;
+	bool isDeversed;
+	int type;
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>*coObjects);

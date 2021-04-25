@@ -13,6 +13,8 @@ public:
 	float x, y, w, h;
 	int cam_left, cam_right;
 
+	int direct;
+
 	int backup_camLeft, backup_camRight;
 	bool isBackUp = false;
 
