@@ -588,7 +588,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				gimmick->SetState(GIMMICK_STATE_DECREASE);
 		}
 	}
-	else if (gimmick->isScrollBar || gimmick->isSlide) {
+	else if (gimmick->isScrollBar || gimmick->isSlide || gimmick->isAutoGo) {
 
 		//gimmick->key_down = 0;
 

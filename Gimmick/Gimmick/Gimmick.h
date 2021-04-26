@@ -76,6 +76,8 @@ class CGimmick : public CGameObject
 {
 	static CGimmick* _instance;
 
+public:
+
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -92,6 +94,8 @@ class CGimmick : public CGameObject
 	int maxjumping = 0;
 	bool isMaxJumping = false;
 
+	bool isAutoGo = false;		// use for narrorw spot, ...
+
 
 public:
 	
@@ -100,10 +104,6 @@ public:
 	CLoadingStar* load_star = NULL;		// loading star effect when A key was pressed
 	CDie* die_effect = NULL;			// effect when die
 	CGameObject* obj = NULL;			// follow this obj if was idle state
-
-	// Backup position
-	float backupX;
-	float backupY;
 
 	// new star
 	DWORD time_load = 0;

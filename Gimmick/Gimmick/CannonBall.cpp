@@ -11,6 +11,9 @@ CCannonBall::CCannonBall(float _x, float _y, int _index)
 	y = _y;
 	index = _index;
 
+	backupX = _x;
+	backupY = _y;
+
 	vx = 0.05f;
 	vy = 0;
 
@@ -32,18 +35,45 @@ void CCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (ending == 1) {
 
 		isFinish = true;
+		isRolling = false;
+
+		SetSpeed(0, 0);
 
 		if (GetTickCount() - time_end > 500) {
 
 			ending = 0;
 			time_end = 0;
-
-			isRolling = false;
+			
 			isFinish = false;
+
+			SetPosition(backupX, backupY);
+			SetSpeed(CANNONBALL_SPEED_X, 0);
+			
 		}
 	}
 
 	if (isRolling) {
+
+		CGimmick* gimmick = CGimmick::GetInstance(0, 0);
+
+		if (isCollisionWithObject(gimmick)) {
+
+			if (gimmick->untouchable == 0)
+			{
+				if (GetState() != GIMMICK_STATE_DIE)
+				{
+					if (gimmick->energy > 0)
+					{
+						gimmick->energy -= 1;
+						gimmick->StartUntouchable();
+					}
+					else
+					{
+						gimmick->SetState(GIMMICK_STATE_DIE);
+					}
+				}
+			}
+		}
 
 		CGameObject::Update(dt);
 
@@ -115,13 +145,11 @@ void CCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CCannonBall::Render()
 {
-	if (isRolling) {
-
-		if (!isFinish)
-			animation_set->at(0)->Render(x, y);
-		else if (ending)
-			animation_set->at(1)->Render(x, y);
-	}
+	if (!isFinish)
+		animation_set->at(0)->Render(x, y);
+	else if (ending)
+		animation_set->at(1)->Render(x, y);
+	
 }
 
 void CCannonBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)

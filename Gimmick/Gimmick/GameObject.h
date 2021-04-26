@@ -48,6 +48,10 @@ public:
 	float x;
 	float y;
 
+	// Backup position
+	float backupX;
+	float backupY;
+
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
 
@@ -73,6 +77,8 @@ public:
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();
+
+	bool isCollisionWithObject(LPGAMEOBJECT obj);
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
 

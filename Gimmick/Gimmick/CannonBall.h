@@ -21,6 +21,8 @@ public:
 
 	void StarEnding() { ending = 1; time_end = GetTickCount(); }
 
+	void ReturnPosition(float _x, float _y) { backupX = _x; backupY = _y; }
+
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

@@ -13,6 +13,13 @@
 #include "HiddenObject.h"
 #include "Pipes.h"
 #include "MiniBomb.h"
+#include "NarrowSpot.h"
+#include "Electrode.h"
+#include "KingElectrode.h"
+#include "Cannon.h"
+#include "CannonBall.h"
+#include "Water.h"
+#include "Worm.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -264,6 +271,22 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+			}
+			if (dynamic_cast<CNarrowSpot*>(e->obj)) {
+
+				CNarrowSpot* nr = dynamic_cast<CNarrowSpot*>(e->obj);
+
+				if (nr->moving == 0)
+					nr->StarMoving();
+
+				if (nr->isMoving) {
+					isAutoGo = true;
+					addVx = NARROWSPOT_SPEED_X;
+				}
+			}
+			else {
+
+				isAutoGo = false;
 			}
 
 			if (dynamic_cast<CStar*>(e->obj)) {
@@ -681,6 +704,9 @@ void CGimmick::SetState(int state)
 		else if (isScrollBar) {
 			vx = addVx;
 		}
+		else if (isAutoGo) {
+			vx = addVx;
+		}
 		break;
 
 	case GIMMICK_STATE_PIPING:
@@ -704,56 +730,20 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 {
 	if (GetState() == GIMMICK_STATE_DIE) return;
 
-	/*if (isScrollBar)
+	if (isScrollBar)
 		left = x + 7;
-	else*/
-	left = x + 1;
+	else
+		left = x + 1;
+	
+
+	if (isScrollBar)
+		right = x + 9;
+	else
+		right = x + GIMMICK_BBOX_WIDTH - 1;
 
 	top = y + GIMMICK_BBOX_HORN;
-
-	/*if (jump == 1) {
-
-		right = x + GIMMICK_BBOX_WIDTH - 1;
-		bottom = y + GIMMICK_JUMP_BBOX_HEIGHT;
-	}*/
-
-	/*if (isScrollBar)
-		right = x + 9;
-	else*/
-	right = x + GIMMICK_BBOX_WIDTH - 1;
 	bottom = y + GIMMICK_BBOX_HEIGHT;
 
-}
-
-void CGimmick::isCanSlide(vector<LPGAMEOBJECT>& listObj)
-{
-	float l, t, r, b;
-	float l1, t1, r1, b1;
-
-	GetBoundingBox(l, t, r, b);
-
-	for (int i = 0; i < listObj.size(); i++) {
-
-		if (listObj.at(i)->GetState() == SLIDE_TYPE_UP
-			|| listObj.at(i)->GetState() == SLIDE_TYPE_DOWN) {
-
-			listObj.at(i)->GetBoundingBox(l1, t1, r1, b1);
-
-			if (CGame::GetInstance()->isCollision(l, t, r, b, l1, t1, r1, b1)) {
-
-				CSlide* slide = dynamic_cast<CSlide*>(listObj.at(i));
-
-				if (slide->GetState() == SLIDE_TYPE_UP) {
-
-
-				}
-				else if (slide->GetState() == SLIDE_TYPE_DOWN) {
-
-
-				}
-			}
-		}
-	}
 }
 
 float CGimmick::isOnTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float x, float y)
