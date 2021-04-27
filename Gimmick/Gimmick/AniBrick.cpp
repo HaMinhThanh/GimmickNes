@@ -1,6 +1,11 @@
 #include "AniBrick.h"
 
 
+CAniBrick::CAniBrick(int _type)
+{
+	type = _type;
+}
+
 void CAniBrick::Render()
 {
 	animation_set->at(0)->Render(x, y);

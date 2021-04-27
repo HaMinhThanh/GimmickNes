@@ -7,13 +7,14 @@ class CHiddenObject : public CGameObject
 {
 public:
 
-	CHiddenObject( float x, float y, float w, float h, int cam_left, int cam_right);
+	CHiddenObject( float x, float y, float w, float h, int cam_left, int cam_right, int type);
 	~CHiddenObject();
 
 	float x, y, w, h;
 	int cam_left, cam_right;
 
 	int direct;
+	int type = 0;
 
 	int backup_camLeft, backup_camRight;
 	bool isBackUp = false;

@@ -74,6 +74,8 @@ public:
 	void GetPosition(float& _x, float& _y) { _x = this->x; _y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 
+	void BackUpPos(float x, float y) { backupX = x; backupY = y; }
+
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();

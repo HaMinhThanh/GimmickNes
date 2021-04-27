@@ -20,7 +20,7 @@ protected:
 	CHUD* HUD;
 
 	int _xLeft, _xRight;
-	int _yTop;
+	int _yTop, _yBot;
 
 	vector<LPGAMEOBJECT> objects;
 

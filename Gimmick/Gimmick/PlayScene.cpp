@@ -67,13 +67,14 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_WATER	10
 #define OBJECT_TYPE_HIDDEN	11
 #define OBJECT_TYPE_PIPE	12
+#define OBJECT_TYPE_ANI_BRICK_1	13
 
 // Enemy
 #define OBJECT_TYPE_BOMB			21
 #define OBJECT_TYPE_MINIBOMB		22
 #define OBJECT_TYPE_CANNON			23
 #define OBJECT_TYPE_CANNONBALL		24
-#define OBJECT_TYPE_WARM			25
+#define OBJECT_TYPE_WORM			25
 #define OBJECT_TYPE_NARROWSPOT		26
 #define OBJECT_TYPE_ELECTRODE		27
 #define OBJECT_TYPE_KING_ELECTRODE	28
@@ -121,6 +122,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = CGimmick::GetInstance(x, y);
 		obj->SetPosition(x, y);
+		obj->BackUpPos(x, y);
 
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
@@ -140,10 +142,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 
 	case OBJECT_TYPE_ANI_BRICK:
-		obj = new CAniBrick();
+		obj = new CAniBrick(0);
+		break;
+
+	case OBJECT_TYPE_ANI_BRICK_1:
+		obj = new CAniBrick(1);
 		break;
 
 	case OBJECT_TYPE_WATER:
+
 		obj = new CWater();
 		break;
 
@@ -193,6 +200,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CNarrowSpot(x, y);
 		break;
 
+	case OBJECT_TYPE_WORM:
+		obj = new CWorm(x, y);
+		break;
+
 	case OBJECT_TYPE_TREASURE:
 	{
 		int w = atof(tokens[4].c_str());
@@ -216,8 +227,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float h = atof(tokens[5].c_str());
 		int cam_l = atof(tokens[6].c_str());
 		int cam_r = atof(tokens[7].c_str());
+		int type = atof(tokens[8].c_str());
 
-		obj = new CHiddenObject(x, y, w, h, cam_l, cam_r);
+		obj = new CHiddenObject(x, y, w, h, cam_l, cam_r, type);
 
 	}
 	break;
@@ -282,9 +294,11 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 	_xLeft = atoi(tokens[0].c_str());
 	_xRight = atoi(tokens[1].c_str());
 	_yTop = atoi(tokens[2].c_str());
+	_yBot = atoi(tokens[3].c_str());
 
 	//CGame::GetInstance()->SetCamBoundary(_xLeft, _xRight, _yTop);
 	camera->SetCamBoundary(_xLeft, _xRight, _yTop);
+	camera->SetYBoundary(_yBot);
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -399,8 +413,10 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame* game = CGame::GetInstance();
 
-	float xRight, xLeft, yTop;
+	float xRight, xLeft, yTop, yBot;
+
 	camera->GetCamBoundary(xLeft, xRight, yTop);
+	yBot = camera->GetYBoundary();
 
 	cx -= game->GetScreenWidth() / 2;
 
@@ -410,10 +426,15 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
+	if (cy < yBot ) {
 
-	int index = cy / SCREEN_HEIGHT_MAP;
+		int index = cy / SCREEN_HEIGHT_MAP;
+		yTop = SCREEN_HEIGHT_MAP * index;
+	}
+	else {
 
-	yTop = SCREEN_HEIGHT_MAP * index;
+		player->SetState(GIMMICK_STATE_DIE);
+	}
 
 	camera->SetCamPos((int)cx, (int)yTop);
 
@@ -425,15 +446,32 @@ void CPlayScene::Render()
 
 	float cx, cy;
 
+	vector<LPGAMEOBJECT> ani_fronted;
+
 	camera->GetCamPos(cx, cy);
 
 	map->DrawMap(cx, cy);
 
 	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+		if (dynamic_cast<CAniBrick*>(objects[i])) {
+
+			CAniBrick* an = dynamic_cast<CAniBrick*>(objects[i]);
+
+			if (an->type == 0)
+				objects[i]->Render();
+			else
+				ani_fronted.push_back(objects[i]);
+		}
+		else {
+
+			objects[i]->Render();
+		}
 
 	if (player != NULL)
 		player->Render();
+
+	for (int i = 0; i < ani_fronted.size(); i++)
+		ani_fronted[i]->Render();
 
 	HUD->Render();
 }

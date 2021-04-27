@@ -283,6 +283,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isAutoGo = true;
 					addVx = NARROWSPOT_SPEED_X;
 				}
+				else {
+
+					isAutoGo = false;
+				}
 			}
 			else {
 

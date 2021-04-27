@@ -1,13 +1,15 @@
 #include "HiddenObject.h"
 
 
-CHiddenObject::CHiddenObject(float _x, float _y, float _w, float _h, int cam_l, int cam_r)
+CHiddenObject::CHiddenObject(float _x, float _y, float _w, float _h, int cam_l, int cam_r, int _type)
 {
 	x = _x;
 	y = _y;
 
 	w = _w;
 	h = _h;
+
+	type = _type;
 
 	cam_left = cam_l;
 	cam_right = cam_r;
