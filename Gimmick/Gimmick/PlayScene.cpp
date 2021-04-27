@@ -147,6 +147,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_ANI_BRICK_1:
 		obj = new CAniBrick(1);
+		isObj = false;
+
+		ani_front.push_back(obj);
+
 		break;
 
 	case OBJECT_TYPE_WATER:
@@ -446,32 +450,18 @@ void CPlayScene::Render()
 
 	float cx, cy;
 
-	vector<LPGAMEOBJECT> ani_fronted;
-
 	camera->GetCamPos(cx, cy);
 
 	map->DrawMap(cx, cy);
 
 	for (int i = 0; i < objects.size(); i++)
-		if (dynamic_cast<CAniBrick*>(objects[i])) {
-
-			CAniBrick* an = dynamic_cast<CAniBrick*>(objects[i]);
-
-			if (an->type == 0)
-				objects[i]->Render();
-			else
-				ani_fronted.push_back(objects[i]);
-		}
-		else {
-
-			objects[i]->Render();
-		}
+		objects[i]->Render();
 
 	if (player != NULL)
 		player->Render();
 
-	for (int i = 0; i < ani_fronted.size(); i++)
-		ani_fronted[i]->Render();
+	for (int i = 0; i < ani_front.size(); i++)
+		ani_front[i]->Render();
 
 	HUD->Render();
 }
@@ -483,6 +473,11 @@ void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
+
+	objects.clear();
+
+	for (int i = 0; i < ani_front.size(); i++)
+		delete ani_front[i];
 
 	objects.clear();
 

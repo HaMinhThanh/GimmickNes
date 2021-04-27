@@ -23,6 +23,7 @@ protected:
 	int _yTop, _yBot;
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> ani_front;
 
 	/*void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
