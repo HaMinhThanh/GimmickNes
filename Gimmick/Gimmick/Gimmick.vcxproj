@@ -51,6 +51,7 @@
     <ClInclude Include="Pipes.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="QuadTree.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollBar.h" />
     <ClInclude Include="Slide.h" />
@@ -95,6 +96,7 @@
     <ClCompile Include="Pipes.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollBar.cpp" />
     <ClCompile Include="Slide.cpp" />

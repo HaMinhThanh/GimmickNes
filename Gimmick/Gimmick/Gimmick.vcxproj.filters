@@ -91,6 +91,9 @@
     <Filter Include="Objects\Support">
       <UniqueIdentifier>{cb20132b-db1f-4ecf-b8e4-0fc5d45bd92a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\QuadTree">
+      <UniqueIdentifier>{4554dbb0-f924-46d0-b950-d60120eff3ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="CannonBall.h">
       <Filter>Objects\Enemy\Hazards</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>Framework\QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="CannonBall.cpp">
       <Filter>Objects\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>Framework\QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
