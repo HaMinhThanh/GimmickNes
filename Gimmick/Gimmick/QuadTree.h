@@ -19,9 +19,9 @@ public:
 
     /*lay danh sach nhung Entity co kha nang xay ra va cham
     tra ve danh sach cac phan tu nam trong vung va cham */
-    void getEntitiesCollideAble(std::vector<LPGAMEOBJECT*>& entitiesOut, LPGAMEOBJECT* entity);
+    void getEntitiesCollideAble(std::vector<LPGAMEOBJECT>& entitiesOut, LPGAMEOBJECT obj);
 
-    void getAllEntities(std::vector<LPGAMEOBJECT*>& entitiesOut);
+    void getAllEntities(std::vector<LPGAMEOBJECT>& entitiesOut);
 
     int getTotalEntities();
 
@@ -29,7 +29,7 @@ public:
 
 protected:
     CQuadTree** Nodes;
-    vector<LPGAMEOBJECT*> mListEntity; //danh sach cac phan tu co trong vung va cham (Bound)
+    vector<LPGAMEOBJECT> mListEntity; //danh sach cac phan tu co trong vung va cham (Bound)
 
     /*lay vi tri cua Entity
     0: nam trong Node con goc trai tren
@@ -41,7 +41,7 @@ protected:
 
     void split(); //thuc hien chia ra cac node
 
-    bool isContain(LPGAMEOBJECT* entity);
+    bool isContain(LPGAMEOBJECT obj);
     int mLevel; //tuong ung voi so node
 };
 

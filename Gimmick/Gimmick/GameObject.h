@@ -109,6 +109,8 @@ public:
 	float GetVx() { return vx; }
 	float GetVy() { return vy; }
 
+	RECT GetBound();
+
 	~CGameObject();
 };
 

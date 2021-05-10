@@ -148,6 +148,11 @@ bool CGameObject::isCollisionWithObject(LPGAMEOBJECT obj)
 	return false;
 }
 
+RECT CGameObject::GetBound()
+{
+	return RECT();
+}
+
 CGameObject::~CGameObject()
 {
 
