@@ -4,7 +4,7 @@
 #define MOVING_BRICK_SPEED_X	0.03
 #define MOVING_BRICK_SPEED_Y	0.03
 
-#define MOVINGBRICK_BBOX_WIDTH		32
+#define MOVINGBRICK_BBOX_WIDTH		16
 #define MOVINGBRICK_BBOX_HEIGHT		16
 
 class CMovingBrick: public CGameObject

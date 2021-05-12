@@ -1,7 +1,10 @@
 [SETTINGS]
-start	11
+start	1
 #scene list
 [SCENES]
+1	scene_intro.txt
+2	scene_intro_image.txt
+3	scene_intro_waterfall.txt
 11	scene_1a.txt
 12	scene_1b.txt
 13	scene_1c.txt
