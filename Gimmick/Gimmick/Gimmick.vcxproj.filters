@@ -225,6 +225,15 @@
     <ClInclude Include="QuadTree.h">
       <Filter>Framework\QuadTree</Filter>
     </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderImage.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Clody.h">
+      <Filter>Objects\Ground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -355,6 +364,15 @@
     </ClCompile>
     <ClCompile Include="QuadTree.cpp">
       <Filter>Framework\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderImage.cpp">
+      <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Clody.cpp">
+      <Filter>Objects\Ground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

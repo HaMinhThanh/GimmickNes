@@ -526,7 +526,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 
 	case DIK_T:
-		gimmick->SetPosition(992, 216);
+		gimmick->SetPosition(960, 140);
 		break;
 
 	case DIK_Y:

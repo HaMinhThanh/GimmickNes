@@ -39,6 +39,7 @@
     <ClInclude Include="Gimmick.h" />
     <ClInclude Include="HiddenObject.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Intro.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="KingElectrode.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="RenderImage.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollBar.h" />
     <ClInclude Include="Slide.h" />
@@ -61,6 +63,7 @@
     <ClInclude Include="Treasures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Water.h" />
+    <ClInclude Include="Clody.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +86,7 @@
     <ClCompile Include="Gimmick.cpp" />
     <ClCompile Include="HiddenObject.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
     <ClCompile Include="KingElectrode.cpp" />
@@ -97,6 +101,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuadTree.cpp" />
+    <ClCompile Include="RenderImage.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollBar.cpp" />
     <ClCompile Include="Slide.cpp" />
@@ -106,6 +111,7 @@
     <ClCompile Include="Treasures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Water.cpp" />
+    <ClCompile Include="Clody.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
