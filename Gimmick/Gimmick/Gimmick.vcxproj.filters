@@ -94,6 +94,9 @@
     <Filter Include="Framework\QuadTree">
       <UniqueIdentifier>{4554dbb0-f924-46d0-b950-d60120eff3ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{eec2d115-cad9-4ac9-9e45-e5d5e424479a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -225,14 +228,23 @@
     <ClInclude Include="QuadTree.h">
       <Filter>Framework\QuadTree</Filter>
     </ClInclude>
-    <ClInclude Include="Intro.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RenderImage.h">
       <Filter>Objects\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Clody.h">
       <Filter>Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Framework\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,14 +377,29 @@
     <ClCompile Include="QuadTree.cpp">
       <Filter>Framework\QuadTree</Filter>
     </ClCompile>
-    <ClCompile Include="Intro.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderImage.cpp">
       <Filter>Objects\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Clody.cpp">
       <Filter>Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Framework\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
