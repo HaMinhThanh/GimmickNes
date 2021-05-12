@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "AniBrick.h"
-
+#include "Sound.h"
 
 
 using namespace std;
@@ -215,6 +215,7 @@ void CStartScence::Load()
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+	Sound::GetInstance()->Play("Opening", 1, 1);
 }
 
 void CStartScence::Update(DWORD dt)

@@ -17,6 +17,12 @@ using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
 
+#define TypeScene_Play		1
+#define TypeScene_Opening	2
+#define TypeScene_Ending	3
+#define TypeScene_RollOut	4
+
+
 class CGame
 {
 	static CGame* __instance;
@@ -52,6 +58,7 @@ class CGame
 	void _ParseSection_SCENES(string line);
 
 public:
+	HWND GetHWND() { return hWnd; };
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
@@ -98,6 +105,7 @@ public:
 	static CGame* GetInstance();
 
 	CCamera* cam = CCamera::GetInstance();
+	void LoadSound();
 
 	~CGame();
 };

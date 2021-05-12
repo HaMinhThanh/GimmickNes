@@ -57,9 +57,12 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollBar.h" />
     <ClInclude Include="Slide.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="tinyxml.h" />
+    <ClInclude Include="tinystr.h" />
     <ClInclude Include="Treasures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Water.h" />
@@ -105,9 +108,14 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollBar.cpp" />
     <ClCompile Include="Slide.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinystr.cpp" />
     <ClCompile Include="Treasures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Water.cpp" />
