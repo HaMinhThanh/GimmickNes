@@ -20,7 +20,7 @@
 #include "CannonBall.h"
 #include "Water.h"
 #include "Worm.h"
-
+#include"Sound.h"
 CGimmick* CGimmick::_instance = NULL;
 
 CGimmick* CGimmick::GetInstance(float x, float y)
@@ -618,7 +618,7 @@ void CGimmick::SetState(int state)
 		break;
 
 	case GIMMICK_STATE_JUMP:
-
+		Sound::GetInstance()->Play("CarSplash", 0, 1);
 		vy = -GIMMICK_JUMP_SPEED_Y;
 		isScrollBar = false;
 		Slide_reset();
@@ -725,6 +725,7 @@ void CGimmick::SetState(int state)
 		vy = -GIMMICK_JUMP_HIGHT_SPEED_Y;
 		isSlide = false;
 		isScrollBar = false;
+		Sound::GetInstance()->Play("Opening", 0, 1);
 		break;
 
 	}
