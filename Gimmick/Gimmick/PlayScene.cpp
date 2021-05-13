@@ -28,7 +28,7 @@
 #include "Cannon.h"
 #include "CannonBall.h"
 #include "Electrode.h"
-
+#include "Sound.h"
 #include "Treasures.h"
 #include "HiddenObject.h"
 
@@ -641,6 +641,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 			gimmick->SetLoadingStar();
 			gimmick->StarLoading();
+			Sound::GetInstance()->Play("Shot", 0, 1);
 		}
 	}
 	else {
