@@ -68,7 +68,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (GetState() == GIMMICK_STATE_DIE) {
-
 		if (waitToReset == 0) {
 			StartReset();
 			SetAniDie();
@@ -235,8 +234,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							{
 								if (energy > 0)
 								{
+									Sound::GetInstance()->Play("Collision", 0, 1);
 									energy -= 1;
 									StartUntouchable();
+							
 								}
 								else
 								{
@@ -262,6 +263,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (energy > 0)
 						{
+							Sound::GetInstance()->Play("Collision", 0, 1);
 							energy -= 1;
 							StartUntouchable();
 						}
@@ -720,6 +722,10 @@ void CGimmick::SetState(int state)
 
 		break;
 	}
+
+	case GIMMICK_STATE_DIE:
+		Sound::GetInstance()->Play("Die", 0, 1);
+		break;
 
 	case MARIO_STATE_JUMP_HIGH_SPEED:
 		vy = -GIMMICK_JUMP_HIGHT_SPEED_Y;
