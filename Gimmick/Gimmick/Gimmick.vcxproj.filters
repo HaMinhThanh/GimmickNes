@@ -237,6 +237,7 @@
     <ClInclude Include="Intro.h">
       <Filter>Framework\SceneManager</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Sound.h">
       <Filter>Framework\Sound</Filter>
     </ClInclude>
@@ -246,6 +247,8 @@
     <ClInclude Include="tinyxml.h">
       <Filter>Framework\Sound</Filter>
     </ClInclude>
+=======
+>>>>>>> 4c55a1a... add Objects to QuadTree
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -386,6 +389,7 @@
     <ClCompile Include="Intro.cpp">
       <Filter>Framework\SceneManager</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Sound.cpp">
       <Filter>Framework\Sound</Filter>
     </ClCompile>
@@ -401,5 +405,7 @@
     <ClCompile Include="tinyxmlparser.cpp">
       <Filter>Framework\Sound</Filter>
     </ClCompile>
+=======
+>>>>>>> 4c55a1a... add Objects to QuadTree
   </ItemGroup>
 </Project>
