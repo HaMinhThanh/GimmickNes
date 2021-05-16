@@ -94,7 +94,7 @@
     <Filter Include="Framework\QuadTree">
       <UniqueIdentifier>{4554dbb0-f924-46d0-b950-d60120eff3ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
+    <Filter Include="Framework\Sound">
       <UniqueIdentifier>{eec2d115-cad9-4ac9-9e45-e5d5e424479a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -238,13 +238,13 @@
       <Filter>Framework\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClInclude>
     <ClInclude Include="tinystr.h">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml.h">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -387,19 +387,19 @@
       <Filter>Framework\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClCompile>
     <ClCompile Include="tinystr.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClCompile>
     <ClCompile Include="tinyxml.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClCompile>
     <ClCompile Include="tinyxmlerror.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClCompile>
     <ClCompile Include="tinyxmlparser.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Framework\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
