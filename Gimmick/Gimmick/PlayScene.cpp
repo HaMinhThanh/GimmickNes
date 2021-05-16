@@ -412,10 +412,10 @@ void CPlayScene::Update(DWORD dt)
 		coObjects.push_back(objects[i]);
 	}*/
 
-	float camx, camy;
-	camera->GetCamPos(camx, camy);
+	float camX, camY;
+	camera->GetCamPos(camX, camY);
 
-	quadTree->getAllEntitiesOnCam(coObjects, camx, camy);
+	quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
 
 	for (size_t i = 0; i < coObjects.size(); i++)
 	{
