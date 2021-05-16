@@ -1,3 +1,13 @@
+[MAP_TEXTURES]
+#idScene	rowSprites	columnSprites	IDTileSet
+1	12	9	11	
+[MAP]
+# filePath	column	row	index	align
+map/map_1a.txt	32	12	0	0
+
+[CAMERA]
+#xLeft	xRight	yTop	yBot
+0	1008	192	384
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 4	16	368	401
@@ -348,14 +358,3 @@
 12	992	368	4	7
 # Portal
 50	992	383	4	1008	384	12
-
-[MAP_TEXTURES]
-#idScene	rowSprites	columnSprites	IDTileSet
-1	12	9	11	
-[MAP]
-# filePath	column	row	index	align
-map/map_1a.txt	32	12	0	0
-
-[CAMERA]
-#xLeft	xRight	yTop	yBot
-0	1008	192	384

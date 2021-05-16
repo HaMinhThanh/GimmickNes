@@ -1,3 +1,13 @@
+[MAP_TEXTURES]
+#idScene	rowSprites	columnSprites	IDTileSet
+1	18	12	12	
+[MAP]
+# filePath	column	row	index	align
+map/map_1b.txt	48	18	0	0
+
+[CAMERA]
+#xLeft	xRight	yTop yBot
+0	496	384	576
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 
@@ -1222,14 +1232,3 @@
 
 # Narrow
 26	1330	449	11
-
-[MAP_TEXTURES]
-#idScene	rowSprites	columnSprites	IDTileSet
-1	18	12	12	
-[MAP]
-# filePath	column	row	index	align
-map/map_1b.txt	48	18	0	0
-
-[CAMERA]
-#xLeft	xRight	yTop yBot
-0	496	384	576

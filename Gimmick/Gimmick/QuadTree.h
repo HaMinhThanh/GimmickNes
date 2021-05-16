@@ -21,6 +21,8 @@ public:
     tra ve danh sach cac phan tu nam trong vung va cham */
     void getEntitiesCollideAble(std::vector<LPGAMEOBJECT>& entitiesOut, LPGAMEOBJECT obj);
 
+    void getAllEntitiesOnCam(vector<LPGAMEOBJECT>& entitiesOut, float camX, float camY);
+
     void getAllEntities(std::vector<LPGAMEOBJECT>& entitiesOut);
 
     int getTotalEntities();

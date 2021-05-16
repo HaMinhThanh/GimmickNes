@@ -143,13 +143,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_ANI_BRICK:
 		obj = new CAniBrick(0);
+		isObj = false;
+
+		ani_backs.push_back(obj);
+
 		break;
 
 	case OBJECT_TYPE_ANI_BRICK_1:
 		obj = new CAniBrick(1);
 		isObj = false;
 
-		ani_front.push_back(obj);
+		ani_fronts.push_back(obj);
 
 		break;
 
@@ -262,8 +266,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	obj->SetAnimationSet(ani_set);
 
-	if (isObj)
+	if (isObj) {
 		objects.push_back(obj);
+		quadTree->insertEntity(obj);
+	}
 }
 
 void CPlayScene::_ParseSection_MAP_TEXTURES(string line)
@@ -317,6 +323,14 @@ void CPlayScene::_ParseSection_MAP(string line)
 	int align = atoi(tokens[4].c_str());
 	map->SetValueInMap(row, column, index, align);
 	map->LoadMap(filePath);
+
+	RECT r;
+	r.left = 0;
+	r.top = 0;
+	r.right = column * 32;
+	r.bottom = row * 32;
+
+	quadTree = new CQuadTree(1, r);
 }
 
 void CPlayScene::Load()
@@ -393,14 +407,19 @@ void CPlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
 
-	for (size_t i = 1; i < objects.size(); i++)
+	/*for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
-	}
+	}*/
 
-	for (size_t i = 0; i < objects.size(); i++)
+	float camx, camy;
+	camera->GetCamPos(camx, camy);
+
+	quadTree->getAllEntitiesOnCam(coObjects, camx, camy);
+
+	for (size_t i = 0; i < coObjects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		coObjects[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -446,7 +465,15 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+
+	vector<LPGAMEOBJECT> coObjects;	
+
 	if (player == NULL) return;
+
+	float camx, camy;
+	camera->GetCamPos(camx, camy);
+
+	quadTree->getAllEntitiesOnCam(coObjects, camx, camy);
 
 	float cx, cy;
 
@@ -454,14 +481,17 @@ void CPlayScene::Render()
 
 	map->DrawMap(cx, cy);
 
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	for (int i = 0; i < ani_backs.size(); i++)
+		ani_backs[i]->Render();
+
+	for (int i = 0; i < coObjects.size(); i++)
+		coObjects[i]->Render();
 
 	if (player != NULL)
 		player->Render();
 
-	for (int i = 0; i < ani_front.size(); i++)
-		ani_front[i]->Render();
+	for (int i = 0; i < ani_fronts.size(); i++)
+		ani_fronts[i]->Render();
 
 	HUD->Render();
 }
@@ -476,10 +506,15 @@ void CPlayScene::Unload()
 
 	objects.clear();
 
-	for (int i = 0; i < ani_front.size(); i++)
-		delete ani_front[i];
+	for (int i = 0; i < ani_fronts.size(); i++)
+		delete ani_fronts[i];
 
-	objects.clear();
+	ani_fronts.clear();
+
+	for (int i = 0; i < ani_backs.size(); i++)
+		delete ani_backs[i];
+
+	ani_backs.clear();
 
 	player = NULL;
 

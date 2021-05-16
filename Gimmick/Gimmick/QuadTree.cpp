@@ -1,4 +1,5 @@
 #include "QuadTree.h"
+#include "Define.h"
 
 CQuadTree::CQuadTree(int level, RECT bound)
 {
@@ -99,6 +100,37 @@ void CQuadTree::getEntitiesCollideAble(std::vector<LPGAMEOBJECT>& entitiesOut, L
         {
             //kiem tra va lay cac node trong node con
             Nodes[index]->getEntitiesCollideAble(entitiesOut, obj);
+        }
+    }
+    else
+    {
+        getAllEntities(entitiesOut);
+    }
+}
+
+void CQuadTree::getAllEntitiesOnCam(vector<LPGAMEOBJECT>& entitiesOut, float camX, float camY)
+{
+    RECT bound;
+
+    bound.left = camX;
+    bound.top = camY;
+    bound.right = camX + SCREEN_WIDTH;
+    bound.bottom = camY + SCREEN_HEIGHT_MAP;
+
+    int index = this->getIndex(bound);
+
+    if (index != -1)
+    {
+        //nhung Entity o day se la nam tren 2 node con nen chung ta cung se lay de set va cham
+        for (auto child : mListEntity)
+        {
+            entitiesOut.push_back(child);
+        }
+
+        if (Nodes != NULL)
+        {
+            //kiem tra va lay cac node trong node con
+            Nodes[index]->getAllEntitiesOnCam(entitiesOut, camX, camY);
         }
     }
     else

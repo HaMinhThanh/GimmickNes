@@ -1,4 +1,5 @@
 #pragma once
+
 class CCamera
 {
 public:
@@ -6,6 +7,8 @@ public:
 
 	CCamera();
 	~CCamera();
+
+	//RECT GetBound();
 
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;

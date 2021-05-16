@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Camera.h"
 #include "HUD.h"
+#include "QuadTree.h"
 
 
 class CPlayScene : public CScene
@@ -16,6 +17,7 @@ protected:
 
 	CGimmick* player;					// A play scene has to have player, right? 
 	CMap* map;
+	CQuadTree* quadTree;
 	CCamera* camera;
 	CHUD* HUD;
 
@@ -23,7 +25,8 @@ protected:
 	int _yTop, _yBot;
 
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> ani_front;
+	vector<LPGAMEOBJECT> ani_fronts;
+	vector<LPGAMEOBJECT> ani_backs;
 
 	/*void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

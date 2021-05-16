@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "AniBrick.h"
-#include "Sound.h"
+#include "Define.h"
 
 
 using namespace std;
@@ -215,7 +215,6 @@ void CStartScence::Load()
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
-	Sound::GetInstance()->Play("Opening", 1, 1);
 }
 
 void CStartScence::Update(DWORD dt)
@@ -265,7 +264,9 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 		CGame::GetInstance()->SwitchScene(3);
 		break;
 
-		
+	case DIK_1:
+		CGame::GetInstance()->SwitchScene(MAP_ID_1A);
+		break;
 	}
 }
 void CStartScenceKeyHandler::OnKeyUp(int KeyCode)
