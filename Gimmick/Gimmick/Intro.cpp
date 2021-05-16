@@ -3,10 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "AniBrick.h"
-<<<<<<< HEAD
 #include "Sound.h"
-=======
->>>>>>> 4c55a1a... add Objects to QuadTree
 #include "Define.h"
 
 
