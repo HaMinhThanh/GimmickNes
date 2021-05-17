@@ -522,6 +522,9 @@ void CPlayScene::Unload()
 
 	ani_backs.clear();
 
+	delete quadTree;
+	quadTree = NULL;
+
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
