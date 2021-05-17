@@ -267,7 +267,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetAnimationSet(ani_set);
 
 	if (isObj) {
-		objects.push_back(obj);
+		//objects.push_back(obj);
 		quadTree->insertEntity(obj);
 	}
 }
@@ -317,8 +317,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	if (tokens.size() < 4) return; // skip invalid lines
 	wstring filePath = ToWSTR(tokens[0]);
-	int row = atoi(tokens[2].c_str());
 	int column = atoi(tokens[1].c_str());
+	int row = atoi(tokens[2].c_str());
 	int index = atoi(tokens[3].c_str());
 	int align = atoi(tokens[4].c_str());
 	map->SetValueInMap(row, column, index, align);
@@ -406,6 +406,8 @@ void CPlayScene::Load()
 void CPlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
+	coObjects.clear();
+	listObj.clear();
 
 	/*for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -416,6 +418,9 @@ void CPlayScene::Update(DWORD dt)
 	camera->GetCamPos(camX, camY);
 
 	quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
+
+	for (int i = 0; i < coObjects.size(); i++)
+		listObj.push_back(coObjects[i]);
 
 	for (size_t i = 0; i < coObjects.size(); i++)
 	{
@@ -460,7 +465,6 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	camera->SetCamPos((int)cx, (int)yTop);
-
 }
 
 void CPlayScene::Render()
@@ -484,8 +488,8 @@ void CPlayScene::Render()
 	for (int i = 0; i < ani_backs.size(); i++)
 		ani_backs[i]->Render();
 
-	for (int i = 0; i < coObjects.size(); i++)
-		coObjects[i]->Render();
+	for (int i = 0; i < listObj.size(); i++)
+		listObj[i]->Render();
 
 	if (player != NULL)
 		player->Render();
@@ -505,6 +509,8 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
+	listObj.clear();
 
 	for (int i = 0; i < ani_fronts.size(); i++)
 		delete ani_fronts[i];

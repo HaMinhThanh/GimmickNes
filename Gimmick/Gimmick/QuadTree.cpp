@@ -1,5 +1,6 @@
 #include "QuadTree.h"
 #include "Define.h"
+#include "Utils.h"
 
 CQuadTree::CQuadTree(int level, RECT bound)
 {
@@ -7,6 +8,8 @@ CQuadTree::CQuadTree(int level, RECT bound)
 
 	this->Bound = bound;
 	this->mLevel = level;
+
+    DebugOut(L"level = %d\n", level);
 }
 
 CQuadTree::~CQuadTree()

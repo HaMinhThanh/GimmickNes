@@ -25,6 +25,7 @@ protected:
 	int _yTop, _yBot;
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> listObj;
 	vector<LPGAMEOBJECT> ani_fronts;
 	vector<LPGAMEOBJECT> ani_backs;
 
