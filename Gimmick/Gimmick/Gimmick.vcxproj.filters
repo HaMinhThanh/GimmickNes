@@ -377,5 +377,14 @@
     <Filter Include="Sources">
       <UniqueIdentifier>{132c68a4-fefc-4acb-ba3d-7c34beb758de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Enemy\Boss">
+      <UniqueIdentifier>{fb5b91a6-2c89-4163-81da-d4dbef8dd37b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Hazards">
+      <UniqueIdentifier>{694836bb-ac07-4ce9-890f-fae5330114a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\NormalEnemy">
+      <UniqueIdentifier>{b22ce08c-b7c2-4c0f-8dfd-07858a2ac4ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
