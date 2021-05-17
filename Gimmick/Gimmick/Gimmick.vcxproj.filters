@@ -1,108 +1,308 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="AniBrick.cpp" />
-    <ClCompile Include="Animations.cpp" />
-    <ClCompile Include="Bomb.cpp" />
-    <ClCompile Include="BombItem.cpp" />
-    <ClCompile Include="Brick.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Cannon.cpp" />
-    <ClCompile Include="CannonBall.cpp" />
-    <ClCompile Include="Die.cpp" />
-    <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="Electrode.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Event.cpp" />
-    <ClCompile Include="Fireball.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Gimmick.cpp" />
-    <ClCompile Include="HiddenObject.cpp" />
-    <ClCompile Include="HUD.cpp" />
-    <ClCompile Include="Intro.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="KeyEventHandler.cpp" />
-    <ClCompile Include="KingElectrode.cpp" />
-    <ClCompile Include="LoadingStar.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Medicine.cpp" />
-    <ClCompile Include="MiniBomb.cpp" />
-    <ClCompile Include="MovingBrick.cpp" />
-    <ClCompile Include="NarrowSpot.cpp" />
-    <ClCompile Include="Pipes.cpp" />
-    <ClCompile Include="PlayScene.cpp" />
-    <ClCompile Include="Portal.cpp" />
-    <ClCompile Include="QuadTree.cpp" />
-    <ClCompile Include="RenderImage.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="ScrollBar.cpp" />
-    <ClCompile Include="Slide.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Sprites.cpp" />
-    <ClCompile Include="Star.cpp" />
-    <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="tinyxmlparser.cpp" />
-    <ClCompile Include="tinyxml.cpp" />
-    <ClCompile Include="tinyxmlerror.cpp" />
-    <ClCompile Include="tinystr.cpp" />
-    <ClCompile Include="Treasures.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Water.cpp" />
-    <ClCompile Include="Clody.cpp" />
-    <ClCompile Include="Worm.cpp" />
+    <ClCompile Include="Utils.cpp">
+      <Filter>FrameWork\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>FrameWork\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>FrameWork\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>FrameWork\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>FrameWork\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>FrameWork\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>FrameWork\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>FrameWork\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>FrameWork\Sprites&amp;Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>FrameWork\Sprites&amp;Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>FrameWork\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>FrameWork\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>FrameWork\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>FrameWork\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>FrameWork\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyEventHandler.cpp">
+      <Filter>FrameWork\KeyEventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>FrameWork\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="AniBrick.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BombItem.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonBall.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Clody.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Electrode.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Medicine.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasures.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Die.cpp">
+      <Filter>Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingStar.cpp">
+      <Filter>Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Object\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenObject.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniBomb.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="KingElectrode.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingBrick.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="NarrowSpot.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipes.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Worm.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Slide.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollBar.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>FrameWork\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Object\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>FrameWork\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>FrameWork\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderImage.cpp">
+      <Filter>Object\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AniBrick.h" />
-    <ClInclude Include="Animations.h" />
-    <ClInclude Include="Bomb.h" />
-    <ClInclude Include="BombItem.h" />
-    <ClInclude Include="Brick.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Cannon.h" />
-    <ClInclude Include="CannonBall.h" />
-    <ClInclude Include="Define.h" />
-    <ClInclude Include="Die.h" />
-    <ClInclude Include="Effect.h" />
-    <ClInclude Include="Electrode.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="Fireball.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Gimmick.h" />
-    <ClInclude Include="HiddenObject.h" />
-    <ClInclude Include="HUD.h" />
-    <ClInclude Include="Intro.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="KeyEventHandler.h" />
-    <ClInclude Include="KingElectrode.h" />
-    <ClInclude Include="LoadingStar.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Medicine.h" />
-    <ClInclude Include="MiniBomb.h" />
-    <ClInclude Include="MovingBrick.h" />
-    <ClInclude Include="NarrowSpot.h" />
-    <ClInclude Include="Pipes.h" />
-    <ClInclude Include="PlayScene.h" />
-    <ClInclude Include="Portal.h" />
-    <ClInclude Include="QuadTree.h" />
-    <ClInclude Include="RenderImage.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="ScrollBar.h" />
-    <ClInclude Include="Slide.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="Sprites.h" />
-    <ClInclude Include="Star.h" />
-    <ClInclude Include="Textures.h" />
-    <ClInclude Include="tinyxml.h" />
-    <ClInclude Include="tinystr.h" />
-    <ClInclude Include="Treasures.h" />
-    <ClInclude Include="Utils.h" />
-    <ClInclude Include="Water.h" />
-    <ClInclude Include="Clody.h" />
-    <ClInclude Include="Worm.h" />
+    <ClInclude Include="Utils.h">
+      <Filter>FrameWork\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>FrameWork\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>FrameWork\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>FrameWork\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>FrameWork\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>FrameWork\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>FrameWork\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>FrameWork\Sprites&amp;Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>FrameWork\Sprites&amp;Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>FrameWork\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>FrameWork\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>FrameWork\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>FrameWork\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>FrameWork\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>FrameWork\KeyEventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>FrameWork\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="AniBrick.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BombItem.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonBall.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Clody.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Electrode.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Medicine.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasures.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Die.h">
+      <Filter>Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingStar.h">
+      <Filter>Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Object\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenObject.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniBomb.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="KingElectrode.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingBrick.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="NarrowSpot.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipes.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Slide.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollBar.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>FrameWork\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Object\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="Gimmick.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>FrameWork\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderImage.h">
+      <Filter>Object\Support</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">
@@ -110,6 +310,72 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{39db8b6d-72b5-45c0-bea5-4daf708f006f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Animation">
+      <UniqueIdentifier>{3217a811-4a3c-4ca4-9bba-107f0c14df68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Sprites&amp;Textures">
+      <UniqueIdentifier>{20bd9545-0cdd-4833-bc68-fe11bfe44049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\HUD">
+      <UniqueIdentifier>{b76a577d-cc33-4305-b3da-f0bdecb2b8a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Game">
+      <UniqueIdentifier>{6bfb261a-524f-490a-a558-33fd8a4b2404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Sound">
+      <UniqueIdentifier>{c1107352-2197-4797-9f32-151d3df20b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Map">
+      <UniqueIdentifier>{a9fafb0f-0e1e-4691-9091-c793bf383e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\QuadTree">
+      <UniqueIdentifier>{e0a77659-35b4-4c4e-95db-819701a28e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Utils">
+      <UniqueIdentifier>{359b45b9-b096-4c16-9941-d09d89ff92b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Define">
+      <UniqueIdentifier>{0670358e-2687-4cd8-98f6-cfe68cfb7af7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Camera">
+      <UniqueIdentifier>{b046639f-e351-4453-8c08-c3a25ea93de8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\KeyEventHandler">
+      <UniqueIdentifier>{164a0171-ad32-4d45-b5ce-1f2a4dc236b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\SceneManager">
+      <UniqueIdentifier>{75ac26ee-0a3d-4537-9968-cc898eb9f3bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\ObjectManager">
+      <UniqueIdentifier>{67a44631-615c-406f-9998-177daedc4b5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Ground">
+      <UniqueIdentifier>{f12fcd00-5549-44de-bf4b-4225ec9d1231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy">
+      <UniqueIdentifier>{d141409c-60d9-435f-906f-40e461dfb51e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Portal">
+      <UniqueIdentifier>{b742db76-ecfd-4bb1-b4cf-291114dc2bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Effect">
+      <UniqueIdentifier>{5642df77-1067-403e-bcea-d25dc37180e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon">
+      <UniqueIdentifier>{ba552d48-34f3-4d7f-a608-709a75c6800d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{fd06db87-6a0c-451d-b77d-1590cf4986a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player">
+      <UniqueIdentifier>{43027e24-9619-4d8d-a687-3b80417ecaeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Support">
+      <UniqueIdentifier>{dabf21c2-620b-4551-bd31-891e4903f027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{132c68a4-fefc-4acb-ba3d-7c34beb758de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
