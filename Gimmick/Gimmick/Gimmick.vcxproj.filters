@@ -139,9 +139,6 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Object\Portal</Filter>
     </ClCompile>
-    <ClCompile Include="Gimmick.cpp">
-      <Filter>FrameWork\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>FrameWork\HUD</Filter>
     </ClCompile>
@@ -153,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

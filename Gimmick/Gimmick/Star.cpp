@@ -1,7 +1,12 @@
 #include "Star.h"
-#include"Gimmick.h"
-#include"PlayScene.h"
-#include"Game.h"
+#include "Gimmick.h"
+#include "PlayScene.h"
+#include "Game.h"
+#include "Camera.h"
+#include "Define.h"
+#include "Worm.h"
+#include "KingElectrode.h"
+#include "Electrode.h"
 
 #define STAR_ANIMATION_SET		2
 
@@ -27,6 +32,16 @@ CStar::CStar()
 
 CStar::~CStar()
 {
+}
+
+void CStar::Reset()
+{
+	time_acting = 0;
+	acting = 0;
+
+	isActive = false;
+	isFinish = true;
+	isBubble = false;
 }
 
 void CStar::Render()
@@ -95,6 +110,15 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isActive) {
 
+		float camx, camy;
+		CCamera::GetInstance()->GetCamPos(camx, camy);
+
+		if (x< camx || x> camx + SCREEN_WIDTH || y< camy || y> camy + SCREEN_HEIGHT_MAP) {
+
+			Reset();
+
+		}
+
 		CGameObject::Update(dt, coObjects);
 
 		vy += STAR_GRAVITY * dt;
@@ -128,7 +152,10 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++)
 			if (dynamic_cast<CBrick*>(coObjects->at(i))
 				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
-				|| dynamic_cast<CBomb*>(coObjects->at(i))) {
+				|| dynamic_cast<CBomb*>(coObjects->at(i))
+				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
+				|| dynamic_cast<CElectrode*>(coObjects->at(i))
+				|| dynamic_cast<CWorm*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
 			}
@@ -165,6 +192,42 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						bomb->SetState(BOMB_STATE_DIE);
 
 						nx = ny = 0;
+					}
+				}
+
+				if (dynamic_cast<CElectrode*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
+						
+						if (elec->isIdle)
+							elec->isFinish = true;
+						else
+							Reset();
+
+						nx = ny = 0;
+					}
+				}
+				else if (dynamic_cast<CWorm*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CWorm* worm = dynamic_cast<CWorm*>(e->obj);
+
+						worm->isFinish = true;
+						Reset();
+					}
+				}
+
+				if (dynamic_cast<CKingElectrode*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CKingElectrode* king = dynamic_cast<CKingElectrode*>(e->obj);
+
+						king->live -= 1;
+						Reset();
 					}
 				}
 			}

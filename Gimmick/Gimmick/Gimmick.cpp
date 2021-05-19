@@ -20,7 +20,8 @@
 #include "CannonBall.h"
 #include "Water.h"
 #include "Worm.h"
-#include"Sound.h"
+#include "Sound.h"
+
 CGimmick* CGimmick::_instance = NULL;
 
 CGimmick* CGimmick::GetInstance(float x, float y)
@@ -274,6 +275,49 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+
+			if (dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
+
+				if (e->t > 0 && e->t <= 1) {
+
+					if (e->ny < 0) {
+
+						if (dynamic_cast<CElectrode*>(e->obj)) {
+
+							CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
+
+							elec->isIdle = true;
+
+							/*isFollow = true;
+							obj = elec;*/
+						}
+					}
+					else {
+						if (untouchable == 0)
+						{
+							if (GetState() != GIMMICK_STATE_DIE)
+							{
+								if (energy > 0)
+								{
+									Sound::GetInstance()->Play("Collision", 0, 1);
+									energy -= 1;
+									StartUntouchable();
+
+								}
+								else
+								{
+									SetState(GIMMICK_STATE_DIE);
+								}
+							}
+						}
+					}
+				}
+			}
+			else {
+
+				
+			}
+
 			if (dynamic_cast<CNarrowSpot*>(e->obj)) {
 
 				CNarrowSpot* nr = dynamic_cast<CNarrowSpot*>(e->obj);
@@ -591,7 +635,7 @@ void CGimmick::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, y, alpha);
+	animation_set->at(ani)->Render(x, (int)y+1, alpha);
 
 	if (star != NULL)
 		star->Render();

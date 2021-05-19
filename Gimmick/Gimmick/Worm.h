@@ -6,7 +6,7 @@
 #define MIN_POS_X	220
 
 #define WORM_SPEED_X	0.03f
-#define WORM_SPEED_Y	0.02f
+#define WORM_SPEED_Y	0.04f
 
 #define WORM_BBOX_WIDTH		22
 #define WORM_BBOX_HEIGHT	14

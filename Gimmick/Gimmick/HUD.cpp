@@ -29,13 +29,13 @@ void CHUD::Render()
 	sprite->Get(80010)->Draw(cx, cy + game->GetScreenHeight() - 32);
 
 	// Draw score
-	event->DrawNumber(8, cx + 15, cy + game->GetScreenHeight() - 16, gimmick->GetScore());
+	event->DrawNumber(8, cx + 15, (int) cy + game->GetScreenHeight() - 16, gimmick->GetScore());
 
 	// Draw rest
-	event->DrawNumber(2, cx + 95, cy + game->GetScreenHeight() - 16, gimmick->GetRest());
+	event->DrawNumber(2, cx + 95, (int)cy + game->GetScreenHeight() - 16, gimmick->GetRest());
 
 	// Draw energy
-	event->DrawEnergy(cx + 126, cy + game->GetScreenHeight() - 21, gimmick->GetEnergy());
+	event->DrawEnergy(cx + 126, (int)cy + game->GetScreenHeight() - 21, gimmick->GetEnergy());
 
 	// Draw item
 }

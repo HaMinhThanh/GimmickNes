@@ -76,7 +76,7 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else {
 
-		vy = -WORM_SPEED_Y;
+		vy = WORM_SPEED_Y;
 	}
 }
 

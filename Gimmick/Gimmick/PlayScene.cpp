@@ -212,6 +212,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CWorm(x, y);
 		break;
 
+	case OBJECT_TYPE_KING_ELECTRODE:
+		obj = new CKingElectrode(x, y);
+		break;
+
+	case OBJECT_TYPE_ELECTRODE:
+		obj = new CElectrode(x, y);
+		break;
+
 	case OBJECT_TYPE_TREASURE:
 	{
 		int w = atof(tokens[4].c_str());

@@ -53,5 +53,7 @@ public:
 	DWORD time_acting;
 	void StartActive() { time_acting = GetTickCount(); acting = 1; }
 
+	void Reset();
+
 };
 
