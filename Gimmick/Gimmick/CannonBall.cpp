@@ -4,6 +4,7 @@
 #include "Gimmick.h"
 #include "ScrollBar.h"
 #include "Water.h"
+#include "Sound.h"
 
 CCannonBall::CCannonBall(float _x, float _y, int _index)
 {
@@ -65,6 +66,7 @@ void CCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (gimmick->energy > 0)
 					{
 						gimmick->energy -= 1;
+						Sound::GetInstance()->Play("Collision", 0, 1);
 						gimmick->StartUntouchable();
 					}
 					else

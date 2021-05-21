@@ -350,6 +350,8 @@ map/map_1a.txt	32	12	0	0
 # Treasures
 # id	x	y	ani_id	width	height
 31	53	69	7	22	43
+# Medicine
+32	416	288	4	2
 
 # Pipes
 12	976	336	4	5
@@ -358,3 +360,12 @@ map/map_1a.txt	32	12	0	0
 12	992	368	4	7
 # Portal
 50	992	383	4	1008	384	12
+#==========Test item
+# FireBall-Item
+34	96	336	4
+# FireBall-Item
+33	128	336	4
+# FireBall-Item
+32	160	336	4	1
+# FireBall-Item
+34	192	336	4

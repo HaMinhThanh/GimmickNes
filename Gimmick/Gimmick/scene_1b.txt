@@ -1232,3 +1232,8 @@ map/map_1b.txt	48	18	0	0
 
 # Narrow
 26	1330	449	11
+
+# FireBall-Item
+34	16	480	4
+# Medicine
+32	1488	144	4	2

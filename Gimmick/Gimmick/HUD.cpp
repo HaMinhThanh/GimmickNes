@@ -1,6 +1,7 @@
 #include "HUD.h"
 #include "Game.h"
 #include <string>
+#include "Utils.h"
 
 CHUD* CHUD::instance = NULL;
 
@@ -14,6 +15,25 @@ CHUD* CHUD::GetInstance()
 
 void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
+	CGimmick* gimmick = CGimmick::GetInstance(0, 0);
+
+	if (gimmick->numItem == 1)
+	{
+		it1 = gimmick->GetItem();
+	}
+	else if (gimmick->numItem == 2)
+	{
+		it2 = gimmick->GetItem();
+	}
+	else if (gimmick->numItem == 3)
+	{
+		it3 = gimmick->GetItem();
+	}
+	else if (gimmick->numItem > 3)
+	{
+		it1 = it2 = it3 = -1;
+		gimmick->numItem -= 3;
+	}
 }
 
 void CHUD::Render()
@@ -38,4 +58,16 @@ void CHUD::Render()
 	event->DrawEnergy(cx + 126, (int)cy + game->GetScreenHeight() - 21, gimmick->GetEnergy());
 
 	// Draw item
+	if (gimmick->item != 0)
+		DebugOut(L"Item = %d\n", gimmick->numItem);
+
+	if (it1 != -1) {
+		event->DrawItem(cx + 177, cy + game->GetScreenHeight() - 27, it1);
+	}
+	if (it2 != -1) {
+		event->DrawItem(cx + 201, cy + game->GetScreenHeight() - 27, it2);
+	}
+	if (it3 != -1) {
+		event->DrawItem(cx + 225, cy + game->GetScreenHeight() - 27, it3);
+	}
 }

@@ -23,6 +23,9 @@
 #define BOMB_NUMBER			5
 #define TIME_SHOT			500
 
+#define BOMB_SPEED_VX		0.03f
+#define BOMB_SPEED_VY		0.03f
+
 class CKingElectrode : public CGameObject
 {
 	//int max, min;

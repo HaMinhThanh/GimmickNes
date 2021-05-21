@@ -12,10 +12,12 @@ CTreasures::~CTreasures()
 
 void CTreasures::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + width;
-	bottom = y + height;
+	if (!isFinish) {
+		left = x;
+		top = y;
+		right = x + width;
+		bottom = y + height;
+	}
 }
 
 void CTreasures::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -24,5 +26,7 @@ void CTreasures::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CTreasures::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	if (!isFinish) {
+		animation_set->at(0)->Render(x, y);
+	}
 }

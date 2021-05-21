@@ -29,7 +29,12 @@
 #include "CannonBall.h"
 #include "Electrode.h"
 #include "Sound.h"
+
 #include "Treasures.h"
+#include "Medicine.h"
+#include "BombItem.h"
+#include "Fireball.h"
+
 #include "HiddenObject.h"
 
 
@@ -81,6 +86,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
+#define OBJECT_TYPE_MEDICINE	32
+#define OBJECT_TYPE_BOMB_ITEM	33
+#define OBJECT_TYPE_FIREBALL	34
 
 // Effect
 
@@ -228,6 +236,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CTreasures(w, h);
 	}
 	break;
+
+	case OBJECT_TYPE_MEDICINE:
+	{
+		int type = atof(tokens[4].c_str());
+
+		obj = new CMedicine(x, y, type);
+	}
+	break;
+
+	case OBJECT_TYPE_BOMB_ITEM:
+		obj = new CBombItem(x, y);
+		break;
+
+	case OBJECT_TYPE_FIREBALL:
+		obj = new CFireBall(x, y);
+		break;
 
 	case OBJECT_TYPE_PIPE:
 	{
@@ -464,8 +488,11 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cy < yBot ) {
 
-		int index = cy / SCREEN_HEIGHT_MAP;
-		yTop = SCREEN_HEIGHT_MAP * index;
+		if (player->GetState() != GIMMICK_STATE_DIE) {
+
+			int index = cy / SCREEN_HEIGHT_MAP;
+			yTop = SCREEN_HEIGHT_MAP * index;
+		}
 	}
 	else {
 
@@ -473,6 +500,8 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	camera->SetCamPos((int)cx, (int)yTop);
+
+	HUD->Update(dt);
 }
 
 void CPlayScene::Render()
@@ -678,6 +707,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		//gimmick->key_down = 0;
 
 		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
+	}
+	else if (gimmick->isPiping) {
+
+		gimmick->SetState(GIMMICK_STATE_PIPING);
 	}
 	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/) {
 

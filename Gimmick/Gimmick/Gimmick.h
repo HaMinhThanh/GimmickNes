@@ -64,6 +64,11 @@
 
 #define GIMMICK_JUMP_BBOX_HEIGHT 24
 
+#define MAX_ENERGY		4
+#define MEDICINE_ITEM_INDEX		1
+#define BOMB_ITEM_INDEX			2
+#define FIREBALL_ITEM_INDEX		3
+
 // trend of dynamic ground
 #define GIMMICK_TREND_SLIDE_RIGHT	1
 #define GIMMICK_TREND_SLIDE_LEFT	-1
@@ -135,7 +140,8 @@ public:
 	int score;
 	int rest;
 	int energy;
-	int item;
+	int item = 0;
+	int numItem = 0;
 
 	bool isFollow = false;		// follow blob, moving brick when at the these's head
 	bool isNotCollide = false;	// 
@@ -183,10 +189,14 @@ public:
 
 	void SetLoadingStar();	
 
+	// Collision
+	void collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float &min_tx, float &min_ty, float &nx, float &ny, float &rdx, float &rdy);
+
 	// HUD
 	int GetScore() { return score; }
 	int GetRest() { return rest; }
 	int GetEnergy() { return energy; }
 
+	int GetItem() { return item; }
 };
 

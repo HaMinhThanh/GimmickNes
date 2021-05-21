@@ -21,6 +21,10 @@
 #include "Water.h"
 #include "Worm.h"
 #include "Sound.h"
+#include "Medicine.h"
+#include "BombItem.h"
+#include "Fireball.h"
+#include "Treasures.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -157,13 +161,18 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	//vy += GIMMICK_GRAVITY * dt;	
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPCOLLISIONEVENT>  coEvents;
+	vector<LPCOLLISIONEVENT>  coEventsResult;
 
 	coEvents.clear();
 
 	coObjects->push_back(star);
+
 	CalcPotentialCollisions(coObjects, coEvents);
+
+	float min_tx, min_ty, nx = 0, ny;
+	float rdx = 0;
+	float rdy = 0;
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0 && !isFollow)
@@ -176,9 +185,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+		
 
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
@@ -238,7 +245,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 									Sound::GetInstance()->Play("Collision", 0, 1);
 									energy -= 1;
 									StartUntouchable();
-							
+
 								}
 								else
 								{
@@ -249,7 +256,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			
+
 			if (dynamic_cast<CMiniBomb*>(e->obj)) {
 
 				CMiniBomb* mn = dynamic_cast<CMiniBomb*>(e->obj);
@@ -315,7 +322,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else {
 
-				
+
 			}
 
 			if (dynamic_cast<CNarrowSpot*>(e->obj)) {
@@ -498,26 +505,75 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CPipes*>(e->obj)) {
 
-				CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
+				/*CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
 
 				isPiping = true;
-				isGoThrough = true;
-
-				SetState(GIMMICK_STATE_PIPING);
+				isGoThrough = true;				
 
 				if (!pipe->isDeversed) {
 
-					pipeVx = pipe->vx * dt;
-					pipeVy = pipe->vy * dt;
+					pipeVx = pipe->vx ;
+					pipeVy = pipe->vy ;
 				}
 				else {
 
 					pipeVx = pipe->vx * -1;
 					pipeVy = pipe->vy * -1;
 				}
+
+				SetState(GIMMICK_STATE_PIPING);*/
+
 			}
 			else {
 				isPiping = false;
+
+			}
+
+			// collide with item
+			if (dynamic_cast<CMedicine*>(e->obj)) {
+
+				CMedicine* med = dynamic_cast<CMedicine*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1) {
+
+					med->isFinish = true;
+
+					if (med->type == 2) {
+						
+						energy = MAX_ENERGY;
+					}
+					else if (med->type == 1) {
+
+						e->obj->isFinish = true;
+						score += 200;
+
+						item = MEDICINE_ITEM_INDEX;
+						numItem += 1;
+
+					}
+				}
+			}
+			else if (dynamic_cast<CBombItem*>(e->obj)) {
+
+				e->obj->isFinish = true;
+				score += 200;
+
+				item = BOMB_ITEM_INDEX;
+				numItem += 1;
+
+			}
+			else if (dynamic_cast<CFireBall*>(e->obj)) {
+
+				e->obj->isFinish = true;
+				score += 200;
+
+				item = FIREBALL_ITEM_INDEX;
+				numItem += 1;
+
+			}
+			else if (dynamic_cast<CTreasures*>(e->obj)) {
+				e->obj->isFinish = true;
+				score += 2000;
 
 			}
 
@@ -543,12 +599,16 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		if (!isSlide && !isGoThrough) {
+		if (!isSlide && !isGoThrough ) {
 
 			x += min_tx * dx + nx * 0.4f;
 
 			if (isNotCollide)
 				isNotCollide = false;
+
+			else if (isPiping) {
+				y += dy;
+			}
 			else
 				y += min_ty * dy + ny * 0.4f;
 
@@ -567,9 +627,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isGoThrough = false;
 			}
-			else if (isPiping) {
-				y += dy;
-			}
+			
 		}
 	}
 
@@ -635,7 +693,7 @@ void CGimmick::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, (int)y+1, alpha);
+	animation_set->at(ani)->Render(x, (int)y + 1, alpha);
 
 	if (star != NULL)
 		star->Render();
@@ -789,7 +847,7 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 		left = x + 7;
 	else
 		left = x + 1;
-	
+
 
 	if (isScrollBar)
 		right = x + 9;
@@ -858,6 +916,128 @@ void CGimmick::SetLoadingStar()
 		load_star = new CLoadingStar(x + 8, y - 8);
 
 	load_star->TurnToBegin(x + 8, y - 8);
+}
+
+void CGimmick::collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy)
+{
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<CBomb*>(e->obj) && !isSlide) {
+
+			CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
+
+			if (e->t > 0 && e->t <= 1 && bomb->GetState() != BOMB_STATE_DIE) {
+
+				if (e->ny < 0)
+				{
+					//if (vx==0 && vy==0) {							
+					isFollow = true;
+					obj = bomb;
+					SetState(GIMMICK_STATE_IDLE);
+
+					//}
+				}
+				else //if (e->nx != 0)
+				{
+					//isNotCollide = true;
+					isFollow = false;
+					isGoThrough = true;
+
+					if (untouchable == 0)
+					{
+						if (GetState() != GIMMICK_STATE_DIE)
+						{
+							if (energy > 0)
+							{
+								Sound::GetInstance()->Play("Collision", 0, 1);
+								energy -= 1;
+								StartUntouchable();
+
+							}
+							else
+							{
+								SetState(GIMMICK_STATE_DIE);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (dynamic_cast<CMiniBomb*>(e->obj)) {
+
+			CMiniBomb* mn = dynamic_cast<CMiniBomb*>(e->obj);
+
+			mn->StarEnding();
+
+			isGoThrough = true;
+
+			if (untouchable == 0)
+			{
+				if (GetState() != GIMMICK_STATE_DIE)
+				{
+					if (energy > 0)
+					{
+						Sound::GetInstance()->Play("Collision", 0, 1);
+						energy -= 1;
+						StartUntouchable();
+					}
+					else
+					{
+						SetState(GIMMICK_STATE_DIE);
+					}
+				}
+			}
+		}
+
+		if (dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
+
+			if (e->t > 0 && e->t <= 1) {
+
+				if (e->ny < 0) {
+
+					if (dynamic_cast<CElectrode*>(e->obj)) {
+
+						CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
+
+						elec->isIdle = true;
+
+						/*isFollow = true;
+						obj = elec;*/
+					}
+				}
+				else {
+					if (untouchable == 0)
+					{
+						if (GetState() != GIMMICK_STATE_DIE)
+						{
+							if (energy > 0)
+							{
+								Sound::GetInstance()->Play("Collision", 0, 1);
+								energy -= 1;
+								StartUntouchable();
+
+							}
+							else
+							{
+								SetState(GIMMICK_STATE_DIE);
+							}
+						}
+					}
+				}
+			}
+		}
+		else {
+
+
+		}
+	}
 }
 
 /*

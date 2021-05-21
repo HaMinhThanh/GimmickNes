@@ -24,6 +24,8 @@ protected:
 	int _xLeft, _xRight;
 	int _yTop, _yBot;
 
+	bool isReSetPlayerPos = false;
+
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> listObj;
 	vector<LPGAMEOBJECT> ani_fronts;

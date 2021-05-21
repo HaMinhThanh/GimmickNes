@@ -71,8 +71,8 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					ListBomb[i]->SetPosition(x + KING_BBOX_WIDTH, y - i * 3);
 
-					ListBomb[i]->vx = 0.03f*(i+1);
-					ListBomb[i]->vy = -0.02f * (i+1);
+					ListBomb[i]->vx = BOMB_SPEED_VX*(i+1);
+					ListBomb[i]->vy = -BOMB_SPEED_VY * (i+1);
 				}					
 		}
 	}

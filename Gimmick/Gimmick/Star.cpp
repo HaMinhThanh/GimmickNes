@@ -191,6 +191,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
 						bomb->SetState(BOMB_STATE_DIE);
 
+						CGimmick::GetInstance(0, 0)->score += 100;
+
 						nx = ny = 0;
 					}
 				}
@@ -201,8 +203,10 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
 						
-						if (elec->isIdle)
+						if (elec->isIdle) {
 							elec->isFinish = true;
+							CGimmick::GetInstance(0, 0)->score += 100;
+						}
 						else
 							Reset();
 
@@ -216,6 +220,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CWorm* worm = dynamic_cast<CWorm*>(e->obj);
 
 						worm->isFinish = true;
+						CGimmick::GetInstance(0, 0)->score += 100;
+
 						Reset();
 					}
 				}
@@ -227,6 +233,11 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CKingElectrode* king = dynamic_cast<CKingElectrode*>(e->obj);
 
 						king->live -= 1;
+						CGimmick::GetInstance(0, 0)->score += 100;
+
+						if(king->live<=0)
+							CGimmick::GetInstance(0, 0)->score += 1000;
+
 						Reset();
 					}
 				}

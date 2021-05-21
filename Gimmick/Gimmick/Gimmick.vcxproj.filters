@@ -55,22 +55,10 @@
     <ClCompile Include="AniBrick.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Bomb.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="BombItem.cpp">
       <Filter>Object\Item</Filter>
     </ClCompile>
-    <ClCompile Include="CannonBall.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Cannon.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Clody.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Electrode.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
@@ -103,15 +91,6 @@
     <ClCompile Include="HiddenObject.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="MiniBomb.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="KingElectrode.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Fireball.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="MovingBrick.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
@@ -123,9 +102,6 @@
     </ClCompile>
     <ClCompile Include="Water.cpp">
       <Filter>Object\Ground</Filter>
-    </ClCompile>
-    <ClCompile Include="Worm.cpp">
-      <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Slide.cpp">
       <Filter>Object\Ground</Filter>
@@ -153,6 +129,30 @@
     </ClCompile>
     <ClCompile Include="Gimmick.cpp">
       <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="KingElectrode.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniBomb.cpp">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonBall.cpp">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="Electrode.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Worm.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,22 +207,10 @@
     <ClInclude Include="AniBrick.h">
       <Filter>Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="Bomb.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="BombItem.h">
       <Filter>Object\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Cannon.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="CannonBall.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Clody.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Electrode.h">
       <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
@@ -255,15 +243,6 @@
     <ClInclude Include="HiddenObject.h">
       <Filter>Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="MiniBomb.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="KingElectrode.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Fireball.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="MovingBrick.h">
       <Filter>Object\Ground</Filter>
     </ClInclude>
@@ -275,9 +254,6 @@
     </ClInclude>
     <ClInclude Include="Water.h">
       <Filter>Object\Ground</Filter>
-    </ClInclude>
-    <ClInclude Include="Worm.h">
-      <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Slide.h">
       <Filter>Object\Ground</Filter>
@@ -302,6 +278,30 @@
     </ClInclude>
     <ClInclude Include="Star.h">
       <Filter>Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="KingElectrode.h">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniBomb.h">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonBall.h">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="Electrode.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Worm.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
