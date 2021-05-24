@@ -387,6 +387,9 @@ void CPlayScene::Load()
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+	Sound::GetInstance()->Stop("Opening");
+	Sound::GetInstance()->Play("Opening2", 1, 1);
 }
 
 void CPlayScene::Update(DWORD dt)

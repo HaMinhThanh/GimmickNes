@@ -221,8 +221,16 @@ void CStartScence::Load()
 void CStartScence::Update(DWORD dt)
 {
 	
-	
-
+	if (!isTimeStart)
+	{
+		
+		time_start = GetTickCount();
+		isTimeStart = true;
+	}
+	 if (GetTickCount() - time_start > 40800)
+	{
+		CGame::GetInstance()->SwitchScene(11);
+	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	//if (player1 == NULL) return;
 
@@ -250,6 +258,8 @@ void CStartScence::Unload()
 	
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+
+	Sound::GetInstance()->StopAll();
 }
 
 void CStartScenceKeyHandler::OnKeyDown(int KeyCode)

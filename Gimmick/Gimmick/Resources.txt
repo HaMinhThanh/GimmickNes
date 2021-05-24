@@ -10,7 +10,7 @@
 60	textures\Hazards&Interactables.png	203	102	185
 70	textures\Treasures.png	60	188	252
 80	textures\black.jpg	255	0	255
-90	textures\intro.png	255	255	255
+90	textures\intro.png	255	255	250
 100	textures\introbig.png	255	255	255
 110	textures\waterfall.png	60	188	252
 # TileSet
