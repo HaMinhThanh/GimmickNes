@@ -26,7 +26,7 @@ void CMovingBrick::GetBoundingBox(float& left, float& top, float& right, float& 
 	left = x;
 	top = y;
 	right = x + MOVINGBRICK_BBOX_WIDTH;
-	bottom = y + MOVINGBRICK_BBOX_HEIGHT;
+	bottom = y - MOVINGBRICK_BBOX_HEIGHT;
 }
 
 void CMovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

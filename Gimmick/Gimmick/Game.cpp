@@ -113,7 +113,7 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 	int height = CTextures::GetInstance()->info.Height;
 	//RECT_Render2World(&r2, &r, height);
-	POSITION_Render2World(&p2, &p, 32);
+	POSITION_Render2World(&p2, &p, 16);
 
 	spriteHandler->Draw(texture, &r, NULL, &p2, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
