@@ -22,7 +22,7 @@ void CSlide::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	left = x;
 	top = y;
-	bottom = y + SLIDE_SIZE_QUAD;
+	bottom = y - SLIDE_SIZE_QUAD;
 
 	if (size == 1)
 		right = x + SLIDE_SIZE_QUAD;

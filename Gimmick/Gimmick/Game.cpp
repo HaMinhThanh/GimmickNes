@@ -6,6 +6,7 @@
 #include "Sound.h"
 #include "PlayScene.h"
 #include"Intro.h"
+#include "Textures.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -64,16 +65,60 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
+
+
+void RECT_Render2World(RECT* p_world_Rect, RECT* pRect, int sprite_height)
+{
+	int rect_height = pRect->bottom - pRect->top;
+	p_world_Rect->top = -pRect->top + sprite_height - rect_height;
+	p_world_Rect->bottom = p_world_Rect->top + rect_height;
+	p_world_Rect->left = pRect->left;
+	p_world_Rect->right = pRect->right;
+
+}
+
+void POSITION_Render2World(D3DXVECTOR3* p_world_position, D3DXVECTOR3* p_position, int tile_height)
+{
+	int window_height = CGame::GetInstance()->GetScreenHeight();
+
+	D3DXMATRIX mt;
+	D3DXMatrixIdentity(&mt);
+	mt._22 = -1.0f;
+	mt._41 = 0; // -camX
+	mt._42 = window_height - tile_height; // window height - rect.height 
+
+	D3DXVECTOR4 vp_pos;
+	D3DXVec3Transform(&vp_pos, p_position, &mt);
+	p_world_position->x = vp_pos.x;
+	p_world_position->y = vp_pos.y;
+	p_world_position->z = 0;
+
+}
+
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p((int)(x - cam->cam_x), (int)(y - cam->cam_y), 0);
+	D3DXVECTOR3 p(x - cam->cam_x, y - cam->cam_y, 0);
+
+	//D3DXVECTOR3 p(cam->cam_x, y - cam->cam_y, 0);
+
+
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	//RECT r2;
+	D3DXVECTOR3 p2;
+
+	int height = CTextures::GetInstance()->info.Height;
+	//RECT_Render2World(&r2, &r, height);
+	POSITION_Render2World(&p2, &p, 32);
+
+	spriteHandler->Draw(texture, &r, NULL, &p2, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
+
+
 
 int CGame::IsKeyDown(int KeyCode)
 {
@@ -230,11 +275,11 @@ void CGame::SweptAABB(
 	//
 
 	float bl = dx > 0 ? ml : ml + dx;
-	float bt = dy > 0 ? mt : mt + dy;
+	float bt = dy > 0 ? mt + dy : mt;
 	float br = dx > 0 ? mr + dx : mr;
-	float bb = dy > 0 ? mb + dy : mb;
+	float bb = dy > 0 ? mb : mb + dy;
 
-	if (br < sl || bl > sr || bb < st || bt > sb) return;
+	if (br < sl || bl > sr || bb > st || bt < sb) return;
 
 
 	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
@@ -253,13 +298,13 @@ void CGame::SweptAABB(
 
 	if (dy > 0)
 	{
-		dy_entry = st - mb;
-		dy_exit = sb - mt;
+		dy_entry = sb - mt;
+		dy_exit = st - mb;
 	}
 	else if (dy < 0)
 	{
-		dy_entry = sb - mt;
-		dy_exit = st - mb;
+		dy_entry = st - mb;
+		dy_exit = sb - mt;
 	}
 
 	if (dx == 0)
@@ -344,7 +389,7 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
-	if (id == 1 || id==2 || id==3)
+	if (id == 1 || id == 2 || id == 3)
 	{
 		LPSCENE scene = new CStartScence(id, path);
 		scenes[id] = scene;
@@ -391,7 +436,7 @@ void CGame::Load(LPCWSTR gameFile)
 	f.close();
 
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
-	
+
 	Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_INTRO);
 	LoadSound();
 

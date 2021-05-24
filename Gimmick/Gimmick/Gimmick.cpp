@@ -854,8 +854,8 @@ void CGimmick::GetBoundingBox(float& left, float& top, float& right, float& bott
 	else
 		right = x + GIMMICK_BBOX_WIDTH - 1;
 
-	top = y + GIMMICK_BBOX_HORN;
-	bottom = y + GIMMICK_BBOX_HEIGHT;
+	top = y - GIMMICK_BBOX_HORN;
+	bottom = y - GIMMICK_BBOX_HEIGHT;
 
 }
 

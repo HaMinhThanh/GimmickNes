@@ -22,7 +22,7 @@ CTextures* CTextures::GetInstance()
 
 void CTextures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
-	D3DXIMAGE_INFO info;
+	//D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
 	if (result != D3D_OK)
 	{

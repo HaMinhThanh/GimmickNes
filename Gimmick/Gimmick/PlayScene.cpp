@@ -498,7 +498,7 @@ void CPlayScene::Update(DWORD dt)
 
 		player->SetState(GIMMICK_STATE_DIE);
 	}
-
+	yTop = 0;
 	camera->SetCamPos((int)cx, (int)yTop);
 
 	HUD->Update(dt);
