@@ -48,6 +48,10 @@ public:
 	float x;
 	float y;
 
+	// Backup position
+	float backupX;
+	float backupY;
+
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
 
@@ -58,6 +62,8 @@ public:
 
 	int state;
 
+	bool isFinish = false;
+
 	DWORD dt;
 
 	LPANIMATION_SET animation_set;
@@ -65,12 +71,16 @@ public:
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
+	void GetPosition(float& _x, float& _y) { _x = this->x; _y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
+
+	void BackUpPos(float x, float y) { backupX = x; backupY = y; }
 
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();
+
+	bool isCollisionWithObject(LPGAMEOBJECT obj);
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
 
@@ -98,6 +108,8 @@ public:
 
 	float GetVx() { return vx; }
 	float GetVy() { return vy; }
+
+	RECT GetBound();
 
 	~CGameObject();
 };

@@ -3,8 +3,10 @@
 
 #include "Game.h"
 #include "Utils.h"
-
+#include "Sound.h"
 #include "PlayScene.h"
+#include"Intro.h"
+#include "Textures.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -63,16 +65,60 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
+
+
+void RECT_Render2World(RECT* p_world_Rect, RECT* pRect, int sprite_height)
+{
+	int rect_height = pRect->bottom - pRect->top;
+	p_world_Rect->top = -pRect->top + sprite_height - rect_height;
+	p_world_Rect->bottom = p_world_Rect->top + rect_height;
+	p_world_Rect->left = pRect->left;
+	p_world_Rect->right = pRect->right;
+
+}
+
+void POSITION_Render2World(D3DXVECTOR3* p_world_position, D3DXVECTOR3* p_position, int tile_height)
+{
+	int window_height = CGame::GetInstance()->GetScreenHeight();
+
+	D3DXMATRIX mt;
+	D3DXMatrixIdentity(&mt);
+	mt._22 = -1.0f;
+	mt._41 = 0; // -camX
+	mt._42 = window_height - tile_height; // window height - rect.height 
+
+	D3DXVECTOR4 vp_pos;
+	D3DXVec3Transform(&vp_pos, p_position, &mt);
+	p_world_position->x = vp_pos.x;
+	p_world_position->y = vp_pos.y;
+	p_world_position->z = 0;
+
+}
+
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+	D3DXVECTOR3 p(x - cam->cam_x, y - cam->cam_y, 0);
+
+	//D3DXVECTOR3 p(cam->cam_x, y - cam->cam_y, 0);
+
+
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	//RECT r2;
+	D3DXVECTOR3 p2;
+
+	int height = CTextures::GetInstance()->info.Height;
+	//RECT_Render2World(&r2, &r, height);
+	POSITION_Render2World(&p2, &p, 16);
+
+	spriteHandler->Draw(texture, &r, NULL, &p2, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
+
+
 
 int CGame::IsKeyDown(int KeyCode)
 {
@@ -306,7 +352,7 @@ void CGame::SweptAABB(
 
 }
 
-bool CGame::isCollision(float l1, float t1, float r1, float b1, float l2, float t2, float r2, float b2)
+bool CGame::checkAABB(float l1, float t1, float r1, float b1, float l2, float t2, float r2, float b2)
 {
 	return !(r1 < l2 || l1 > r2 || t1 > b2 || b1 < t2);
 }
@@ -343,8 +389,16 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
-	LPSCENE scene = new CPlayScene(id, path);
-	scenes[id] = scene;
+	if (id == 1 || id==2 || id==3)
+	{
+		LPSCENE scene = new CStartScence(id, path);
+		scenes[id] = scene;
+	}
+	else
+	{
+		LPSCENE scene = new CPlayScene(id, path);
+		scenes[id] = scene;
+	}
 }
 
 /*
@@ -382,6 +436,9 @@ void CGame::Load(LPCWSTR gameFile)
 	f.close();
 
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
+	
+	Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_INTRO);
+	LoadSound();
 
 	SwitchScene(current_scene);
 }
@@ -392,12 +449,49 @@ void CGame::SwitchScene(int scene_id)
 
 	scenes[current_scene]->Unload();;
 
-	CTextures::GetInstance()->Clear();
+	/*CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
-	CAnimations::GetInstance()->Clear();
+	CAnimations::GetInstance()->Clear();*/
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
+}
+
+void CGame::LoadSound()
+{
+	/*Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (13).wav", "PlayerBulletHitBrick");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (7).wav", "PlayerFireUnderWorld");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (8).wav", "PlayerFireOverWorld");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (9).wav", "BossFire");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (10).wav", "PlayerJump");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (16).wav", "EnemyBulletBang");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (19).wav", "PlayerInjured");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (21).wav", "PickingItems");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (22).wav", "TeleporterTransform");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (27).wav", "Enemydie");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (36).wav", "BossIntro");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/GameOver.wav", "GameOver");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/LifeLost.wav", "LifeLost");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (15).wav", "MineBip");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (16).wav", "EnemyBulletBang");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (19).wav", "PlayerInjured");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (23).wav", "FireRocket");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (24).wav", "TransingWeaponScene");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (25).wav", "FireHomingMissles");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (30).wav", "SkullFire");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (35).wav", "BossDie");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (29).wav", "TankDie");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (22).wav", "Blink");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound/Blaster Master SFX (26).wav", "SwitchScene");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound//Blaster Master SFX (17).wav", "Thunder");
+	Sound::GetInstance()->LoadSound("Sources/Sound/rawSound//Blaster Master SFX (4).wav", "BulletTouchBoss");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Intro/Opening.wav", "Opening");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Intro/CarSplash.wav", "CarSplash");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Intro/CarBackground.wav", "CarBackground");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Ending.wav", "Ending");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Boss.wav", "Boss");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Area2.wav", "Area2");
+	Sound::GetInstance()->LoadSound("Sources/Sound/Ending/Mountain.wav", "Mountain");*/
 }

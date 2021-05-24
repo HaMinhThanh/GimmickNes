@@ -15,8 +15,22 @@
 #include "Brick.h"
 #include "ScrollBar.h"
 #include "Slide.h"
+#include "Pipes.h"
+#include "MovingBrick.h"
+#include "AniBrick.h"
 
 #include "Bomb.h"
+#include "Water.h"
+#include "MiniBomb.h"
+#include "KingElectrode.h"
+#include "NarrowSpot.h"
+#include "Worm.h"
+#include "Cannon.h"
+#include "CannonBall.h"
+#include "Electrode.h"
+#include "Sound.h"
+#include "Treasures.h"
+#include "HiddenObject.h"
 
 
 using namespace std;
@@ -33,15 +47,13 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 */
 
 #define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_TEXTURES 2
-#define SCENE_SECTION_SPRITES 3
-#define SCENE_SECTION_ANIMATIONS 4
-#define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
-#define SCENE_SECTION_MAP_TEXTURES	7
-#define SCENE_SECTION_MAP	8
-#define SCENE_SECTION_CAMERA 9
+#define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_MAP_TEXTURES	3
+#define SCENE_SECTION_MAP	4
+#define SCENE_SECTION_CAMERA 5
 
+
+//// OBJECT
 #define OBJECT_TYPE_GIMMICK	1
 #define	OBJECT_TYPE_STAR 2
 
@@ -50,101 +62,33 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_SLIDE	5
 #define OBJECT_TYPE_SCROLLBAR_INCREASE	6
 #define OBJECT_TYPE_SCROLLBAR_DECREASE	7
+#define OBJECT_TYPE_MOVING_BRICK	8
+#define OBJECT_TYPE_ANI_BRICK	9
+#define OBJECT_TYPE_WATER	10
+#define OBJECT_TYPE_HIDDEN	11
+#define OBJECT_TYPE_PIPE	12
+#define OBJECT_TYPE_ANI_BRICK_1	13
 
 // Enemy
-#define OBJECT_TYPE_BOMB	21
+#define OBJECT_TYPE_BOMB			21
+#define OBJECT_TYPE_MINIBOMB		22
+#define OBJECT_TYPE_CANNON			23
+#define OBJECT_TYPE_CANNONBALL		24
+#define OBJECT_TYPE_WORM			25
+#define OBJECT_TYPE_NARROWSPOT		26
+#define OBJECT_TYPE_ELECTRODE		27
+#define OBJECT_TYPE_KING_ELECTRODE	28
 
 // Item
-// Effect
+#define OBJECT_TYPE_TREASURE	31
 
+// Effect
 
 
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
 
-
-void CPlayScene::_ParseSection_TEXTURES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 5) return; // skip invalid lines
-
-	int texID = atoi(tokens[0].c_str());
-	wstring path = ToWSTR(tokens[1]);
-	int R = atoi(tokens[2].c_str());
-	int G = atoi(tokens[3].c_str());
-	int B = atoi(tokens[4].c_str());
-
-	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
-}
-
-void CPlayScene::_ParseSection_SPRITES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 6) return; // skip invalid lines
-
-	int ID = atoi(tokens[0].c_str());
-	int l = atoi(tokens[1].c_str());
-	int t = atoi(tokens[2].c_str());
-	int r = atoi(tokens[3].c_str());
-	int b = atoi(tokens[4].c_str());
-	int texID = atoi(tokens[5].c_str());
-
-	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
-	if (tex == NULL)
-	{
-		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-		return;
-	}
-
-	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
-}
-
-void CPlayScene::_ParseSection_ANIMATIONS(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
-
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
-	LPANIMATION ani = new CAnimation();
-
-	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
-	{
-		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i + 1].c_str());
-		ani->Add(sprite_id, frame_time);
-	}
-
-	CAnimations::GetInstance()->Add(ani_id, ani);
-}
-
-void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
-
-	int ani_set_id = atoi(tokens[0].c_str());
-
-	LPANIMATION_SET s = new CAnimationSet();
-
-	CAnimations* animations = CAnimations::GetInstance();
-
-	for (int i = 1; i < tokens.size(); i++)
-	{
-		int ani_id = atoi(tokens[i].c_str());
-
-		LPANIMATION ani = animations->Get(ani_id);
-		s->push_back(ani);
-	}
-
-	CAnimationSets::GetInstance()->Add(ani_set_id, s);
-}
 
 /*
 	Parse a line in section [OBJECTS]
@@ -163,67 +107,153 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
+	bool isObj = true;
+
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
 
 	switch (object_type)
 	{
-	
+
 	case OBJECT_TYPE_GIMMICK:
+	{
+		isObj = false;
 
 		obj = CGimmick::GetInstance(x, y);
+		obj->SetPosition(x, y);
+		obj->BackUpPos(x, y);
 
-		if (player != NULL)
-		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
-		}
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
 
-		/*obj = new CGimmick(x, y);
-		player = (CGimmick*)obj;*/
-
-		player = CGimmick::GetInstance(x, y);
+		player = (CGimmick*)obj;
 
 		DebugOut(L"[INFO] Player object created!\n");
+	}
+	break;
+
+	case OBJECT_TYPE_BRICK:
+		obj = new CBrick();
 		break;
 
-	case OBJECT_TYPE_BRICK: 
-		obj = new CBrick(); 
-		break;
 	case OBJECT_TYPE_STAR:
 		obj = new CStar();
 		break;
 
+	case OBJECT_TYPE_ANI_BRICK:
+		obj = new CAniBrick(0);
+		isObj = false;
+
+		ani_backs.push_back(obj);
+
+		break;
+
+	case OBJECT_TYPE_ANI_BRICK_1:
+		obj = new CAniBrick(1);
+		isObj = false;
+
+		ani_fronts.push_back(obj);
+
+		break;
+
+	case OBJECT_TYPE_WATER:
+
+		obj = new CWater();
+		break;
+
 	case OBJECT_TYPE_SLIDE:
 	{
-		float x2 = atof(tokens[4].c_str());
-		float y2 = atof(tokens[5].c_str());
-		int state = atoi(tokens[6].c_str());
+		float d = atof(tokens[4].c_str());
+		float s = atof(tokens[5].c_str());
 
-		obj = new CSlide(x, y, x2, y2, state);
-		break;
+		obj = new CSlide(x, y, d, s);
 	}
+	break;
 
 	case OBJECT_TYPE_SCROLLBAR_INCREASE:
 		obj = new CScrollBar(SCROLLBAR_TYPE_INCREASE);
 		break;
+
 	case OBJECT_TYPE_SCROLLBAR_DECREASE:
 		obj = new CScrollBar(SCROLLBAR_TYPE_DECREASE);
 		break;
 
+	case OBJECT_TYPE_MOVING_BRICK:
+	{
+		int min = atof(tokens[4].c_str());
+		int max = atof(tokens[5].c_str());
+		int type = atof(tokens[6].c_str());
+
+		obj = new CMovingBrick(min, max, type);
+	}
+	break;
+
 	case OBJECT_TYPE_BOMB:
 		obj = new CBomb(x, y);
 		break;
+
+	case OBJECT_TYPE_MINIBOMB:
+		obj = new CMiniBomb();
+		break;
+
+	case OBJECT_TYPE_CANNON:
+	{
+		int n = atof(tokens[4].c_str());
+		obj = new CCannon(x, y, n); 
+	}
+	break;
+
+	case OBJECT_TYPE_NARROWSPOT:
+		obj = new CNarrowSpot(x, y);
+		break;
+
+	case OBJECT_TYPE_WORM:
+		obj = new CWorm(x, y);
+		break;
+
+	case OBJECT_TYPE_TREASURE:
+	{
+		int w = atof(tokens[4].c_str());
+		int h = atof(tokens[5].c_str());
+
+		obj = new CTreasures(w, h);
+	}
+	break;
+
+	case OBJECT_TYPE_PIPE:
+	{
+		int t = atof(tokens[4].c_str());
+
+		obj = new CPipes(x, y, t);
+	}
+	break;
+
+	case OBJECT_TYPE_HIDDEN:
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+		int cam_l = atof(tokens[6].c_str());
+		int cam_r = atof(tokens[7].c_str());
+		int type = atof(tokens[8].c_str());
+
+		obj = new CHiddenObject(x, y, w, h, cam_l, cam_r, type);
+
+	}
+	break;
 
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
+
 		obj = new CPortal(x, y, r, b, scene_id);
+
+		DebugOut(L"Portal %d", scene_id);
 	}
 	break;
+
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -235,7 +265,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+
+	if (isObj) {
+		//objects.push_back(obj);
+		quadTree->insertEntity(obj);
+	}
 }
 
 void CPlayScene::_ParseSection_MAP_TEXTURES(string line)
@@ -269,6 +303,12 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 	if (tokens.size() < 2)return;	// skip invalid lines
 	_xLeft = atoi(tokens[0].c_str());
 	_xRight = atoi(tokens[1].c_str());
+	_yTop = atoi(tokens[2].c_str());
+	_yBot = atoi(tokens[3].c_str());
+
+	//CGame::GetInstance()->SetCamBoundary(_xLeft, _xRight, _yTop);
+	camera->SetCamBoundary(_xLeft, _xRight, _yTop);
+	camera->SetYBoundary(_yBot);
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -277,19 +317,29 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	if (tokens.size() < 4) return; // skip invalid lines
 	wstring filePath = ToWSTR(tokens[0]);
-	int row = atoi(tokens[2].c_str());
 	int column = atoi(tokens[1].c_str());
+	int row = atoi(tokens[2].c_str());
 	int index = atoi(tokens[3].c_str());
 	int align = atoi(tokens[4].c_str());
 	map->SetValueInMap(row, column, index, align);
 	map->LoadMap(filePath);
+
+	RECT r;
+	r.left = 0;
+	r.top = 0;
+	r.right = column * 32;
+	r.bottom = row * 32;
+
+	quadTree = new CQuadTree(1, r);
 }
 
 void CPlayScene::Load()
 {
+	_xLeft = _xRight = _yTop = -1;
 
-	_xLeft = _xRight = -1;
 	map = CMap::GetInstance();
+	camera = CCamera::GetInstance();
+	HUD = CHUD::GetInstance();
 
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
@@ -306,7 +356,7 @@ void CPlayScene::Load()
 
 		if (line[0] == '#') continue;	// skip comment lines	
 
-		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
+		/*if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") {
 			section = SCENE_SECTION_SPRITES; continue;
 		}
@@ -315,14 +365,14 @@ void CPlayScene::Load()
 		}
 		if (line == "[ANIMATION_SETS]") {
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
-		}
+		}*/
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
 		if (line == "[MAP_TEXTURES]") {
 			section = SCENE_SECTION_MAP_TEXTURES; continue;
 		}
-		if (line == "[MAP]"){
+		if (line == "[MAP]") {
 			section = SCENE_SECTION_MAP; continue;
 		}
 		if (line == "[CAMERA]") {
@@ -335,10 +385,10 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{
-		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
+			/*case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;*/
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP_TEXTURES: _ParseSection_MAP_TEXTURES(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
@@ -355,21 +405,34 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	coObjects.clear();
+	listObj.clear();
+
+	/*for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
-	}
+	}*/
 
-	for (size_t i = 0; i < objects.size(); i++)
+	float camX, camY;
+	camera->GetCamPos(camX, camY);
+
+	quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
+
+	for (int i = 0; i < coObjects.size(); i++)
+		listObj.push_back(coObjects[i]);
+
+	for (size_t i = 0; i < coObjects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		coObjects[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	if (player == NULL) return;
+
+	player->Update(dt, &coObjects);
+
+	// skip update if colide uiwth portal
 	if (player == NULL) return;
 
 	// Update camera to follow mario
@@ -378,28 +441,63 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame* game = CGame::GetInstance();
 
+	float xRight, xLeft, yTop, yBot;
+
+	camera->GetCamBoundary(xLeft, xRight, yTop);
+	yBot = camera->GetYBoundary();
+
 	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
 
-	if (cx < _xLeft) 
-		cx = _xLeft;
+	if (cx < xLeft)
+		cx = xLeft;
 
-	if (cx > _xRight - SCREEN_WIDTH + 16) // cong them 16 vi thieu 1 frame
-		cx = _xRight - SCREEN_WIDTH + 16;
-	
-	CGame::GetInstance()->SetCamPos((int)cx, 200);
+	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
+		cx = xRight - SCREEN_WIDTH + 32;
 
+	if (cy < yBot ) {
+
+		int index = cy / SCREEN_HEIGHT_MAP;
+		yTop = SCREEN_HEIGHT_MAP * index;
+	}
+	else {
+
+		player->SetState(GIMMICK_STATE_DIE);
+	}
+
+	camera->SetCamPos((int)cx, (int)yTop);
 }
 
 void CPlayScene::Render()
 {
+
+	vector<LPGAMEOBJECT> coObjects;	
+
+	if (player == NULL) return;
+
+	float camx, camy;
+	camera->GetCamPos(camx, camy);
+
+	quadTree->getAllEntitiesOnCam(coObjects, camx, camy);
+
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+
+	camera->GetCamPos(cx, cy);
 
 	map->DrawMap(cx, cy);
 
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	for (int i = 0; i < ani_backs.size(); i++)
+		ani_backs[i]->Render();
+
+	for (int i = 0; i < listObj.size(); i++)
+		listObj[i]->Render();
+
+	if (player != NULL)
+		player->Render();
+
+	for (int i = 0; i < ani_fronts.size(); i++)
+		ani_fronts[i]->Render();
+
+	HUD->Render();
 }
 
 /*
@@ -411,6 +509,22 @@ void CPlayScene::Unload()
 		delete objects[i];
 
 	objects.clear();
+
+	listObj.clear();
+
+	for (int i = 0; i < ani_fronts.size(); i++)
+		delete ani_fronts[i];
+
+	ani_fronts.clear();
+
+	for (int i = 0; i < ani_backs.size(); i++)
+		delete ani_backs[i];
+
+	ani_backs.clear();
+
+	delete quadTree;
+	quadTree = NULL;
+
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -421,12 +535,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
+
 	switch (KeyCode)
 	{
 	case DIK_S:
 		if (gimmick->GetJumping() == 0)
 		{
 			gimmick->SetState(GIMMICK_STATE_JUMP);
+
 			gimmick->SetJumping(1);
 
 			if (gimmick->GetDoubleJumpStart() == 0)
@@ -437,35 +553,51 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			}
 		}
 		break;
-	
-	} 
-	
+	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	CGame* game = CGame::GetInstance();
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
-	float x, y;
-	gimmick->GetPosition(x, y);
+
 	switch (KeyCode)
 	{
 	case DIK_S:
 		gimmick->ResetDoubleJumpStart();
 		break;
-	case DIK_A:
-		gimmick->SetHoldStar(0);
-		if (gimmick->GetShoot() == 0)
-		{
-			gimmick->SetShoot(1);
-		}
-		break;
+
 	case DIK_T:
-		gimmick->SetPosition(992,224);
+		gimmick->SetPosition(960, 140);
+		break;
+
+	case DIK_Y:
+		gimmick->SetPosition(128, 114);
+		break;
+
+	case DIK_1:
+		game->SwitchScene(MAP_ID_1A);
+		break;
+
+	case DIK_2:
+		game->SwitchScene(MAP_ID_1B);
+		break;
+
+	case DIK_3:
+		game->SwitchScene(MAP_ID_1C);
+		break;
+	case DIK_U:
+		gimmick->SetPosition(736, 480);
+		break;
+	case DIK_7:
+		gimmick->SetPosition(1424, 320);
+		break;
+	case DIK_8:
+		gimmick->SetPosition(1344, 144);
 		break;
 	}
-	
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
@@ -475,31 +607,86 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
 
 	// disable control key when Mario die 
+	if (gimmick->GetState() == GIMMICK_STATE_DIE || gimmick->GetState()== GIMMICK_STATE_PIPING) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 
-		gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
+		gimmick->key_down = 1;
+
+		if (!gimmick->isScrollBar && !gimmick->isSlide) {
+
+			gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
+		}
+
+		else if (gimmick->isSlide && !gimmick->isScrollBar) {
+
+			if (gimmick->direct_slide == GIMMICK_TREND_SLIDE_RIGHT)
+
+				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_SLIDE_DOWN);
+		}
+		else if (!gimmick->isSlide && gimmick->isScrollBar) {
+
+			if (gimmick->trendScrollBar == GIMMICK_TREND_SCROLLBAR_INCREASE)
+
+				gimmick->SetState(GIMMICK_STATE_INCREASE);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_DECREASE);
+		}
 	}
 	else if (game->IsKeyDown(DIK_LEFT)) {
 
-		gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
-	}	
-	else if (gimmick->vy == 0 && gimmick->vx != 0) {
+		gimmick->key_down = -1;
+
+		if (!gimmick->isScrollBar && !gimmick->isSlide) {
+
+			gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
+		}
+
+		else if (gimmick->isSlide && !gimmick->isScrollBar) {
+
+			if (gimmick->direct_slide == GIMMICK_TREND_SLIDE_LEFT)
+
+				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_SLIDE_DOWN);
+		}
+		else if (!gimmick->isSlide && gimmick->isScrollBar) {
+
+			if (gimmick->trendScrollBar == GIMMICK_TREND_SCROLLBAR_DECREASE)
+
+				gimmick->SetState(GIMMICK_STATE_INCREASE);
+
+			else
+				gimmick->SetState(GIMMICK_STATE_DECREASE);
+		}
+	}
+	else if (gimmick->isScrollBar || gimmick->isSlide || gimmick->isAutoGo) {
+
+		//gimmick->key_down = 0;
+
+		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
+	}
+	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/) {
+
+		//gimmick->key_down = 0;
 
 		gimmick->SetState(GIMMICK_STATE_IDLE);
 	}
 
-	if (game->IsKeyDown(DIK_A))
-	{
-		/*if (gimmick->GetHoldStar() == 0)
-			gimmick->SetHoldStar(1);*/
+
+	if (game->IsKeyDown(DIK_A)) {
 
 		if (gimmick->loading == 0 && gimmick->star->isActive == false) {
 
 			gimmick->SetLoadingStar();
 			gimmick->StarLoading();
+			Sound::GetInstance()->Play("Shot", 0, 1);
 		}
-
 	}
 	else {
 

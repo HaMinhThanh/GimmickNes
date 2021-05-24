@@ -3,11 +3,12 @@
 
 void CScrollBar::Render()
 {
-	if(type== SCROLLBAR_TYPE_INCREASE)
-	animation_set->at(SCROLLBAR_ANI_INCREASE)->Render(x, y);
+	if (type == SCROLLBAR_TYPE_INCREASE)
+		animation_set->at(SCROLLBAR_ANI_INCREASE)->Render(x, y);
 	else
 		animation_set->at(SCROLLBAR_ANI_DECREASE)->Render(x, y);
-	RenderBoundingBox();
+
+	//RenderBoundingBox();
 }
 
 void CScrollBar::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -22,4 +23,8 @@ CScrollBar::CScrollBar(int t)
 {
 	type = t;
 
+}
+
+CScrollBar::~CScrollBar()
+{
 }

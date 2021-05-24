@@ -1,4 +1,4 @@
-#include "GameObject.h"
+﻿#include "GameObject.h"
 #include <d3dx9.h>
 #include <algorithm>
 
@@ -132,6 +132,26 @@ void CGameObject::RenderBoundingBox()
 	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
+bool CGameObject::isCollisionWithObject(LPGAMEOBJECT obj)
+{
+	float l, t, r, b;
+	float l1, t1, r1, b1;
+
+	this->GetBoundingBox(l, t, r, b);		// lấy BBOX của this
+	obj->GetBoundingBox(l1, t1, r1, b1);	// lấy BBOX của obj
+
+	if (CGame::GetInstance()->checkAABB(l, t, r, b, l1, t1, r1, b1) == true)
+	{
+		return true; // check with AABB
+	}
+
+	return false;
+}
+
+RECT CGameObject::GetBound()
+{
+	return RECT();
+}
 
 CGameObject::~CGameObject()
 {

@@ -11,10 +11,17 @@
 #include <dinput.h>
 
 #include "Scene.h"
+#include "Camera.h"
 
 using namespace std;
 
 #define KEYBOARD_BUFFER_SIZE 1024
+
+#define TypeScene_Play		1
+#define TypeScene_Opening	2
+#define TypeScene_Ending	3
+#define TypeScene_RollOut	4
+
 
 class CGame
 {
@@ -35,8 +42,11 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	float cam_x = 0.0f;
+	/*float cam_x = 0.0f;
 	float cam_y = 0.0f;
+
+	int _xLeft, _xRight, _yTop;
+	bool isMovingCam;*/
 
 	int screen_width;
 	int screen_height;
@@ -48,6 +58,7 @@ class CGame
 	void _ParseSection_SCENES(string line);
 
 public:
+	HWND GetHWND() { return hWnd; };
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
@@ -58,6 +69,7 @@ public:
 
 	void Load(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	int GetCurrentSceneId() { return current_scene; }
 	void SwitchScene(int scene_id);
 
 	int GetScreenWidth() { return screen_width; }
@@ -78,16 +90,22 @@ public:
 		float& nx,
 		float& ny);
 
-	bool isCollision(float l1, float t1, float r1, float b1, float l2, float t2, float r2, float b2);
+	bool checkAABB(float l1, float t1, float r1, float b1, float l2, float t2, float r2, float b2);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	/*void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
 
+	void SetCamBoundary(float x1, float x2, float t) { _xLeft = x1; _xRight = x2; _yTop = t; }
+	void GetCamBoundary(float& x1, float& x2, float& t) { x1 = _xLeft; x2 = _xRight; t = _yTop; }*/
+
 	static CGame* GetInstance();
+
+	CCamera* cam = CCamera::GetInstance();
+	void LoadSound();
 
 	~CGame();
 };

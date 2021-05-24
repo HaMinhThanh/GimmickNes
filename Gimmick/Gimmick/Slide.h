@@ -8,20 +8,23 @@
 #define SLIDE_TYPE_UP	1
 #define SLIDE_TYPE_DOWN	2
 
+#define SLIDE_SIZE_QUAD		1
+#define SLIDE_SIZE_REC		2
+
 class CSlide: public CGameObject
 {
 public:
 
 	float x1, x2;
-	float y1, y2;
+	
+	int size;
 
 	int state;
-	int trendX;
-	int trendY;
+	int direct;
 
 	float slidePos;
 
-	CSlide(float x1, float x2, float y1, float y2, int state);
+	CSlide(float x, float y, int direct, int size);
 	~CSlide();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

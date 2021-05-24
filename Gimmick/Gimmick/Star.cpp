@@ -17,6 +17,7 @@ CStar::CStar()
 
 	isFinish = false;
 	isActive = false;
+	isBubble = false;
 
 	x = y = 0;
 
@@ -24,11 +25,18 @@ CStar::CStar()
 	vx = 0;
 }
 
+CStar::~CStar()
+{
+}
+
 void CStar::Render()
 {
-	//if (isActive == false) return;
+	if (isFinish == true) return;
 
-	animation_set->at(0)->Render(x, y);
+	if (isBubble)
+		animation_set->at(1)->Render(x, y);		// star bubble in the end
+	else 
+		animation_set->at(0)->Render(x, y);		// normal
 
 	//RenderBoundingBox();
 }
@@ -59,10 +67,10 @@ void CStar::SetState(int state)
 
 		break;
 
-	case STAR_STATE_HIDDEN:
+	case STAR_STATE_IDLE:
 
 		vx = vy = 0;
-		isActive = false;
+		//isActive = false;
 
 		break;
 	}
@@ -93,22 +101,37 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (acting == 1) {
 
-			if (GetTickCount() - time_acting > STAR_ACTING_TIME)
-			{
+			if (GetTickCount() - time_acting > STAR_BUBBLE_TIME) {
+				
 				time_acting = 0;
 				acting = 0;
 
+				isActive = false;
 				isFinish = true;
-				SetState(STAR_STATE_HIDDEN);
+				isBubble = false;
 			}
+			else if (GetTickCount() - time_acting > STAR_ACTING_TIME 
+				&& GetTickCount() - time_acting < STAR_BUBBLE_TIME)
+			{				
+				isBubble = true;				
+			}
+		}
+
+		if (isBubble) {
+
+			SetState(STAR_STATE_IDLE);
 		}
 
 		vector<LPGAMEOBJECT> Bricks;
 		Bricks.clear();
 
 		for (UINT i = 0; i < coObjects->size(); i++)
-			if (dynamic_cast<CBrick*>(coObjects->at(i)))
+			if (dynamic_cast<CBrick*>(coObjects->at(i))
+				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
+				|| dynamic_cast<CBomb*>(coObjects->at(i))) {
+
 				Bricks.push_back(coObjects->at(i));
+			}
 
 		vector<LPCOLLISIONEVENT>  coEvents;
 		vector<LPCOLLISIONEVENT>  coEventsResult;
@@ -128,22 +151,31 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float rdx, rdy;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+			
 
-			x += min_tx * dx + nx * 0.08f;
-			y += min_ty * dy + ny * 0.08f;
+			for (UINT i = 0; i < coEventsResult.size(); i++) {
+
+				LPCOLLISIONEVENT e = coEventsResult[i];
+
+				if (dynamic_cast<CBomb*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
+						bomb->SetState(BOMB_STATE_DIE);
+
+						nx = ny = 0;
+					}
+				}
+			}
+
+			x += min_tx * dx + nx * 0.04f;
+			y += min_ty * dy + ny * 0.04f;
 
 			if (nx != 0 && ny == 0) vx *= STAR_SPEED_AFTER_COLLISION;
 			if (ny != 0) {
 
 				vy *= STAR_SPEED_AFTER_COLLISION;
-
-				/*if (vy < 0) {
-
-					vy = vy * -0.8f;
-				}
-				else {
-					vy = vy * -0.8f;
-				}*/
 			}
 
 			//vy *= -1;
