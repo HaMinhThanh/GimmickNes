@@ -185,29 +185,29 @@ int CQuadTree::getIndex(RECT body)
     float middleVerticle = Bound.left + (Bound.right - Bound.left) / 2.0f;
     float middleHorizontal = Bound.top + (Bound.bottom - Bound.top) / 2.0f;
 
-    if (body.top > Bound.top && body.bottom < middleHorizontal)
+    if (body.top >= Bound.top && body.bottom <= middleHorizontal)
     {
         //nam phia ben tren
-        if (body.left > Bound.left && body.right < middleVerticle)
+        if (body.left >= Bound.left && body.right <= middleVerticle)
         {
             //nam phia ben trai
             return 0;
         }
-        else if (body.left > middleVerticle && body.right < Bound.right)
+        else if (body.left >= middleVerticle && body.right <= Bound.right)
         {
             //nam phia ben phai
             return 1;
         }
     }
-    else if (body.top > middleHorizontal && body.bottom < Bound.bottom)
+    else if (body.top >= middleHorizontal && body.bottom <= Bound.bottom)
     {
         //nam phia ben duoi
-        if (body.left > Bound.left && body.right < middleVerticle)
+        if (body.left >= Bound.left && body.right <= middleVerticle)
         {
             //nam phia ben trai
             return 2;
         }
-        else if (body.left > middleVerticle && body.right < Bound.right)
+        else if (body.left >= middleVerticle && body.right <= Bound.right)
         {
             //nam phia ben phai
             return 3;

@@ -189,6 +189,11 @@ public:
 
 	void SetLoadingStar();	
 
+	// KeyBoard
+	void KeyState(BYTE* state);
+	void OnKeyDown(int keyCode);
+	void OnKeyUp(int keyCode);
+
 	// Collision
 	void collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float &min_tx, float &min_ty, float &nx, float &ny, float &rdx, float &rdy);
 

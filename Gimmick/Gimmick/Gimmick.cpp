@@ -918,6 +918,18 @@ void CGimmick::SetLoadingStar()
 	load_star->TurnToBegin(x + 8, y - 8);
 }
 
+void CGimmick::KeyState(BYTE* state)
+{
+}
+
+void CGimmick::OnKeyDown(int keyCode)
+{
+}
+
+void CGimmick::OnKeyUp(int keyCode)
+{
+}
+
 void CGimmick::collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy)
 {
 	vector<LPCOLLISIONEVENT> coEventsResult;
