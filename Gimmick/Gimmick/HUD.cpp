@@ -49,8 +49,8 @@ void CHUD::Render()
 	//sprite->Get(80010)->Draw(cx, cy + game->GetScreenHeight() - 32);
 
 	/*CHANGE HUD POSITION*/
-	sprite->Get(80020)->Draw(cx, cy + 16);
-	sprite->Get(80010)->Draw(cx, cy + 16);
+	sprite->Get(80020)->Draw(cx, cy );
+	sprite->Get(80010)->Draw(cx, cy );
 
 
 
@@ -82,25 +82,25 @@ void CHUD::Render()
 
 	/*CHANGE DRAWING IN HUD*/
 	// Draw score
-	event->DrawNumber(8, cx + 15, (int)cy + 0, gimmick->GetScore());
+	event->DrawNumber(8, cx + 15, (int)cy + 0 -16, gimmick->GetScore());
 
 	// Draw rest
-	event->DrawNumber(2, cx + 95, (int)cy + 0, gimmick->GetRest());
+	event->DrawNumber(2, cx + 95, (int)cy + 0 -16, gimmick->GetRest());
 
 	// Draw energy
-	event->DrawEnergy(cx + 126, (int)cy + 5, gimmick->GetEnergy());
+	event->DrawEnergy(cx + 126, (int)cy + 5 -16, gimmick->GetEnergy());
 
 	// Draw item
 	if (gimmick->item != 0)
 		DebugOut(L"Item = %d\n", gimmick->numItem);
 
 	if (it1 != -1) {
-		event->DrawItem(cx + 177, cy + 9, it1);
+		event->DrawItem(cx + 177, cy + 9-16, it1);
 	}
 	if (it2 != -1) {
-		event->DrawItem(cx + 201, cy + 9, it2);
+		event->DrawItem(cx + 201, cy + 9-16, it2);
 	}
 	if (it3 != -1) {
-		event->DrawItem(cx + 225, cy + 9, it3);
+		event->DrawItem(cx + 225, cy + 9-16, it3);
 	}
 }
