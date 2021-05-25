@@ -85,7 +85,7 @@ void POSITION_Render2World(D3DXVECTOR3* p_world_position, D3DXVECTOR3* p_positio
 	D3DXMatrixIdentity(&mt);
 	mt._22 = -1.0f;
 	mt._41 = 0; // -camX
-	mt._42 = window_height - tile_height; // window height - rect.height 
+	mt._42 = window_height - tile_height - 16; // window height - rect.height 
 
 	D3DXVECTOR4 vp_pos;
 	D3DXVec3Transform(&vp_pos, p_position, &mt);
