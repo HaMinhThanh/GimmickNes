@@ -323,7 +323,7 @@ void CPlayScene::_ParseSection_MAP_TEXTURES(string line)
 		for (int j = 0; j < column; j++)
 		{
 			DebugOut(L"ok");
-			CSprites::GetInstance()->Add(index, j * 32, i * 32 , j * 32 + 32, i * 32 + 32, tex);
+			CSprites::GetInstance()->Add(index, j * 32, i * 32, j * 32 + 32, i * 32 + 32, tex);
 			index = index + 1;
 		}
 	}
