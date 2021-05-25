@@ -3,7 +3,7 @@
 #include"Game.h"
 #include"Utils.h"
 #include"Define.h"
-
+#include"HUD.h"
 
 CMap* CMap::__instance = NULL;
 
@@ -71,7 +71,7 @@ void CMap::DrawMap(int cam_x, int cam_y)
 		{
 			if (row <= _row_max && row >= 0 && column < _column_max && column >= 0)
 			{
-				sprites->Get(getTile(row, column) + index)->Draw((int)32 * column, (int)32 * row + 32, 255); 
+				sprites->Get(getTile(row, column) + index)->Draw((int)32 * column, (int)32 * row + HUD_BBOX_HEIGHT, 255);
 				// change from 32*row to 32*row +32 bcoz 32 is the height of HUD
 			}
 		}
