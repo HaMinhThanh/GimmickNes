@@ -9,10 +9,10 @@
 #define GIMMICK_WALKING_SPEED		0.06f 
 #define GIMMICK_AUTO_GO_SPEED		0.2f
 //0.1f
-#define GIMMICK_JUMP_SPEED_Y		-0.24f
-#define GIMMICK_JUMP_SPEED_Y_2		-0.1f
-#define GIMMICK_DOUBLE_JUMP_SPEED		-0.24f
-#define GIMMICK_JUMP_HIGHT_SPEED_Y		-0.15f
+#define GIMMICK_JUMP_SPEED_Y		0.24f		//changed '-' in cpp
+//#define GIMMICK_JUMP_SPEED_Y_2		-0.1f	isnt used
+#define GIMMICK_DOUBLE_JUMP_SPEED		0.24f	//changed '-' in cpp
+#define GIMMICK_JUMP_HIGHT_SPEED_Y		0.15f	//changed '-' in cpp
 
 // slide speed
 #define GIMMICK_SLIDE_UP_SPEED_X_1		0.05f
@@ -103,7 +103,7 @@ public:
 
 
 public:
-	
+
 	// Object depend
 	CStar* star = NULL;					// star weapon of gimmick
 	CLoadingStar* load_star = NULL;		// loading star effect when A key was pressed
@@ -145,7 +145,7 @@ public:
 
 	bool isFollow = false;		// follow blob, moving brick when at the these's head
 	bool isNotCollide = false;	// 
-	
+
 public:
 
 	static CGimmick* GetInstance(float x, float y);
@@ -187,7 +187,7 @@ public:
 	void ShotStar();
 	void isPrepareShot();
 
-	void SetLoadingStar();	
+	void SetLoadingStar();
 
 	// KeyBoard
 	void KeyState(BYTE* state);
@@ -195,7 +195,7 @@ public:
 	void OnKeyUp(int keyCode);
 
 	// Collision
-	void collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float &min_tx, float &min_ty, float &nx, float &ny, float &rdx, float &rdy);
+	void collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy);
 
 	// HUD
 	int GetScore() { return score; }

@@ -106,7 +106,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (GetTickCount() - doubleJump_start > 100)
 		{
-			vy = -GIMMICK_DOUBLE_JUMP_SPEED;
+			vy = GIMMICK_DOUBLE_JUMP_SPEED;
 			doubleJump_start = 0;
 		}
 	}
@@ -185,7 +185,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		
+
 
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
@@ -508,7 +508,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				/*CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
 
 				isPiping = true;
-				isGoThrough = true;				
+				isGoThrough = true;
 
 				if (!pipe->isDeversed) {
 
@@ -539,7 +539,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					med->isFinish = true;
 
 					if (med->type == 2) {
-						
+
 						energy = MAX_ENERGY;
 					}
 					else if (med->type == 1) {
@@ -599,7 +599,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		if (!isSlide && !isGoThrough ) {
+		if (!isSlide && !isGoThrough) {
 
 			x += min_tx * dx + nx * 0.4f;
 
@@ -627,7 +627,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isGoThrough = false;
 			}
-			
+
 		}
 	}
 
@@ -723,7 +723,7 @@ void CGimmick::SetState(int state)
 
 	case GIMMICK_STATE_JUMP:
 		Sound::GetInstance()->Play("CarSplash", 0, 1);
-		vy = -GIMMICK_JUMP_SPEED_Y;
+		vy = GIMMICK_JUMP_SPEED_Y;
 		isScrollBar = false;
 		Slide_reset();
 
@@ -830,7 +830,7 @@ void CGimmick::SetState(int state)
 		break;
 
 	case MARIO_STATE_JUMP_HIGH_SPEED:
-		vy = -GIMMICK_JUMP_HIGHT_SPEED_Y;
+		vy = GIMMICK_JUMP_HIGHT_SPEED_Y;
 		isSlide = false;
 		isScrollBar = false;
 		Sound::GetInstance()->Play("Opening", 0, 1);
