@@ -3,6 +3,7 @@
 #include "ScrollBar.h"
 #include "Gimmick.h"
 #include "Slide.h"
+#include "HUD.h"
 
 CBomb::CBomb(float _x, float _y)
 {
@@ -168,30 +169,30 @@ void CBomb::Render()
 	int state = GetState();
 
 	if (state == BOMB_STATE_WALKING_RIGHT)
-		animation_set->at(0)->Render(x, y);
+		animation_set->at(0)->Render(x, y + HUD_BBOX_HEIGHT);
 
 	else if (state == BOMB_STATE_WALKING_LEFT)
-		animation_set->at(1)->Render(x, y);
+		animation_set->at(1)->Render(x, y + HUD_BBOX_HEIGHT);
 
 	else if (state == BOMB_STATE_FLY_RIGHT)
-		animation_set->at(2)->Render(x, y);
+		animation_set->at(2)->Render(x, y + HUD_BBOX_HEIGHT);
 
 	else if (state == BOMB_STATE_FLY_LEFT)
-		animation_set->at(3)->Render(x, y);
+		animation_set->at(3)->Render(x, y + HUD_BBOX_HEIGHT);
 
 	else if (state == BOMB_STATE_DIE)
-		animation_set->at(4)->Render(x, y);
+		animation_set->at(4)->Render(x, y + HUD_BBOX_HEIGHT);
 	else if (vx > 0)
-		animation_set->at(0)->Render(x, y);
+		animation_set->at(0)->Render(x, y + HUD_BBOX_HEIGHT);
 	else
-		animation_set->at(1)->Render(x, y);
+		animation_set->at(1)->Render(x, y + HUD_BBOX_HEIGHT);
 }
 
 void CBomb::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (!isFinish) {
 		left = x;
-		top = y;
+		top = y + HUD_BBOX_HEIGHT; // object nâng lên 32
 		right = x + BOMB_BBOX_WIDTH;
 		bottom = y + BOMB_BBOX_HEIGHT;
 	}

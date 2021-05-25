@@ -12,7 +12,7 @@
 #define BOMB_STATE_SCROLLBAR_DE			800
 #define BOMB_STATE_DIE				900
 
-#define BOMB_GRAVITY				0.0005f
+#define BOMB_GRAVITY				-0.0005f
 
 #define BOMB_SPEED_X				0.05f
 #define BOMB_SPEED_Y_NORMAL			0.18f
