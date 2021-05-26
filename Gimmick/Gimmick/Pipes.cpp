@@ -56,7 +56,7 @@ void CPipes::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	left = x;
 	top = y;
 	right = x + PIPE_BBOX_WIDTH;
-	bottom = y + PIPE_BBOX_HEIGHT;
+	bottom = y - PIPE_BBOX_HEIGHT;
 }
 
 void CPipes::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

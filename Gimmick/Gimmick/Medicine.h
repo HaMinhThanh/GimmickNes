@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#define ITEM_GRAVITY		0.0007f
+#define ITEM_GRAVITY		-0.0007f
 
 #define MEDICINE_TYPE_1		1
 #define MEDICINE_TYPE_2		2

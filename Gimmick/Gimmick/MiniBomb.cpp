@@ -22,7 +22,7 @@ void CMiniBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else {
 
-		vy = MINIBOMB_FALLING_SPEED;
+		vy = -MINIBOMB_FALLING_SPEED;
 	}
 
 	if (ending == 1) {
@@ -39,7 +39,7 @@ void CMiniBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CGimmick* gimmick = CGimmick::GetInstance(0, 0);
 
-	if (abs(gimmick->GetX() - (x + 7)) <= 9 && gimmick->GetY() > y)
+	if (abs(gimmick->GetX() - (x + 7)) <= 9 && gimmick->GetY() < y)
 		if (!isFalling && !isFinish)
 			isFalling = true;
 
@@ -93,7 +93,7 @@ void CMiniBomb::GetBoundingBox(float& left, float& top, float& right, float& bot
 		left = x;
 		top = y;
 		right = x + MINIBOMB_BBOX_WIDTH;
-		bottom = y + MINIBOMB_BBOX_HEIGHT;
+		bottom = y - MINIBOMB_BBOX_HEIGHT;
 
 	}
 }

@@ -21,7 +21,7 @@ void CMedicine::GetBoundingBox(float& left, float& top, float& right, float& bot
 		left = x;
 		top = y;
 		right = x + MEDICINE_BBOX_WIDTH;
-		bottom = y + MEDICINE_BBOX_HEIGHT;
+		bottom = y - MEDICINE_BBOX_HEIGHT;
 	}
 }
 

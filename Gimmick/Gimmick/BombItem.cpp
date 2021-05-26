@@ -20,7 +20,7 @@ void CBombItem::GetBoundingBox(float& left, float& top, float& right, float& bot
 		left = x;
 		top = y;
 		right = x + BOMB_ITEM_BBOX_WIDTH;
-		bottom = y + BOMB_ITEM_BBOX_HEIGHT;
+		bottom = y - BOMB_ITEM_BBOX_HEIGHT;
 	}
 }
 

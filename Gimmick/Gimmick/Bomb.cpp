@@ -193,7 +193,7 @@ void CBomb::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		left = x;
 		top = y;
 		right = x + BOMB_BBOX_WIDTH;
-		bottom = y + BOMB_BBOX_HEIGHT;
+		bottom = y - BOMB_BBOX_HEIGHT;
 	}
 }
 
@@ -239,7 +239,7 @@ void CBomb::SetState(int state)
 		break;
 
 	case BOMB_STATE_DIE:
-		vy = -BOMB_SPEED_Y_NORMAL;
+		vy = BOMB_SPEED_Y_NORMAL;
 		vx *= -1;
 		isFinish = true;
 

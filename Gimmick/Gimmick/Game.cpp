@@ -115,7 +115,9 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	//RECT_Render2World(&r2, &r, height);
 	POSITION_Render2World(&p2, &p, 16);
 
-	spriteHandler->Draw(texture, &r, NULL, &p2, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	D3DXVECTOR3 p0((int)p2.x, (int)p2.y, 0);
+
+	spriteHandler->Draw(texture, &r, NULL, &p0, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
 
@@ -354,7 +356,7 @@ void CGame::SweptAABB(
 
 bool CGame::checkAABB(float l1, float t1, float r1, float b1, float l2, float t2, float r2, float b2)
 {
-	return !(r1 < l2 || l1 > r2 || t1 > b2 || b1 < t2);
+	return !(r1 < l2 || l1 > r2 || t1 < b2 || b1 > t2);
 }
 
 CGame* CGame::GetInstance()

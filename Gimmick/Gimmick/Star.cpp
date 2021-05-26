@@ -65,7 +65,7 @@ void CStar::SetState(int state)
 	case STAR_GOING_RIGHT:
 
 		vx = STAR_SPEED_X;
-		vy = -STAR_SPEED_Y;
+		vy = STAR_SPEED_Y;
 
 		if (acting == 0)
 			StartActive();
@@ -75,7 +75,7 @@ void CStar::SetState(int state)
 	case STAR_GOING_LEFT:
 
 		vx = -STAR_SPEED_X;
-		vy = -STAR_SPEED_Y;
+		vy = STAR_SPEED_Y;
 
 		if (acting == 0)
 			StartActive();
@@ -102,7 +102,7 @@ void CStar::GetBoundingBox(float& l, float& t, float& r, float& b)
 	l = x;
 	t = y;
 	r = x + STAR_BBOX_WIDTH;
-	b = y + STAR_BBOX_HEIGHT;
+	b = y - STAR_BBOX_HEIGHT;
 }
 
 void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

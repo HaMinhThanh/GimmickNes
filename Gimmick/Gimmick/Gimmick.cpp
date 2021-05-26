@@ -142,7 +142,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isCanShot) {
 
-		star->SetPosition(x, y - STAR_BBOX_HEIGHT + 4);
+		star->SetPosition(x, y + STAR_BBOX_HEIGHT - 4);
 		star->isFinish = false;
 	}
 
@@ -384,28 +384,36 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (scrollbar->GetType() == SCROLLBAR_TYPE_INCREASE) {
 
-					if (GetState() == GIMMICK_STATE_IDLE) {
+					if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) {						
 
-						//vx = SCROLLBAR_SPEED;	
-						addVx = GIMMICK_AUTO_GO_SPEED;
+						addVx= SCROLLBAR_SPEED;
+					}
+					else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT)){
+
+						addVx = -GIMMICK_AUTO_GO_SPEED;
+
+						/*trendScrollBar = scrollbar->GetType();
+						addVx = SCROLLBAR_SPEED;*/
 					}
 					else {
-
-						trendScrollBar = scrollbar->GetType();
-						addVx = SCROLLBAR_SPEED;
+						addVx = GIMMICK_AUTO_GO_SPEED;
 					}
 				}
 				else
 				{
-					if (GetState() == GIMMICK_STATE_IDLE) {
+					if (CGame::GetInstance()->IsKeyDown(DIK_LEFT)) {
 
-						//vx = -SCROLLBAR_SPEED;	
-						addVx = -GIMMICK_AUTO_GO_SPEED;
+						addVx = -SCROLLBAR_SPEED;
+					}
+					else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) {
+
+						addVx = GIMMICK_AUTO_GO_SPEED;
+
+						/*trendScrollBar = scrollbar->GetType();
+						addVx = SCROLLBAR_SPEED;*/
 					}
 					else {
-
-						trendScrollBar = scrollbar->GetType();
-						addVx = -SCROLLBAR_SPEED;
+						addVx = -GIMMICK_AUTO_GO_SPEED;
 					}
 				}
 			}
@@ -461,12 +469,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (slide->size == 1) {
 
 							slide_vx = -GIMMICK_SLIDE_DOWN_SPEED_X_1;
-							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+							slide_vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_1;
 						}
 						else {
 
 							slide_vx = -GIMMICK_SLIDE_DOWN_SPEED_X_2;
-							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+							slide_vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_2;
 						}
 					}
 
@@ -475,12 +483,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (slide->size == 1) {
 
 							slide_vx = GIMMICK_SLIDE_DOWN_SPEED_X_1;
-							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+							slide_vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_1;
 						}
 						else {
 
 							slide_vx = GIMMICK_SLIDE_DOWN_SPEED_X_2;
-							slide_vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+							slide_vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_2;
 						}
 					}
 
@@ -488,15 +496,15 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (slide->direct == 1) {
 
-					tran_y = isOnTriangle(slide->x, slide->y + 1, slide->x + slide->size, slide->y, slide->x + slide->size, slide->y + 1, x, y);
+					tran_y = isOnTriangle(slide->x, slide->y - 1, slide->x + slide->size, slide->y, slide->x + slide->size, slide->y - 1, x, y);
 					if (tran_y <= 0)
-						y -= 1;			// discount y to fall through slide
+						y += 1.0f;			// discount y to fall through slide
 				}
 				else {
 
-					tran_y = isOnTriangle(slide->x, slide->y, slide->x, slide->y + 1, slide->x + slide->size, slide->y + 1, x, y);
+					tran_y = isOnTriangle(slide->x, slide->y, slide->x, slide->y - 1, slide->x + slide->size, slide->y - 1, x, y);
 					if (tran_y <= 0)
-						y -= 1;			// discount y to fall through slide
+						y += 1.0f;			// discount y to fall through slide
 				}
 			}
 			else {
@@ -693,7 +701,7 @@ void CGimmick::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, (int)y + 1, alpha);
+	animation_set->at(ani)->Render(x, (int)y, alpha);
 
 	if (star != NULL)
 		star->Render();
@@ -734,11 +742,11 @@ void CGimmick::SetState(int state)
 		break;
 
 	case GIMMICK_STATE_INCREASE:
-		vx += addVx;
+		vx = addVx;
 		break;
 
 	case GIMMICK_STATE_DECREASE:
-		vx += addVx;
+		vx = addVx;
 		break;
 
 	case GIMMICK_STATE_SLIDE_UP:
@@ -748,12 +756,12 @@ void CGimmick::SetState(int state)
 			if (slide_size == 1) {
 
 				vx = GIMMICK_SLIDE_UP_SPEED_X_1;
-				vy = -GIMMICK_SLIDE_UP_SPEED_Y_1;
+				vy = GIMMICK_SLIDE_UP_SPEED_Y_1;
 			}
 			else {
 
 				vx = GIMMICK_SLIDE_UP_SPEED_X_2;
-				vy = -GIMMICK_SLIDE_UP_SPEED_Y_2;
+				vy = GIMMICK_SLIDE_UP_SPEED_Y_2;
 			}
 		}
 		else //if (direct_go == -1)
@@ -761,12 +769,12 @@ void CGimmick::SetState(int state)
 			if (slide_size == 1) {
 
 				vx = -GIMMICK_SLIDE_UP_SPEED_X_1;
-				vy = -GIMMICK_SLIDE_UP_SPEED_Y_1;
+				vy = GIMMICK_SLIDE_UP_SPEED_Y_1;
 			}
 			else {
 
 				vx = -GIMMICK_SLIDE_UP_SPEED_X_2;
-				vy = -GIMMICK_SLIDE_UP_SPEED_Y_2;
+				vy = GIMMICK_SLIDE_UP_SPEED_Y_2;
 			}
 		}
 	}
@@ -779,12 +787,12 @@ void CGimmick::SetState(int state)
 			if (slide_size == 1) {
 
 				vx = GIMMICK_SLIDE_DOWN_SPEED_X_1;
-				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+				vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_1;
 			}
 			else {
 
 				vx = GIMMICK_SLIDE_DOWN_SPEED_X_2;
-				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+				vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_2;
 			}
 		}
 		else //if (direct_go == -1)
@@ -792,12 +800,12 @@ void CGimmick::SetState(int state)
 			if (slide_size == 1) {
 
 				vx = -GIMMICK_SLIDE_DOWN_SPEED_X_1;
-				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_1;
+				vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_1;
 			}
 			else {
 
 				vx = -GIMMICK_SLIDE_DOWN_SPEED_X_2;
-				vy = GIMMICK_SLIDE_DOWN_SPEED_Y_2;
+				vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_2;
 			}
 		}
 	}
@@ -1077,6 +1085,6 @@ void CGimmick::FollowObject(LPGAMEOBJECT obj)
 {
 	//vx = obj->GetVx();
 	x = obj->GetX();
-	y = obj->GetY() - GIMMICK_BBOX_HEIGHT - 0.4;
+	y = obj->GetY() + GIMMICK_BBOX_HEIGHT + 0.4f;
 }
 

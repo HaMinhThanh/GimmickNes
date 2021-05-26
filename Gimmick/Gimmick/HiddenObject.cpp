@@ -37,7 +37,7 @@ void CHiddenObject::GetBoundingBox(float& left, float& top, float& right, float&
 	left = x;
 	top = y;
 	right = x + w;
-	bottom = y + h;
+	bottom = y - h;
 }
 
 void CHiddenObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

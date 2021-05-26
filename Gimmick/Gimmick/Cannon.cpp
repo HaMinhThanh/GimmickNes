@@ -114,5 +114,5 @@ void CCannon::GetBoundingBox(float& left, float& top, float& right, float& botto
 	left = x;
 	top = y;
 	right = x + 16;
-	bottom = y + 16;
+	bottom = y - 16;
 }

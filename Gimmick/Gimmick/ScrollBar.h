@@ -11,7 +11,7 @@
 #define SCROLLBAR_ANI_INCREASE 1
 #define SCROLLBAR_ANI_DECREASE 0
 
-#define SCROLLBAR_SPEED 0.01f
+#define SCROLLBAR_SPEED 0.12f
 
 class CScrollBar : public CGameObject
 {

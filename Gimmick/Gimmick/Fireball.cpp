@@ -2,6 +2,7 @@
 #include "Brick.h"
 #include "ScrollBar.h"
 #include "Slide.h"
+#include "BombItem.h"
 
 CFireBall::CFireBall(float _x, float _y)
 {
@@ -20,7 +21,7 @@ void CFireBall::GetBoundingBox(float& left, float& top, float& right, float& bot
 		left = x;
 		top = y;
 		right = x + FIREBALL_BBOX_WIDTH;
-		bottom = y + FIREBALL_BBOX_HEIGHT;
+		bottom = y - FIREBALL_BBOX_HEIGHT;
 	}
 }
 

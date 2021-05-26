@@ -37,9 +37,9 @@ void CKingElectrode::GetBoundingBox(float& left, float& top, float& right, float
 	if (!isFinish) {
 
 		left = x;
-		top = y - KING_BBOX_BULB;
+		top = y + KING_BBOX_BULB;
 		right = x + KING_BBOX_WIDTH;
-		bottom = y + KING_BBOX_HEIGHT;
+		bottom = y - KING_BBOX_HEIGHT;
 	}
 }
 
@@ -72,7 +72,7 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					ListBomb[i]->SetPosition(x + KING_BBOX_WIDTH, y - i * 3);
 
 					ListBomb[i]->vx = BOMB_SPEED_VX*(i+1);
-					ListBomb[i]->vy = -BOMB_SPEED_VY * (i+1);
+					ListBomb[i]->vy = BOMB_SPEED_VY * (i+1);
 				}					
 		}
 	}
@@ -88,7 +88,7 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isDie) {
 
 		isDie = false;
-		vy = KING_SPEED_Y;
+		vy = -KING_SPEED_Y;
 	}
 
 	for (int i = 0; i < BOMB_NUMBER; i++)
@@ -100,12 +100,12 @@ void CKingElectrode::Render()
 {
 	if (!isFinish) {
 		animation_set->at(0)->Render(x, y);
-		CAnimations::GetInstance()->Get(327)->Render(x + 6, y - KING_BBOX_BULB * 2 );
+		CAnimations::GetInstance()->Get(327)->Render(x + 6, y + KING_BBOX_BULB * 2 );
 
 		for (int i = 0; i < BOMB_NUMBER; i++)
 			if (!ListBomb[i]->isFinish)
 				ListBomb[i]->Render();
 	}
 	else
-		animation_set->at(1)->Render(x, y - KING_BBOX_BULB);
+		animation_set->at(1)->Render(x, y + KING_BBOX_BULB);
 }

@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#define ELECTRODE_GRAVITY		0.007f
+#define ELECTRODE_GRAVITY		-0.007f
 #define ELECTRODE_SPEED_X		0.02f
 #define ELECTRODE_SPEED_Y		0.1f
 

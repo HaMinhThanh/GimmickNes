@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define ITEM_GRAVITY		0.0007f
+#define ITEM_GRAVITY		-0.0007f
 
 #define BOMB_ITEM_SPRITE		70004
 

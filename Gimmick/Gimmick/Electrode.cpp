@@ -23,9 +23,9 @@ void CElectrode::GetBoundingBox(float& left, float& top, float& right, float& bo
 		right = x + ELECTRODE_BBOX_WIDTH;
 
 		if (vx != 0)
-			bottom = y + ELECTRODE_BBOX_HEIGHT;
+			bottom = y - ELECTRODE_BBOX_HEIGHT;
 		else
-			bottom = y + 15;
+			bottom = y - 15;
 	}
 }
 

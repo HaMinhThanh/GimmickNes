@@ -486,7 +486,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
-	if (cy < yBot ) {
+	if (cy > 0) {
 
 		if (player->GetState() != GIMMICK_STATE_DIE) {
 
@@ -498,7 +498,6 @@ void CPlayScene::Update(DWORD dt)
 
 		player->SetState(GIMMICK_STATE_DIE);
 	}
-	yTop = 0;
 	camera->SetCamPos((int)cx, (int)yTop);
 
 	HUD->Update(dt);
@@ -535,6 +534,7 @@ void CPlayScene::Render()
 		ani_fronts[i]->Render();
 
 	HUD->Render();
+
 }
 
 /*
@@ -607,15 +607,16 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 
 	case DIK_T:
-		gimmick->SetPosition(960, 140);
+		gimmick->SetPosition(960, 240);
 		break;
 
 	case DIK_Y:
-		gimmick->SetPosition(128, 114);
+		gimmick->SetPosition(128, 272);
 		break;
 
 	case DIK_1:
 		game->SwitchScene(MAP_ID_1A);
+		gimmick->SetPosition(128, 272);
 		break;
 
 	case DIK_2:
@@ -629,10 +630,10 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		gimmick->SetPosition(736, 480);
 		break;
 	case DIK_7:
-		gimmick->SetPosition(1424, 320);
+		gimmick->SetPosition(1424, 256);
 		break;
 	case DIK_8:
-		gimmick->SetPosition(1344, 144);
+		gimmick->SetPosition(1344, 432);
 		break;
 	}
 }

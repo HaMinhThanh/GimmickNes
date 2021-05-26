@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-#define ITEM_GRAVITY		0.0007f
-
 #define FIREBALL_SPRITE		70003
 
 #define FIREBALL_BBOX_WIDTH		10

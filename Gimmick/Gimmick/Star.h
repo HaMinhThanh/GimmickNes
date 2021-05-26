@@ -19,7 +19,7 @@
 #define STAR_GOING_LEFT		2	
 #define STAR_STATE_IDLE   3	
 
-#define STAR_GRAVITY	0.0007f
+#define STAR_GRAVITY	-0.0007f
 #define STAR_SPEED_X	0.12f
 #define STAR_SPEED_Y	0.0001f	
 #define STAR_SPEED_AFTER_COLLISION	-0.8

@@ -12,11 +12,11 @@
 #define BOMB_STATE_SCROLLBAR_DE			800
 #define BOMB_STATE_DIE				900
 
-#define BOMB_GRAVITY				0.0005f
+#define BOMB_GRAVITY				-0.0005f
 
 #define BOMB_SPEED_X				0.05f
 #define BOMB_SPEED_Y_NORMAL			0.18f
-#define BOMB_SPEED_Y_COLLISION		0.03f
+#define BOMB_SPEED_Y_COLLISION		-0.03f
 
 #define BOMB_BBOX_WIDTH		16
 #define BOMB_BBOX_HEIGHT	16
@@ -47,7 +47,7 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetState(int state);
 
-	void Jumping() { vy = -BOMB_SPEED_Y_NORMAL; }
+	void Jumping() { vy = BOMB_SPEED_Y_NORMAL; }
 
 	void StartFlying() { flying = 1; waitToFly = GetTickCount(); }
 };

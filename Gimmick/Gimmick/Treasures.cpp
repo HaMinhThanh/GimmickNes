@@ -16,7 +16,7 @@ void CTreasures::GetBoundingBox(float& left, float& top, float& right, float& bo
 		left = x;
 		top = y;
 		right = x + width;
-		bottom = y + height;
+		bottom = y - height;
 	}
 }
 

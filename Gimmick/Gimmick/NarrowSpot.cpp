@@ -68,7 +68,7 @@ void CNarrowSpot::GetBoundingBox(float& left, float& top, float& right, float& b
 	if (!isFinish) {
 
 		left = x;
-		top = y + 64;
+		top = y - 64;
 		right = x + 36;
 		bottom = y - 68;
 	}

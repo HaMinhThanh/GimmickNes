@@ -24,7 +24,7 @@ void CWorm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		left = x;
 		top = y;
 		right = x + WORM_BBOX_WIDTH;
-		bottom = y + WORM_BBOX_HEIGHT;
+		bottom = y - WORM_BBOX_HEIGHT;
 	}
 }
 
@@ -76,7 +76,7 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else {
 
-		vy = WORM_SPEED_Y;
+		vy = -WORM_SPEED_Y;
 	}
 }
 
