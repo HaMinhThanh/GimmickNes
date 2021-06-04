@@ -95,12 +95,12 @@ void CHUD::Render()
 		DebugOut(L"Item = %d\n", gimmick->numItem);
 
 	if (it1 != -1) {
-		event->DrawItem(cx + 177, cy + 9-16, it1);
+		event->DrawItem(cx + 177, cy -5, it1);
 	}
 	if (it2 != -1) {
-		event->DrawItem(cx + 201, cy + 9-16, it2);
+		event->DrawItem(cx + 201, cy -5, it2);
 	}
 	if (it3 != -1) {
-		event->DrawItem(cx + 225, cy + 9-16, it3);
+		event->DrawItem(cx + 225, cy -5, it3);
 	}
 }

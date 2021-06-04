@@ -71,6 +71,8 @@ public:
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	int GetCurrentSceneId() { return current_scene; }
 	void SwitchScene(int scene_id);
+	bool isSwitchScene = false;
+	float playerX, playerY;
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }

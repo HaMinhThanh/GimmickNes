@@ -16,8 +16,12 @@ public:
 	int _xLeft, _xRight, _yTop, _yBot;
 	bool isMovingCam = false;
 
+	int oLeft, oRight;
+
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+
+	void SetOldBound(int x, int y) { oLeft = x, oRight = y; }
 
 	int GetYBoundary() { return _yBot; }
 

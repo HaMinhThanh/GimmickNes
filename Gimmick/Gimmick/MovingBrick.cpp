@@ -37,11 +37,11 @@ void CMovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 
 	if (direct == 1) {
-		if (x <= min || x >= max)
+		if ((x <= min && vx < 0) || (x >= max && vx > 0))
 			vx *= -1;
 	}
 	else {
-		if (y <= min || y >= max)
+		if ((y <= min && vy < 0) || (y >= max && vy > 0))
 			vy *= -1;
 	}
 }

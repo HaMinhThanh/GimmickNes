@@ -129,8 +129,27 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		isObj = false;
 
 		obj = CGimmick::GetInstance(x, y);
+
+		CGame* game = CGame::GetInstance();
+
 		obj->SetPosition(x, y);
+
+		if (game->isSwitchScene) {
+			obj->SetPosition(game->playerX, game->playerY);
+			game->isSwitchScene = false;
+		}
+		/*else {
+			obj->SetPosition(x, y);
+		}*/
+
+		//obj->SetPosition(x, y);
 		obj->BackUpPos(x, y);
+
+		float reX = atof(tokens[4].c_str());
+		float reY = atof(tokens[5].c_str());
+
+		game->playerX = reX;
+		game->playerY = reY;
 
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
@@ -208,7 +227,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CANNON:
 	{
 		int n = atof(tokens[4].c_str());
-		obj = new CCannon(x, y, n); 
+		obj = new CCannon(x, y, n);
 	}
 	break;
 
@@ -279,8 +298,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
+		float caml = atof(tokens[7].c_str());
+		float camr = atof(tokens[8].c_str());
 
-		obj = new CPortal(x, y, r, b, scene_id);
+		obj = new CPortal(x, y, r, b, scene_id, caml, camr);
 
 		DebugOut(L"Portal %d", scene_id);
 	}
@@ -292,7 +313,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	obj->SetPosition(x, y);
+	if (!dynamic_cast<CGimmick*>(obj))
+		obj->SetPosition(x, y);
 
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -340,7 +362,9 @@ void CPlayScene::_ParseSection_CAMERA(string line)
 
 	//CGame::GetInstance()->SetCamBoundary(_xLeft, _xRight, _yTop);
 	camera->SetCamBoundary(_xLeft, _xRight, _yTop);
-	camera->SetYBoundary(_yBot);
+	//camera->SetYBoundary(_yBot);
+	if (CGame::GetInstance()->isSwitchScene)
+		camera->SetCamBoundary(camera->oLeft, camera->oRight, 0);
 }
 
 void CPlayScene::_ParseSection_MAP(string line)
@@ -488,11 +512,9 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cy > 0) {
 
-		if (player->GetState() != GIMMICK_STATE_DIE) {
+		int index = cy / SCREEN_HEIGHT_MAP;
+		yTop = SCREEN_HEIGHT_MAP * index;
 
-			int index = cy / SCREEN_HEIGHT_MAP;
-			yTop = SCREEN_HEIGHT_MAP * index;
-		}
 	}
 	else {
 
@@ -506,7 +528,7 @@ void CPlayScene::Update(DWORD dt)
 void CPlayScene::Render()
 {
 
-	vector<LPGAMEOBJECT> coObjects;	
+	vector<LPGAMEOBJECT> coObjects;
 
 	if (player == NULL) return;
 
@@ -562,7 +584,7 @@ void CPlayScene::Unload()
 	delete quadTree;
 	quadTree = NULL;
 
-	player = NULL;
+	//player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
@@ -572,6 +594,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
+
+	gimmick->OnKeyDown(KeyCode);
 
 	switch (KeyCode)
 	{
@@ -600,6 +624,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
 
+	gimmick->OnKeyUp(KeyCode);
+
 	switch (KeyCode)
 	{
 	case DIK_S:
@@ -613,10 +639,13 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_Y:
 		gimmick->SetPosition(128, 272);
 		break;
+	case DIK_F:
+		gimmick->energy = 4;
+		break;
 
 	case DIK_1:
 		game->SwitchScene(MAP_ID_1A);
-		gimmick->SetPosition(128, 272);
+		//gimmick->SetPosition(128, 272);
 		break;
 
 	case DIK_2:
@@ -640,105 +669,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
+
 	CGame* game = CGame::GetInstance();
 
 	CGimmick* gimmick = ((CPlayScene*)scence)->GetPlayer();
 
-	// disable control key when Mario die 
-	if (gimmick->GetState() == GIMMICK_STATE_DIE || gimmick->GetState()== GIMMICK_STATE_PIPING) return;
+	gimmick->KeyState(states);
 
-	if (game->IsKeyDown(DIK_RIGHT)) {
-
-		gimmick->key_down = 1;
-
-		if (!gimmick->isScrollBar && !gimmick->isSlide) {
-
-			gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
-		}
-
-		else if (gimmick->isSlide && !gimmick->isScrollBar) {
-
-			if (gimmick->direct_slide == GIMMICK_TREND_SLIDE_RIGHT)
-
-				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
-
-			else
-				gimmick->SetState(GIMMICK_STATE_SLIDE_DOWN);
-		}
-		else if (!gimmick->isSlide && gimmick->isScrollBar) {
-
-			if (gimmick->trendScrollBar == GIMMICK_TREND_SCROLLBAR_INCREASE)
-
-				gimmick->SetState(GIMMICK_STATE_INCREASE);
-
-			else
-				gimmick->SetState(GIMMICK_STATE_DECREASE);
-		}
-	}
-	else if (game->IsKeyDown(DIK_LEFT)) {
-
-		gimmick->key_down = -1;
-
-		if (!gimmick->isScrollBar && !gimmick->isSlide) {
-
-			gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
-		}
-
-		else if (gimmick->isSlide && !gimmick->isScrollBar) {
-
-			if (gimmick->direct_slide == GIMMICK_TREND_SLIDE_LEFT)
-
-				gimmick->SetState(GIMMICK_STATE_SLIDE_UP);
-
-			else
-				gimmick->SetState(GIMMICK_STATE_SLIDE_DOWN);
-		}
-		else if (!gimmick->isSlide && gimmick->isScrollBar) {
-
-			if (gimmick->trendScrollBar == GIMMICK_TREND_SCROLLBAR_DECREASE)
-
-				gimmick->SetState(GIMMICK_STATE_INCREASE);
-
-			else
-				gimmick->SetState(GIMMICK_STATE_DECREASE);
-		}
-	}
-	else if (gimmick->isScrollBar || gimmick->isSlide || gimmick->isAutoGo) {
-
-		//gimmick->key_down = 0;
-
-		gimmick->SetState(GIMMICK_STATE_AUTO_GO);
-	}
-	else if (gimmick->isPiping) {
-
-		gimmick->SetState(GIMMICK_STATE_PIPING);
-	}
-	else if (gimmick->vy == 0 /*&& gimmick->vx != 0*/) {
-
-		//gimmick->key_down = 0;
-
-		gimmick->SetState(GIMMICK_STATE_IDLE);
-	}
-
-
-	if (game->IsKeyDown(DIK_A)) {
-
-		if (gimmick->loading == 0 && gimmick->star->isActive == false) {
-
-			gimmick->SetLoadingStar();
-			gimmick->StarLoading();
-			Sound::GetInstance()->Play("Shot", 0, 1);
-		}
-	}
-	else {
-
-		if (gimmick->loading == 2 && gimmick->isCanShot) {
-
-			gimmick->ShotStar();
-		}
-		else {
-
-			gimmick->ReSetLoading();
-		}
-	}
 }

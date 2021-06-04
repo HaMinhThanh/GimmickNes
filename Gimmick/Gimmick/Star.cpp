@@ -7,6 +7,7 @@
 #include "Worm.h"
 #include "KingElectrode.h"
 #include "Electrode.h"
+#include "Slide.h"
 
 #define STAR_ANIMATION_SET		2
 
@@ -152,6 +153,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++)
 			if (dynamic_cast<CBrick*>(coObjects->at(i))
 				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
+				|| dynamic_cast<CSlide*>(coObjects->at(i))
 				|| dynamic_cast<CBomb*>(coObjects->at(i))
 				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CElectrode*>(coObjects->at(i))

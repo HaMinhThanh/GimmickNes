@@ -22,11 +22,11 @@ void CLoadingStar::TurnToBegin(float x, float y)
 	x4 = x + 40;
 	x5 = x - 24;
 
-	y1 = y - 10;
-	y2 = y - 32;
-	y3 = y - 10;
-	y4 = y + 32;
-	y5 = y + 32;
+	y1 = y + 10;
+	y2 = y + 32;
+	y3 = y + 10;
+	y4 = y - 32;
+	y5 = y - 32;
 }
 
 void CLoadingStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

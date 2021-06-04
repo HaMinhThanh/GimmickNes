@@ -72,11 +72,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		obj = NULL;
 	}
 
-	if (GetState() == GIMMICK_STATE_DIE) {
-		if (waitToReset == 0) {
-			StartReset();
-			SetAniDie();
-		}
+	if (GetState() == GIMMICK_STATE_DIE && waitToReset == 0) {
+		
+		StartReset();
+		SetAniDie();
 	}
 
 	if (waitToReset == 1) {
@@ -221,7 +220,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->t > 0 && e->t <= 1 && bomb->GetState() != BOMB_STATE_DIE) {
 
-					if (e->ny < 0)
+					if (e->ny > 0)
 					{
 						//if (vx==0 && vy==0) {							
 						isFollow = true;
@@ -264,20 +263,22 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				mn->StarEnding();
 
 				isGoThrough = true;
+				if (e->t > 0 && e->t <= 1) {
 
-				if (untouchable == 0)
-				{
-					if (GetState() != GIMMICK_STATE_DIE)
+					if (untouchable == 0)
 					{
-						if (energy > 0)
+						if (GetState() != GIMMICK_STATE_DIE)
 						{
-							Sound::GetInstance()->Play("Collision", 0, 1);
-							energy -= 1;
-							StartUntouchable();
-						}
-						else
-						{
-							SetState(GIMMICK_STATE_DIE);
+							if (energy > 0)
+							{
+								Sound::GetInstance()->Play("Collision", 0, 1);
+								energy -= 1;
+								StartUntouchable();
+							}
+							else
+							{
+								SetState(GIMMICK_STATE_DIE);
+							}
 						}
 					}
 				}
@@ -287,7 +288,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->t > 0 && e->t <= 1) {
 
-					if (e->ny < 0) {
+					if (e->ny > 0) {
 
 						if (dynamic_cast<CElectrode*>(e->obj)) {
 
@@ -352,7 +353,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->t > 0 && e->t <= 1 && st->acting == 1) {
 
-					if (e->ny < 0)
+					if (e->ny > 0)
 					{
 						//if (vx==0 && vy==0) {							
 						isFollow = true;
@@ -373,6 +374,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+			isScrollBar = false;
 			if (dynamic_cast<CScrollBar*>(e->obj)) {
 
 				/*if (isScrollBar)
@@ -513,12 +515,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CPipes*>(e->obj)) {
 
-				/*CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
+				CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
 
 				isPiping = true;
-				isGoThrough = true;
+				//isGoThrough = true;
 
-				if (!pipe->isDeversed) {
+				/*if (!pipe->isDeversed) {
 
 					pipeVx = pipe->vx ;
 					pipeVy = pipe->vy ;
@@ -600,14 +602,23 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 
-				DebugOut(L"SceneId %d", p->scene_id);
+				if (e->t > 0 && e->t <= 1) {
+					DebugOut(L"SceneId %d", p->scene_id);
 
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+					CGame::GetInstance()->isSwitchScene = true;
+					//SetPosition(0,0);
+
+					CCamera::GetInstance()->SetOldBound(p->oLeft, p->oRight);
+				
+					CGame::GetInstance()->SwitchScene(p->GetSceneId());
+
+					return;
+				}
 
 			}
 		}
 
-		if (!isSlide && !isGoThrough) {
+		if (!isSlide && !isGoThrough &&!isPiping) {
 
 			x += min_tx * dx + nx * 0.4f;
 
@@ -634,6 +645,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//y += dy;
 
 				isGoThrough = false;
+			}
+			else if (isPiping) {
+
+				y += dy;
+
+				isPiping = false;
 			}
 
 		}
@@ -827,8 +844,8 @@ void CGimmick::SetState(int state)
 
 	case GIMMICK_STATE_PIPING:
 	{
-		vx = pipeVx;
-		vy = pipeVy;
+		vx = 0;
+		vy = 0;
 
 		break;
 	}
@@ -928,6 +945,105 @@ void CGimmick::SetLoadingStar()
 
 void CGimmick::KeyState(BYTE* state)
 {
+	CGame* game = CGame::GetInstance();
+
+	// disable control key when Mario die 
+	if (GetState() == GIMMICK_STATE_DIE || GetState() == GIMMICK_STATE_PIPING) return;
+
+	if (game->IsKeyDown(DIK_RIGHT)) {
+
+		key_down = 1;
+
+		if (!isScrollBar && !isSlide) {
+
+			SetState(GIMMICK_STATE_WALKING_RIGHT);
+		}
+
+		else if (isSlide && !isScrollBar) {
+
+			if (direct_slide == GIMMICK_TREND_SLIDE_RIGHT)
+
+				SetState(GIMMICK_STATE_SLIDE_UP);
+
+			else
+				SetState(GIMMICK_STATE_SLIDE_DOWN);
+		}
+		else if (!isSlide && isScrollBar) {
+
+			if (trendScrollBar == GIMMICK_TREND_SCROLLBAR_INCREASE)
+
+				SetState(GIMMICK_STATE_INCREASE);
+
+			else
+				SetState(GIMMICK_STATE_DECREASE);
+		}
+	}
+	else if (game->IsKeyDown(DIK_LEFT)) {
+
+		key_down = -1;
+
+		if (!isScrollBar && !isSlide) {
+
+			SetState(GIMMICK_STATE_WALKING_LEFT);
+		}
+
+		else if (isSlide && !isScrollBar) {
+
+			if (direct_slide == GIMMICK_TREND_SLIDE_LEFT)
+
+				SetState(GIMMICK_STATE_SLIDE_UP);
+
+			else
+				SetState(GIMMICK_STATE_SLIDE_DOWN);
+		}
+		else if (!isSlide && isScrollBar) {
+
+			if (trendScrollBar == GIMMICK_TREND_SCROLLBAR_DECREASE)
+
+				SetState(GIMMICK_STATE_INCREASE);
+
+			else
+				SetState(GIMMICK_STATE_DECREASE);
+		}
+	}
+	else if (isScrollBar || isSlide || isAutoGo) {
+
+		//gimmick->key_down = 0;
+
+		SetState(GIMMICK_STATE_AUTO_GO);
+	}
+	else if (isPiping) {
+
+		SetState(GIMMICK_STATE_PIPING);
+	}
+	else if (vy == 0 /*&& gimmick->vx != 0*/) {
+
+		//gimmick->key_down = 0;
+
+		SetState(GIMMICK_STATE_IDLE);
+	}
+
+
+	if (game->IsKeyDown(DIK_A)) {
+
+		if (loading == 0 && star->isActive == false) {
+
+			SetLoadingStar();
+			StarLoading();
+			Sound::GetInstance()->Play("Shot", 0, 1);
+		}
+	}
+	else {
+
+		if (loading == 2 && isCanShot) {
+
+			ShotStar();
+		}
+		else {
+
+			ReSetLoading();
+		}
+	}
 }
 
 void CGimmick::OnKeyDown(int keyCode)
@@ -940,124 +1056,7 @@ void CGimmick::OnKeyUp(int keyCode)
 
 void CGimmick::collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy)
 {
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
-
-		if (dynamic_cast<CBomb*>(e->obj) && !isSlide) {
-
-			CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
-
-			if (e->t > 0 && e->t <= 1 && bomb->GetState() != BOMB_STATE_DIE) {
-
-				if (e->ny < 0)
-				{
-					//if (vx==0 && vy==0) {							
-					isFollow = true;
-					obj = bomb;
-					SetState(GIMMICK_STATE_IDLE);
-
-					//}
-				}
-				else //if (e->nx != 0)
-				{
-					//isNotCollide = true;
-					isFollow = false;
-					isGoThrough = true;
-
-					if (untouchable == 0)
-					{
-						if (GetState() != GIMMICK_STATE_DIE)
-						{
-							if (energy > 0)
-							{
-								Sound::GetInstance()->Play("Collision", 0, 1);
-								energy -= 1;
-								StartUntouchable();
-
-							}
-							else
-							{
-								SetState(GIMMICK_STATE_DIE);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		if (dynamic_cast<CMiniBomb*>(e->obj)) {
-
-			CMiniBomb* mn = dynamic_cast<CMiniBomb*>(e->obj);
-
-			mn->StarEnding();
-
-			isGoThrough = true;
-
-			if (untouchable == 0)
-			{
-				if (GetState() != GIMMICK_STATE_DIE)
-				{
-					if (energy > 0)
-					{
-						Sound::GetInstance()->Play("Collision", 0, 1);
-						energy -= 1;
-						StartUntouchable();
-					}
-					else
-					{
-						SetState(GIMMICK_STATE_DIE);
-					}
-				}
-			}
-		}
-
-		if (dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
-
-			if (e->t > 0 && e->t <= 1) {
-
-				if (e->ny < 0) {
-
-					if (dynamic_cast<CElectrode*>(e->obj)) {
-
-						CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
-
-						elec->isIdle = true;
-
-						/*isFollow = true;
-						obj = elec;*/
-					}
-				}
-				else {
-					if (untouchable == 0)
-					{
-						if (GetState() != GIMMICK_STATE_DIE)
-						{
-							if (energy > 0)
-							{
-								Sound::GetInstance()->Play("Collision", 0, 1);
-								energy -= 1;
-								StartUntouchable();
-
-							}
-							else
-							{
-								SetState(GIMMICK_STATE_DIE);
-							}
-						}
-					}
-				}
-			}
-		}
-		else {
-
-
-		}
-	}
+	
 }
 
 /*

@@ -71,7 +71,7 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (!isFinish) {
-		if (x <= MIN_POS_X || x + WORM_BBOX_WIDTH >= MAX_POS_X)
+		if ((x <= MIN_POS_X && vx < 0) || (x + WORM_BBOX_WIDTH >= MAX_POS_X && vx > 0))
 			vx *= -1;
 	}
 	else {

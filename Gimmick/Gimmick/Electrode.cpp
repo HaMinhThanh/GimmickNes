@@ -51,7 +51,7 @@ void CElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (CGimmick::GetInstance(0, 0)->GetState() != GIMMICK_STATE_IDLE) {
 			isIdle = false;
 			vx = ELECTRODE_SPEED_X;
-			y -= 6;
+			y += 6;
 		}
 	}
 

@@ -197,7 +197,7 @@ map/map_1a.txt	32	12	0	0
 4	96	272	401
 
 # Gimmick
-1	50	112	1
+1	50	112	1	480	352
 
 # Bomb
 21	100	84	3
@@ -357,13 +357,13 @@ map/map_1a.txt	32	12	0	0
 12	992	32	4	7		
 12	992	16	4	7		
 # Portal						
-50	992	1	4	1008	384	12
+50	992	1	4	1008	0	12	0	496
 #==========Test item
 # FireBall-Item
 34	96	49	4
 # FireBall-Item
 33	128	49	4
 # FireBall-Item
-32	160	49	4	1
+32	416	97	4	2
 # FireBall-Item
 34	192	49	4

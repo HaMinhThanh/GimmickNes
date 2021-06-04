@@ -13,9 +13,12 @@ public:
 
 	int width;
 	int height;
+
+	int oLeft = 0;
+	int oRight = 0;
 public:
 
-	CPortal(float l, float t, float r, float b, int scene_id);
+	CPortal(float l, float t, float r, float b, int scene_id, int cLeft, int cRight);
 	~CPortal();
 
 	virtual void Render();
