@@ -1,0 +1,10 @@
+[MAP_TEXTURES]
+#idScene	rowSprites	columnSprites	IDTileSet
+2	24	16	21	
+[MAP]
+# filePath	column	row	index	align
+map/map_2a.txt	64	24	0	0
+
+[CAMERA]
+#xLeft	xRight	yTop	yBot
+0	1008	192	384

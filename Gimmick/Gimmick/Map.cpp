@@ -36,13 +36,15 @@ void CMap::LoadMap(wstring filePathTxt)
 	inFile.open(filePathTxt);
 	if (inFile.fail())
 	{
-		DebugOut(L"[ERROR] Map::Load Map failed\n");
+		DebugOut(L"[ERROR] Map::Load Map failed\n"); 
+		DebugOut(L"[FILE PATH]: ", filePathTxt.c_str());
 		inFile.close();
 		return;
 	}
 	else
 	{
-		DebugOut(L"[ERROR] Map::Load Map successed\n");
+		DebugOut(L"[ERROR] Map::Load Map successed\n"); 
+		DebugOut(L"[FILE PATH]: ", filePathTxt);
 	}
 	// If the file opened correctly then call load methods
 

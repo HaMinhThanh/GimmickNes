@@ -647,7 +647,6 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		game->SwitchScene(MAP_ID_1A);
 		//gimmick->SetPosition(128, 272);
 		break;
-
 	case DIK_2:
 		game->SwitchScene(MAP_ID_1B);
 		break;
@@ -664,6 +663,16 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_8:
 		gimmick->SetPosition(1344, 432);
 		break;
+
+	// Bo sung: scene shortcuts
+	case DIK_F1:
+		game->SwitchScene(MAP_ID_2A);
+	case DIK_F2:
+		game->SwitchScene(MAP_ID_2B);
+	case DIK_F7:
+		game->SwitchScene(MAP_ID_7);
+
+
 	}
 }
 

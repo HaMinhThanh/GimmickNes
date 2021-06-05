@@ -8,7 +8,7 @@
       <Filter>FrameWork\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>FrameWork\Game</Filter>
+      <Filter>FrameWork\Define\Game</Filter>
     </ClCompile>
     <ClCompile Include="tinystr.cpp">
       <Filter>FrameWork\Sound</Filter>
@@ -154,6 +154,9 @@
     <ClCompile Include="Worm.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="GreenTurtle.cpp">
+      <Filter>Object\Enemy\Level2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -163,7 +166,7 @@
       <Filter>FrameWork\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>FrameWork\Game</Filter>
+      <Filter>FrameWork\Define\Game</Filter>
     </ClInclude>
     <ClInclude Include="tinystr.h">
       <Filter>FrameWork\Sound</Filter>
@@ -303,6 +306,9 @@
     <ClInclude Include="Worm.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
+    <ClInclude Include="GreenTurtle.h">
+      <Filter>Object\Enemy\Level2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">
@@ -319,9 +325,6 @@
     </Filter>
     <Filter Include="FrameWork\HUD">
       <UniqueIdentifier>{b76a577d-cc33-4305-b3da-f0bdecb2b8a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Game">
-      <UniqueIdentifier>{6bfb261a-524f-490a-a558-33fd8a4b2404}</UniqueIdentifier>
     </Filter>
     <Filter Include="FrameWork\Sound">
       <UniqueIdentifier>{c1107352-2197-4797-9f32-151d3df20b0f}</UniqueIdentifier>
@@ -385,6 +388,12 @@
     </Filter>
     <Filter Include="Object\Enemy\NormalEnemy">
       <UniqueIdentifier>{b22ce08c-b7c2-4c0f-8dfd-07858a2ac4ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Define\Game">
+      <UniqueIdentifier>{6bfb261a-524f-490a-a558-33fd8a4b2404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Level2">
+      <UniqueIdentifier>{191deedb-ad96-4c43-af3f-4e6793523f7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

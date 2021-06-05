@@ -19,11 +19,16 @@
 11	textures\tileset\1a.png	180	230	30
 12	textures\tileset\1b.png	180	230	30
 13	textures\tileset\1c.png	180	230	30
+21	textures\tileset\2a.png	180	230	30
+22	textures\tileset\2b.png	180	230	30
+7	textures\tileset\7.png	180	230	30
 # Map root
 14	textures\map\1a.png	60	188	252
 15	textures\map\1b.png	0	0	0
 16	textures\map\1c.png	255	255	255
-
+24	textures\map\2a.png	0	0	0
+25	textures\map\2b.png	0	0	0
+7	textures\map\7.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]

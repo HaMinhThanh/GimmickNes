@@ -10,3 +10,8 @@
 #define MAP_ID_1B		12
 #define MAP_ID_1C		13
 
+#define MAP_ID_2A		21
+#define MAP_ID_2B		22
+
+#define MAP_ID_7		7
+
