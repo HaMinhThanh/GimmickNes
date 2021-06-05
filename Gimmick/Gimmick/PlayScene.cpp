@@ -391,6 +391,7 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 void CPlayScene::Load()
 {
+
 	_xLeft = _xRight = _yTop = -1;
 
 	map = CMap::GetInstance();
@@ -461,6 +462,9 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	Sound::GetInstance()->Stop("intro3");
+	Sound::GetInstance()->Stop("Opening");
+	Sound::GetInstance()->Play("Opening2", 1, 1);
 	vector<LPGAMEOBJECT> coObjects;
 	coObjects.clear();
 	listObj.clear();

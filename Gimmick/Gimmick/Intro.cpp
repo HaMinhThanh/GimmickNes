@@ -222,7 +222,17 @@ void CStartScence::Load()
 void CStartScence::Update(DWORD dt)
 {
 	
-	
+	if (!isTimeStart)
+	{
+
+		time_start = GetTickCount();
+		isTimeStart = true;
+	}
+	if (GetTickCount() - time_start > 40800)
+	{
+		CGame::GetInstance()->SwitchScene(2);
+		Sound::GetInstance()->Stop("Opening");
+	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	//if (player1 == NULL) return;
@@ -260,10 +270,12 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_W:
-		CGame::GetInstance()->SwitchScene(2);
+		CGame::GetInstance()->SwitchScene(3);
+		Sound::GetInstance()->Stop("Opening");
+		Sound::GetInstance()->Play("intro3", 1, 1);
 		break;
 	case DIK_S:
-		CGame::GetInstance()->SwitchScene(3);
+		CGame::GetInstance()->SwitchScene(11);
 		break;
 
 	case DIK_1:

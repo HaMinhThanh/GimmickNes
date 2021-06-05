@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <datasound>
-	<sound path="Sources/Sound/Intro/[ONTIVA.COM] Gimmick.wav"	name = "Opening" />
-	<sound path="Sources/Sound/Intro/Sound Effect (11).wav"	name = "CarSplash" />
+	<sound path="Sources/Sound/Intro/01_Good-Morning.war"	name = "Opening" />
+	<sound path="Sources/Sound/Intro/New Recording (3).wav"	name = "intro3" />
+<sound path="Sources/Sound/Intro/Sound Effect (11).wav"	name = "CarSplash" />
 	<sound path="Sources/Sound/Intro/Sound Effect (78).wav"	name = "Die" />
 	<sound path="Sources/Sound/Intro/Sound Effect (24).wav"	name = "Collision" />
 	<sound path="Sources/Sound/Intro/Sound Effect (73).wav"	name = "Shot" />
+	<sound path="Sources/Sound/Intro/Sound Effect (73).wav"	name = "Shot" />
+	<sound path="Sources/Sound/Intro/Sound Effect (40).wav"	name = "item" />
+	<sound path="Sources/Sound/Intro/New Recording (2).wav"	name = "Opening2" />
+	<sound path="Sources/Sound/Intro/Sound Effect (78).wav"	name = "slide" />
 </datasound>
