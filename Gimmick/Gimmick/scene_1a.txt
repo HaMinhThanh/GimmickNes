@@ -351,11 +351,7 @@ map/map_1a.txt	32	12	0	0
 # id	x	y	ani_id	width	height
 31	53	315	7	22	43
 
-# Pipes						
-12	976	48	4	5		
-12	992	48	4	6		
-12	992	32	4	7		
-12	992	16	4	7		
+# Pipes	
 # Portal						
 50	992	1	4	1008	0	12	0	496
 #==========Test item

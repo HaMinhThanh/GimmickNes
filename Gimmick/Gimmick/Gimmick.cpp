@@ -73,7 +73,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (GetState() == GIMMICK_STATE_DIE && waitToReset == 0) {
-		
+
 		StartReset();
 		SetAniDie();
 	}
@@ -386,11 +386,11 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (scrollbar->GetType() == SCROLLBAR_TYPE_INCREASE) {
 
-					if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) {						
+					if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) {
 
-						addVx= SCROLLBAR_SPEED;
+						addVx = SCROLLBAR_SPEED;
 					}
-					else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT)){
+					else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT)) {
 
 						addVx = -GIMMICK_AUTO_GO_SPEED;
 
@@ -513,6 +513,14 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isSlide = false;
 			}
 
+			if (dynamic_cast<CWater*>(e->obj)) {
+
+				if (e->t > 0 && e->t <= 1) {
+
+					SetState(GIMMICK_STATE_DIE);
+				}
+			}
+
 			if (dynamic_cast<CPipes*>(e->obj)) {
 
 				CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
@@ -520,23 +528,26 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isPiping = true;
 				//isGoThrough = true;
 
-				/*if (!pipe->isDeversed) {
+				if (e->t > 0 && e->t <= 1) {
 
-					pipeVx = pipe->vx ;
-					pipeVy = pipe->vy ;
+					if (pipe->type == PIPE_TYPE_HORIZONTAL) {
+
+						if (vx > 0 || CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) x += 0.1f;
+						else if(vx > 0 && CGame::GetInstance()->IsKeyDown(DIK_LEFT))x -= 0.1f;
+					}
+					else if (pipe->type == PIPE_TYPE_VERTICAL) {
+
+						x = pipe->x;
+
+						if (vy > 0) y += 0.1f;
+						else if (vy < 0)y -= 0.1f;
+					}
+
 				}
-				else {
-
-					pipeVx = pipe->vx * -1;
-					pipeVy = pipe->vy * -1;
-				}
-
-				SetState(GIMMICK_STATE_PIPING);*/
 
 			}
 			else {
 				isPiping = false;
-
 			}
 
 			// collide with item
@@ -609,7 +620,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					//SetPosition(0,0);
 
 					CCamera::GetInstance()->SetOldBound(p->oLeft, p->oRight);
-				
+
 					CGame::GetInstance()->SwitchScene(p->GetSceneId());
 
 					return;
@@ -618,16 +629,13 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		if (!isSlide && !isGoThrough &&!isPiping) {
+		if (!isSlide && !isGoThrough && !isPiping) {
 
 			x += min_tx * dx + nx * 0.4f;
 
 			if (isNotCollide)
 				isNotCollide = false;
 
-			else if (isPiping) {
-				y += dy;
-			}
 			else
 				y += min_ty * dy + ny * 0.4f;
 
@@ -649,8 +657,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (isPiping) {
 
 				y += dy;
-
-				isPiping = false;
 			}
 
 		}
@@ -718,7 +724,7 @@ void CGimmick::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animation_set->at(ani)->Render(x, (int)y, alpha);
+	animation_set->at(ani)->Render(x, y - 1, alpha);
 
 	if (star != NULL)
 		star->Render();
@@ -948,7 +954,7 @@ void CGimmick::KeyState(BYTE* state)
 	CGame* game = CGame::GetInstance();
 
 	// disable control key when Mario die 
-	if (GetState() == GIMMICK_STATE_DIE || GetState() == GIMMICK_STATE_PIPING) return;
+	if (GetState() == GIMMICK_STATE_DIE || isPiping) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 
@@ -1056,7 +1062,7 @@ void CGimmick::OnKeyUp(int keyCode)
 
 void CGimmick::collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy)
 {
-	
+
 }
 
 /*

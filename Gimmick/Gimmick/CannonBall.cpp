@@ -148,9 +148,9 @@ void CCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CCannonBall::Render()
 {
 	if (!isFinish)
-		animation_set->at(0)->Render(x, y);
+		animation_set->at(0)->Render(x, y-1);
 	else if (ending)
-		animation_set->at(1)->Render(x, y);
+		animation_set->at(1)->Render(x, y-1);
 	
 }
 

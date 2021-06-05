@@ -168,10 +168,10 @@ void CBomb::Render()
 	int state = GetState();
 
 	if (state == BOMB_STATE_WALKING_RIGHT)
-		animation_set->at(0)->Render(x, y);
+		animation_set->at(0)->Render(x, y-1);
 
 	else if (state == BOMB_STATE_WALKING_LEFT)
-		animation_set->at(1)->Render(x, y);
+		animation_set->at(1)->Render(x, y-1);
 
 	else if (state == BOMB_STATE_FLY_RIGHT)
 		animation_set->at(2)->Render(x, y);

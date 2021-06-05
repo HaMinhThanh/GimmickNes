@@ -274,9 +274,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_PIPE:
 	{
-		int t = atof(tokens[4].c_str());
+		int w = atof(tokens[4].c_str()); 
+		int h = atof(tokens[5].c_str());
+		int t = atof(tokens[6].c_str());
 
-		obj = new CPipes(x, y, t);
+		obj = new CPipes(x, y, w, h, t);
 	}
 	break;
 
@@ -412,16 +414,6 @@ void CPlayScene::Load()
 
 		if (line[0] == '#') continue;	// skip comment lines	
 
-		/*if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") {
-			section = SCENE_SECTION_SPRITES; continue;
-		}
-		if (line == "[ANIMATIONS]") {
-			section = SCENE_SECTION_ANIMATIONS; continue;
-		}
-		if (line == "[ANIMATION_SETS]") {
-			section = SCENE_SECTION_ANIMATION_SETS; continue;
-		}*/
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
@@ -441,10 +433,6 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{
-			/*case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;*/
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAP_TEXTURES: _ParseSection_MAP_TEXTURES(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
@@ -510,17 +498,16 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
-	if (cy > 0) {
+	if (cy > 0 && player->GetState()!= GIMMICK_STATE_DIE) {
 
 		int index = cy / SCREEN_HEIGHT_MAP;
 		yTop = SCREEN_HEIGHT_MAP * index;
 
+		camera->SetCamPos((int)cx, (int)yTop);
 	}
 	else {
-
 		player->SetState(GIMMICK_STATE_DIE);
-	}
-	camera->SetCamPos((int)cx, (int)yTop);
+	}	
 
 	HUD->Update(dt);
 }
@@ -531,11 +518,6 @@ void CPlayScene::Render()
 	vector<LPGAMEOBJECT> coObjects;
 
 	if (player == NULL) return;
-
-	float camx, camy;
-	camera->GetCamPos(camx, camy);
-
-	quadTree->getAllEntitiesOnCam(coObjects, camx, camy);
 
 	float cx, cy;
 

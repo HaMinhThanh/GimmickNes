@@ -1,50 +1,12 @@
 #include "Pipes.h"
 
-CPipes::CPipes(float x, float y, int type)
+CPipes::CPipes(float _x, float _y, int _width, int _height, int _type)
 {
-	isDeversed = false;
-
-	if (type == 1) {
-
-		vx = -PIPE_SPEED_X;
-		vy = 0;
-	}
-	else if (type == 2) {
-
-		vx = -PIPE_SPEED_X;
-		vy = -PIPE_SPEED_Y;
-	}
-	else if (type == 3) {
-
-		vx = 0;
-		vy = -PIPE_SPEED_Y;
-	}
-	else if (type == 4) {
-
-		vx = PIPE_SPEED_X;
-		vy = -PIPE_SPEED_Y;
-	}
-	else if (type == 5) {
-
-		vx = PIPE_SPEED_X;
-		vy = 0;
-	}
-	else if (type == 6) {
-
-		vx = PIPE_SPEED_X;
-		vy = PIPE_SPEED_Y;
-	}
-	else if (type == 7) {
-
-		vx = 0;
-		vy = PIPE_SPEED_Y;
-	}
-	else if (type == 8) {
-
-		vx = -PIPE_SPEED_X;
-		vy = PIPE_SPEED_Y;
-	}
-	
+	x = _x;
+	y = _y;
+	width = _width;
+	height = _height;
+	type = _type;
 }
 
 CPipes::~CPipes()
@@ -55,8 +17,8 @@ void CPipes::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	left = x;
 	top = y;
-	right = x + PIPE_BBOX_WIDTH;
-	bottom = y - PIPE_BBOX_HEIGHT;
+	right = x + width;
+	bottom = y - height;
 }
 
 void CPipes::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
