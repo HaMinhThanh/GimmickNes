@@ -1,4 +1,4 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 
-0	0	0	901
+0	0	175	901

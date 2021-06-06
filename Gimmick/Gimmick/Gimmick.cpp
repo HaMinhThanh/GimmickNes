@@ -552,12 +552,13 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			// collide with item
 			if (dynamic_cast<CMedicine*>(e->obj)) {
-
+				
 				CMedicine* med = dynamic_cast<CMedicine*>(e->obj);
 
 				if (e->t > 0 && e->t <= 1) {
 
 					med->isFinish = true;
+					Sound::GetInstance()->Play("item", 0, 1);
 
 					if (med->type == 2) {
 
@@ -570,17 +571,21 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						item = MEDICINE_ITEM_INDEX;
 						numItem += 1;
+						
+
 
 					}
 				}
 			}
 			else if (dynamic_cast<CBombItem*>(e->obj)) {
 
+				Sound::GetInstance()->Play("item", 0, 1);
 				e->obj->isFinish = true;
 				score += 200;
 
 				item = BOMB_ITEM_INDEX;
 				numItem += 1;
+
 
 			}
 			else if (dynamic_cast<CFireBall*>(e->obj)) {
@@ -589,6 +594,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				score += 200;
 
 				item = FIREBALL_ITEM_INDEX;
+				Sound::GetInstance()->Play("item", 0, 1);
 				numItem += 1;
 
 			}

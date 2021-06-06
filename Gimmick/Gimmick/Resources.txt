@@ -10,11 +10,12 @@
 60	textures\Hazards&Interactables.png	203	102	185
 70	textures\Treasures.png	60	188	252
 80	textures\black.jpg	255	0	255
-90	textures\intro.png	255	255	255
+90	textures\intro.png	255	25	255
 100	textures\introbig.png	255	255	255
 110	textures\waterfall.png	60	188	252
 120	textures\Bosses_R.png	0	0	255
 130	textures\Bosses_L.png	0	0	255
+140	textures\blue.png	0	0	255
 # TileSet
 11	textures\tileset\1a.png	180	230	30
 12	textures\tileset\1b.png	180	230	30
@@ -359,6 +360,9 @@
 90021	211	84	243	124	110
 90022	176	127	208	167	110
 90023	211	127	243	176	110
+
+#blue
+90050	0	0	500	500	140
 #clody big
 90024	169	5	201	21	110
 
@@ -490,6 +494,7 @@
 915	90015	9999999999999999999999999999999999999999999999999999999999999999999999
 
 920	90020	100	90021	100	90022	100	90023	100
+950	90050	100
 [ANIMATION_SETS]
 # GimMick
 #idle (l,r), walk (l,r), jump (l,r), colision (l,r)
@@ -583,3 +588,4 @@
 915	915
 #waterfall
 920	920
+950	950
