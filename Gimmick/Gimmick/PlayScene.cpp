@@ -507,9 +507,13 @@ void CPlayScene::Update(DWORD dt)
 		int index = cy / SCREEN_HEIGHT_MAP;
 		yTop = SCREEN_HEIGHT_MAP * index;
 
+		/*if (yTop < camera->oTop)
+			player->isMaxJumping = false;*/
+
 		camera->SetCamPos((int)cx, (int)yTop);
 	}
 	else {
+
 		player->SetState(GIMMICK_STATE_DIE);
 	}	
 

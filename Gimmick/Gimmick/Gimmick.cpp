@@ -25,6 +25,7 @@
 #include "BombItem.h"
 #include "Fireball.h"
 #include "Treasures.h"
+#include "MovingBrick.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -55,6 +56,8 @@ CGimmick::CGimmick(float x, float y) : CGameObject()
 	rest = 7;
 	energy = 3;
 	item = 0;
+
+	isMaxJumping = false;
 }
 
 void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -151,7 +154,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (loading == 1)
 		load_star->Update(dt, coObjects);
 
-	if (!isSlide && !isFollow && !isPiping)
+	if (!isSlide && !isFollow && !isPiping && !isMovingBrick)
 		vy += GIMMICK_GRAVITY * dt;
 
 	// Calculate dx, dy 
@@ -355,12 +358,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					if (e->ny > 0)
 					{
-						//if (vx==0 && vy==0) {							
+						isMaxJumping = true;
+
 						isFollow = true;
 						obj = st;
 						SetState(GIMMICK_STATE_IDLE);
 
-						//}
 					}
 					else
 					{
@@ -376,9 +379,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			isScrollBar = false;
 			if (dynamic_cast<CScrollBar*>(e->obj)) {
-
-				/*if (isScrollBar)
-					break;*/
 
 				isScrollBar = true;
 
@@ -428,7 +428,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isSlide = true;
 
-				float tran_y = 1;
+				float tran_y = 2;
 
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
@@ -521,6 +521,31 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+			if (dynamic_cast<CMovingBrick*>(e->obj)) {
+
+				CMovingBrick* mb = dynamic_cast<CMovingBrick*>(e->obj);
+
+				isMovingBrick = true;
+
+				isFollow = true;
+				obj = mb;
+				//if (e->t > 0 && e->t <= 1) {
+
+				//addVx = mb->vx;
+				//autoVy = 0;
+
+				//if (mb->direct == 0)
+				//	y = mb->y + GIMMICK_BBOX_HEIGHT;
+
+				////if (mb->vy < 0)
+				//	DebugOut(L"vy of moving brick %d\n", mb->vy);
+			}
+			else {
+
+				isMovingBrick = false;
+
+			}
+
 			if (dynamic_cast<CPipes*>(e->obj)) {
 
 				CPipes* pipe = dynamic_cast<CPipes*>(e->obj);
@@ -528,12 +553,14 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isPiping = true;
 				//isGoThrough = true;
 
-				if (e->t > 0 && e->t <= 1) {
+				//if (e->t > 0 && e->t <= 1) {
+
+					//SetState(GIMMICK_STATE_PIPING);
 
 					if (pipe->type == PIPE_TYPE_HORIZONTAL) {
 
-						if (vx > 0 || CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) x += 0.1f;
-						else if(vx > 0 && CGame::GetInstance()->IsKeyDown(DIK_LEFT))x -= 0.1f;
+						//if (vx > 0 || CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) x += 0.1f;
+						//else if(vx > 0 && CGame::GetInstance()->IsKeyDown(DIK_LEFT))x -= 0.1f;
 					}
 					else if (pipe->type == PIPE_TYPE_VERTICAL) {
 
@@ -543,7 +570,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						else if (vy < 0)y -= 0.1f;
 					}
 
-				}
+				//}
+				//else {
+				//	//isPiping = false;
+				//}
 
 			}
 			else {
@@ -552,7 +582,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			// collide with item
 			if (dynamic_cast<CMedicine*>(e->obj)) {
-				
+
 				CMedicine* med = dynamic_cast<CMedicine*>(e->obj);
 
 				if (e->t > 0 && e->t <= 1) {
@@ -571,7 +601,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						item = MEDICINE_ITEM_INDEX;
 						numItem += 1;
-						
+
 
 
 					}
@@ -620,10 +650,12 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 
 				if (e->t > 0 && e->t <= 1) {
+
 					DebugOut(L"SceneId %d", p->scene_id);
 
+					isMaxJumping = false;
+
 					CGame::GetInstance()->isSwitchScene = true;
-					//SetPosition(0,0);
 
 					CCamera::GetInstance()->SetOldBound(p->oLeft, p->oRight);
 
@@ -760,8 +792,15 @@ void CGimmick::SetState(int state)
 
 	case GIMMICK_STATE_JUMP:
 		Sound::GetInstance()->Play("CarSplash", 0, 1);
-		vy = GIMMICK_JUMP_SPEED_Y;
+
+		if (isMaxJumping)
+			vy = GIMMICK_MAX_JUMP_SPEED;
+		else
+			vy = GIMMICK_JUMP_SPEED_Y;
+
 		isScrollBar = false;
+		isMovingBrick = false;
+		isAutoGo = false;
 		Slide_reset();
 
 		break;
@@ -824,7 +863,7 @@ void CGimmick::SetState(int state)
 				vy = -GIMMICK_SLIDE_DOWN_SPEED_Y_2;
 			}
 		}
-		else //if (direct_go == -1)
+		else if (direct_go == -1)
 		{
 			if (slide_size == 1) {
 
@@ -851,6 +890,10 @@ void CGimmick::SetState(int state)
 		}
 		else if (isAutoGo) {
 			vx = addVx;
+		}
+		else if (isMovingBrick) {
+			vx = addVx;
+			vy = autoVy;
 		}
 		break;
 
@@ -960,18 +1003,18 @@ void CGimmick::KeyState(BYTE* state)
 	CGame* game = CGame::GetInstance();
 
 	// disable control key when Mario die 
-	if (GetState() == GIMMICK_STATE_DIE || isPiping) return;
+	if (GetState() == GIMMICK_STATE_DIE) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 
 		key_down = 1;
 
-		if (!isScrollBar && !isSlide) {
+		if (!isScrollBar && !isSlide && !isPiping) {
 
 			SetState(GIMMICK_STATE_WALKING_RIGHT);
 		}
 
-		else if (isSlide && !isScrollBar) {
+		else if (isSlide && !isScrollBar && !isPiping) {
 
 			if (direct_slide == GIMMICK_TREND_SLIDE_RIGHT)
 
@@ -980,7 +1023,7 @@ void CGimmick::KeyState(BYTE* state)
 			else
 				SetState(GIMMICK_STATE_SLIDE_DOWN);
 		}
-		else if (!isSlide && isScrollBar) {
+		else if (!isSlide && isScrollBar && !isPiping) {
 
 			if (trendScrollBar == GIMMICK_TREND_SCROLLBAR_INCREASE)
 
@@ -994,12 +1037,12 @@ void CGimmick::KeyState(BYTE* state)
 
 		key_down = -1;
 
-		if (!isScrollBar && !isSlide) {
+		if (!isScrollBar && !isSlide && !isPiping) {
 
 			SetState(GIMMICK_STATE_WALKING_LEFT);
 		}
 
-		else if (isSlide && !isScrollBar) {
+		else if (isSlide && !isScrollBar && !isPiping) {
 
 			if (direct_slide == GIMMICK_TREND_SLIDE_LEFT)
 
@@ -1008,7 +1051,7 @@ void CGimmick::KeyState(BYTE* state)
 			else
 				SetState(GIMMICK_STATE_SLIDE_DOWN);
 		}
-		else if (!isSlide && isScrollBar) {
+		else if (!isSlide && isScrollBar && !isPiping) {
 
 			if (trendScrollBar == GIMMICK_TREND_SCROLLBAR_DECREASE)
 
@@ -1018,15 +1061,11 @@ void CGimmick::KeyState(BYTE* state)
 				SetState(GIMMICK_STATE_DECREASE);
 		}
 	}
-	else if (isScrollBar || isSlide || isAutoGo) {
+	else if (isScrollBar || isSlide || isAutoGo || isMovingBrick) {
 
 		//gimmick->key_down = 0;
 
 		SetState(GIMMICK_STATE_AUTO_GO);
-	}
-	else if (isPiping) {
-
-		SetState(GIMMICK_STATE_PIPING);
 	}
 	else if (vy == 0 /*&& gimmick->vx != 0*/) {
 
@@ -1039,6 +1078,8 @@ void CGimmick::KeyState(BYTE* state)
 	if (game->IsKeyDown(DIK_A)) {
 
 		if (loading == 0 && star->isActive == false) {
+
+			isMaxJumping = false;
 
 			SetLoadingStar();
 			StarLoading();
@@ -1072,7 +1113,7 @@ void CGimmick::collideWithEnemies(vector<LPCOLLISIONEVENT> coEvents, float& min_
 }
 
 /*
-	Reset Mario status to the beginning state of a scene
+	Reset Gimmick status to the beginning state of a scene
 */
 void CGimmick::Reset()
 {
@@ -1094,8 +1135,8 @@ void CGimmick::SetAniDie()
 
 void CGimmick::FollowObject(LPGAMEOBJECT obj)
 {
-	//vx = obj->GetVx();
-	x = obj->GetX();
+	vx = obj->GetVx();
+	//x = obj->GetX();
 	y = obj->GetY() + GIMMICK_BBOX_HEIGHT + 0.4f;
 }
 

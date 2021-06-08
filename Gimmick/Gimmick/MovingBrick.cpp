@@ -14,7 +14,6 @@ CMovingBrick::CMovingBrick(int _min, int _max, int _direct)
 		vx = 0;
 		vy = MOVING_BRICK_SPEED_Y;
 	}
-
 }
 
 CMovingBrick::~CMovingBrick()
@@ -38,11 +37,13 @@ void CMovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (direct == 1) {
 		if ((x <= min && vx < 0) || (x >= max && vx > 0))
-			vx *= -1;
+			vx *= -1.0f;
+		vy = 0;
 	}
 	else {
 		if ((y <= min && vy < 0) || (y >= max && vy > 0))
-			vy *= -1;
+			vy *= -1.0f;
+		vx = 0;
 	}
 }
 

@@ -17,6 +17,7 @@ public:
 	bool isMovingCam = false;
 
 	int oLeft, oRight;
+	int oTop = 1;
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }

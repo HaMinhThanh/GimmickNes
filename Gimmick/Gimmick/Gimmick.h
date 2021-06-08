@@ -9,10 +9,11 @@
 #define GIMMICK_WALKING_SPEED		0.06f 
 #define GIMMICK_AUTO_GO_SPEED		0.03f
 //0.1f
-#define GIMMICK_JUMP_SPEED_Y		0.24f		//changed '-' in cpp
+#define GIMMICK_JUMP_SPEED_Y		0.25f		//changed '-' in cpp
 //#define GIMMICK_JUMP_SPEED_Y_2		-0.1f	isnt used
 #define GIMMICK_DOUBLE_JUMP_SPEED		0.24f	//changed '-' in cpp
 #define GIMMICK_JUMP_HIGHT_SPEED_Y		0.15f	//changed '-' in cpp
+#define GIMMICK_MAX_JUMP_SPEED		0.4f
 
 // slide speed
 #define GIMMICK_SLIDE_UP_SPEED_X_1		0.05f
@@ -134,7 +135,12 @@ public:
 	// scrollbar
 	bool isScrollBar = false;
 	int trendScrollBar;
+
+	float autoVy;
 	float addVx;
+
+	// moving brick
+	bool isMovingBrick = false;
 
 	// Game parameter
 	int score;
