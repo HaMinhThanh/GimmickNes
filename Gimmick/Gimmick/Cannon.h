@@ -16,6 +16,8 @@ public:
 
 	bool isMoving = false;
 
+	bool isSlide = false;
+
 public:
 
 	CCannon(float x, float y, int n);

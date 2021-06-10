@@ -77,6 +77,19 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<CSlide*>(e->obj)) {
 
+				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
+				
+				isSlide = true;
+
+				if (slide->direct == 1)
+					vx = -CANNON_MOVING_SPEED;
+				else
+					vx = CANNON_MOVING_SPEED;
+			}
+			else {
+
+				isSlide = false;
+				vx = 0;
 			}
 		}
 
@@ -100,7 +113,7 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (gm->vx < 0)
 			vx = -CANNON_MOVING_SPEED;
 	}
-	else
+	else if(!isSlide)
 		vx = 0;
 
 	CCannonBall* cb = (CCannonBall*)ListBall.at(current_ball);
@@ -126,7 +139,7 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CCannon::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	animation_set->at(0)->Render(x, (int)y);
 	ListBall.at(current_ball)->Render();
 }
 
