@@ -2,10 +2,16 @@
 #include "Bomb.h"
 #include "Brick.h"
 
-CWorm::CWorm(float _x, float _y)
+CWorm::CWorm(float _x, float _y, int _max, int _min)
 {
 	x = _x;
 	y = _y;
+
+	backupX = _x;
+	backupY = _y;
+
+	max = _max;
+	min = _min;
 
 	vx = WORM_SPEED_X;
 	vy = 0;
@@ -71,7 +77,7 @@ void CWorm::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (!isFinish) {
-		if ((x <= MIN_POS_X && vx < 0) || (x + WORM_BBOX_WIDTH >= MAX_POS_X && vx > 0))
+		if ((x <= min && vx < 0) || (x + WORM_BBOX_WIDTH >= max && vx > 0))
 			vx *= -1;
 	}
 	else {

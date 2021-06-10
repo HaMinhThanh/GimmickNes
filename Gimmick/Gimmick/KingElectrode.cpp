@@ -6,6 +6,9 @@ CKingElectrode::CKingElectrode(float _x, float _y)
 	x = _x;
 	y = _y;
 
+	backupX = _x;
+	backupY = _y;
+
 	vx = KING_SPEED_X;
 	vy = 0;
 

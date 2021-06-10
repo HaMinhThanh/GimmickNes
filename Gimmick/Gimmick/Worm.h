@@ -15,7 +15,7 @@ class CWorm: public CGameObject
 {
 	int max, min;
 public:
-	CWorm(float x, float y);
+	CWorm(float x, float y, int max, int min);
 	~CWorm();
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

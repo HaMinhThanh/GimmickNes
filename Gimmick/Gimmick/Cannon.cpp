@@ -4,11 +4,15 @@
 #include "ScrollBar.h"
 #include "Slide.h"
 #include "Water.h"
+#include "Gimmick.h"
 
 CCannon::CCannon(float _x, float _y, int _n)
 {
 	x = _x;
 	y = _y;
+
+	backupX = _x;
+	backupY = _y;
 
 	num_ball = _n;
 
@@ -71,7 +75,7 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CScrollBar*>(e->obj)) {
+			if (dynamic_cast<CSlide*>(e->obj)) {
 
 			}
 		}
@@ -80,7 +84,24 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			vy = 0;
 		}
+
+		if (nx != 0)
+			vx *= -1;
 	}
+
+	CGimmick* gm = CGimmick::GetInstance(0, 0);
+
+	if (isMoving && gm->isPushCannon) {
+
+		isMoving = false;
+
+		if (gm->vx > 0)
+			vx = CANNON_MOVING_SPEED;
+		else if (gm->vx < 0)
+			vx = -CANNON_MOVING_SPEED;
+	}
+	else
+		vx = 0;
 
 	CCannonBall* cb = (CCannonBall*)ListBall.at(current_ball);
 
@@ -113,6 +134,6 @@ void CCannon::GetBoundingBox(float& left, float& top, float& right, float& botto
 {
 	left = x;
 	top = y;
-	right = x + 16;
-	bottom = y - 16;
+	right = x + CANNON_BBOX_WIDTH - 1;
+	bottom = y - CANNON_BBOX_HEIGHT;
 }

@@ -141,6 +141,7 @@ public:
 
 	// moving brick
 	bool isMovingBrick = false;
+	bool isPushCannon = false;
 
 	// Game parameter
 	int score;

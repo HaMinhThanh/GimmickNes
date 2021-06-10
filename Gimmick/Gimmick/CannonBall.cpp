@@ -10,6 +10,7 @@ CCannonBall::CCannonBall(float _x, float _y, int _index)
 {
 	x = _x;
 	y = _y;
+
 	index = _index;
 
 	backupX = _x;

@@ -428,7 +428,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isSlide = true;
 
-				float tran_y = 2;
+				float tran_y = -99999;
 
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
 
@@ -578,6 +578,20 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else {
 				isPiping = false;
+			}
+
+			if (dynamic_cast<CCannon*>(e->obj)) {
+
+				CCannon* can = dynamic_cast<CCannon*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1) {
+
+					can->isMoving = true;
+					isPushCannon = true;
+				}
+			}
+			else {
+				isPushCannon = false;
 			}
 
 			// collide with item

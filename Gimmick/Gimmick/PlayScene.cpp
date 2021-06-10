@@ -236,7 +236,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 
 	case OBJECT_TYPE_WORM:
-		obj = new CWorm(x, y);
+	{
+		int max = atof(tokens[4].c_str());
+		int min = atof(tokens[5].c_str());
+
+		obj = new CWorm(x, y, max, min); 
+	}
 		break;
 
 	case OBJECT_TYPE_KING_ELECTRODE:
@@ -274,7 +279,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_PIPE:
 	{
-		int w = atof(tokens[4].c_str()); 
+		int w = atof(tokens[4].c_str());
 		int h = atof(tokens[5].c_str());
 		int t = atof(tokens[6].c_str());
 
@@ -453,8 +458,12 @@ void CPlayScene::Update(DWORD dt)
 	Sound::GetInstance()->Stop("intro3");
 	Sound::GetInstance()->Stop("Opening");
 	Sound::GetInstance()->Play("Opening2", 1, 1);
+
 	vector<LPGAMEOBJECT> coObjects;
+	vector<LPGAMEOBJECT> quadObj;
+
 	coObjects.clear();
+	quadObj.clear();
 	listObj.clear();
 
 	/*for (size_t i = 1; i < objects.size(); i++)
@@ -467,12 +476,14 @@ void CPlayScene::Update(DWORD dt)
 
 	quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
 
-	for (int i = 0; i < coObjects.size(); i++)
-		listObj.push_back(coObjects[i]);
+	GetCollideEnemy(coObjects, quadObj);
 
-	for (size_t i = 0; i < coObjects.size(); i++)
+	for (int i = 0; i < quadObj.size(); i++)
+		listObj.push_back(quadObj[i]);
+
+	for (size_t i = 0; i < quadObj.size(); i++)
 	{
-		coObjects[i]->Update(dt, &coObjects);
+		listObj[i]->Update(dt, &quadObj);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -502,20 +513,17 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > xRight - SCREEN_WIDTH + 32) // cong them 32 vi thieu 1 frame
 		cx = xRight - SCREEN_WIDTH + 32;
 
-	if (cy > 0 && player->GetState()!= GIMMICK_STATE_DIE) {
+	if (cy > 0 && player->GetState() != GIMMICK_STATE_DIE) {
 
 		int index = cy / SCREEN_HEIGHT_MAP;
 		yTop = SCREEN_HEIGHT_MAP * index;
-
-		/*if (yTop < camera->oTop)
-			player->isMaxJumping = false;*/
 
 		camera->SetCamPos((int)cx, (int)yTop);
 	}
 	else {
 
 		player->SetState(GIMMICK_STATE_DIE);
-	}	
+	}
 
 	HUD->Update(dt);
 }
@@ -577,6 +585,43 @@ void CPlayScene::Unload()
 	//player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+}
+
+void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJECT>& OutObjects)
+{
+	float camX, camY;
+	camera->GetCamPos(camX, camY);
+
+	for (UINT i = 0; i < listObj.size(); i++)
+	{
+		if (dynamic_cast<CCannon*>(listObj.at(i))
+			|| dynamic_cast<CCannonBall*>(listObj.at(i))
+			|| dynamic_cast<CBomb*>(listObj.at(i))
+			|| dynamic_cast<CElectrode*>(listObj.at(i))
+			|| dynamic_cast<CKingElectrode*>(listObj.at(i))
+			|| dynamic_cast<CWorm*>(listObj.at(i))) {
+
+			if (listObj.at(i)->x >= camX - 16 && listObj.at(i)->x <= camX + SCREEN_WIDTH
+				&& listObj.at(i)->y <= camY + SCREEN_HEIGHT && listObj.at(i)->y >= camY)
+			{
+				OutObjects.push_back(listObj.at(i));
+			}
+			else
+			{
+				if (!(listObj.at(i)->backupX >= camX - 16 && listObj.at(i)->backupX <= camX + SCREEN_WIDTH
+					&& listObj.at(i)->backupY <= camY + SCREEN_HEIGHT && listObj.at(i)->backupY >= camY) && !listObj.at(i)->isFinish)
+				{
+					listObj.at(i)->SetPosition(listObj.at(i)->backupX, listObj.at(i)->backupY);
+
+					DebugOut(L"Set to begin%d\n", listObj.at(i)->backupX);
+				}
+			}
+		}
+		else {
+
+			OutObjects.push_back(listObj.at(i));
+		}
+	}
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)

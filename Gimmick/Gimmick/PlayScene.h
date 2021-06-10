@@ -31,10 +31,6 @@ protected:
 	vector<LPGAMEOBJECT> ani_fronts;
 	vector<LPGAMEOBJECT> ani_backs;
 
-	/*void _ParseSection_TEXTURES(string line);
-	void _ParseSection_SPRITES(string line);
-	void _ParseSection_ANIMATIONS(string line);
-	void _ParseSection_ANIMATION_SETS(string line);*/
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP_TEXTURES(string line);
 	void _ParseSection_CAMERA(string line);
@@ -51,6 +47,8 @@ public:
 	virtual void Unload();
 
 	CGimmick* GetPlayer() { return player; }
+
+	void GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJECT>&OutObjects);
 
 	//friend class CPlayScenceKeyHandler;
 };

@@ -9,6 +9,9 @@ CElectrode::CElectrode(float _x, float _y)
 
 	vx = 0;
 	vy = 0;
+
+	backupX = _x;
+	backupY = _y;
 }
 
 CElectrode::~CElectrode()

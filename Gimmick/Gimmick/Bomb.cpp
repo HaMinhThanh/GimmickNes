@@ -9,6 +9,9 @@ CBomb::CBomb(float _x, float _y)
 	this->x = _x;
 	this->y = _y;
 
+	backupX = _x;
+	backupY = _y;
+
 	//vx = BOMB_SPEED_X;
 	SetState(BOMB_STATE_WALKING_RIGHT);
 	
