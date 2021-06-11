@@ -133,17 +133,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		CGame* game = CGame::GetInstance();
 
 		obj->SetPosition(x, y);
+		obj->BackUpPos(x, y);
 
 		if (game->isSwitchScene) {
-			obj->SetPosition(game->playerX, game->playerY);
-			game->isSwitchScene = false;
-		}
-		/*else {
-			obj->SetPosition(x, y);
-		}*/
 
-		//obj->SetPosition(x, y);
-		obj->BackUpPos(x, y);
+			obj->SetPosition(game->playerX, game->playerY);
+			obj->BackUpPos(game->playerX, game->playerY);
+
+			game->isSwitchScene = false;
+
+		}		
 
 		float reX = atof(tokens[4].c_str());
 		float reY = atof(tokens[5].c_str());

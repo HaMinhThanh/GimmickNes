@@ -654,6 +654,17 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CHiddenObject* hidden = dynamic_cast<CHiddenObject*>(e->obj);
 
+				if (vx < 0)
+				{
+					backupX = hidden->x - 16;
+					backupY = y;
+				}
+				else
+				{
+					backupX = hidden->x + 16;
+					backupY = y;
+				}
+
 				CCamera* camera = CCamera::GetInstance();
 
 				camera->SetCamBoundary(hidden->cam_left, hidden->cam_right, camera->_yTop);
