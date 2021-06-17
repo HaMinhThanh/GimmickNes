@@ -17,9 +17,11 @@
 130	textures\Bosses_L.png	0	0	255
 140	textures\blue.png	0	0	255
 # TileSet
-11	textures\tileset\1a.png	180	230	30
-12	textures\tileset\1b.png	180	230	30
-13	textures\tileset\1c.png	180	230	30
+11	textures\tileset\map1a_bank.png	180	230	30
+12	textures\tileset\map1b_bank.png	180	230	30
+13	textures\tileset\map1c_bank.png	180	230	30
+14	textures\tileset\map2_full_bank.png	180	230	30
+15	textures\tileset\map7_full_bank.png	180	230	30
 # Map root
 14	textures\map\1a.png	60	188	252
 15	textures\map\1b.png	0	0	0

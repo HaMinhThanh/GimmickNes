@@ -7,7 +7,7 @@
 #include "Sprites.h"
 #include"Utils.h"
 
-#define MAP_CELL_SIZE	32
+#define MAP_CELL_SIZE	16
 
 
 
@@ -21,7 +21,7 @@ private:
 	int _row_max;
 	int index;
 	int align;
-	int TileMap[51][51];
+	int TileMap[200][150];
 
 	//int cell_row_max;
 	//int cell_column_max;

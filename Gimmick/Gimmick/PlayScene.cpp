@@ -351,7 +351,7 @@ void CPlayScene::_ParseSection_MAP_TEXTURES(string line)
 		for (int j = 0; j < column; j++)
 		{
 			DebugOut(L"ok");
-			CSprites::GetInstance()->Add(index, j * 32, i * 32, j * 32 + 32, i * 32 + 32, tex);
+			CSprites::GetInstance()->Add(index, j * 16, i * 16, j * 16 + 16, i * 16 + 16, tex);
 			index = index + 1;
 		}
 	}
@@ -389,8 +389,8 @@ void CPlayScene::_ParseSection_MAP(string line)
 	RECT r;
 	r.left = 0;
 	r.top = 0;
-	r.right = column * 32;
-	r.bottom = row * 32;
+	r.right = column * 16;
+	r.bottom = row * 16;
 
 	quadTree = new CQuadTree(1, r);
 }
