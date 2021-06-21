@@ -20,7 +20,7 @@
 11	textures\tileset\map1a_bank.png	180	230	30
 12	textures\tileset\map1b_bank.png	180	230	30
 13	textures\tileset\map1c_bank.png	180	230	30
-14	textures\tileset\map2_full_bank.png	180	230	30
+21	textures\tileset\map2_full_bank.png	180	230	30
 15	textures\tileset\map7_full_bank.png	180	230	30
 # Map root
 14	textures\map\1a.png	60	188	252

@@ -59,7 +59,7 @@ void CStartScence::_ParseSection_SPRITES(string line)
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 6) return; // skip invalid lines
-
+		
 	int ID = atoi(tokens[0].c_str());
 	int l = atoi(tokens[1].c_str());
 	int t = atoi(tokens[2].c_str());
@@ -277,7 +277,6 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S:
 		CGame::GetInstance()->SwitchScene(11);
 		break;
-
 	case DIK_1:
 		CGame::GetInstance()->SwitchScene(MAP_ID_1A);
 		break;

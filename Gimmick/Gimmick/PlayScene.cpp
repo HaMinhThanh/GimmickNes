@@ -689,6 +689,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_3:
 		game->SwitchScene(MAP_ID_1C);
 		break;
+
+	case DIK_Q:
+		game->SwitchScene(MAP_ID_2A);
+		break;
+
 	case DIK_U:
 		gimmick->SetPosition(736, 480);
 		break;
@@ -698,6 +703,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_8:
 		gimmick->SetPosition(1344, 432);
 		break;
+
 	}
 }
 
