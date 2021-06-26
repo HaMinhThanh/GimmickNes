@@ -8,4 +8,6 @@ start	1
 11	scene_1a.txt
 12	scene_1b.txt
 13	scene_1c.txt
+21	scene_2a.txt
+71	scene_7a.txt
 

@@ -1,0 +1,20 @@
+[MAP_TEXTURES]
+#idScene	rowSprites	columnSprites	IDTileSet
+1	21	11	71	
+
+[MAP]
+# filePath	column	row	index	align
+map/map7.txt	128	48	0	0
+
+[CAMERA]
+#xLeft	xRight	yTop	yBot
+0	2048	0	384
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+
+# Gimmick
+#start
+1	50	384	1	480	352
+
+4	50	350	401
