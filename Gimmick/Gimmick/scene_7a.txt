@@ -14,8 +14,10 @@ map/map7.txt	128	48	0	0
 # type	x	y	ani_set_id	extra_settings per object type
 
 # Gimmick
-#start
-1	1984	80	1	480	352
+# end layer1
+#1	1984	80	1	480	352
+# star layer 4
+1	32	630	1	480	352
 
 # Brick in first layer
 type	x	y	an_set
@@ -399,10 +401,11 @@ type	x	y	an_set
 4	48	480	401
 
 # Fourth layer
-4	0	560	401
-4	16	560	401
+4	0	528	401
+4	0	544	401
+#4	16	544	401
 4	32	592	401
-4	64	592	401
+4	48	592	401
 4	64	608	401
 4	80	608	401
 4	96	608	401

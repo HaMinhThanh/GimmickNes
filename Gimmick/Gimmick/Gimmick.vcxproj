@@ -56,6 +56,7 @@
     <ClInclude Include="RenderImage.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScrollBar.h" />
+    <ClInclude Include="Shadow.h" />
     <ClInclude Include="Slide.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprites.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="RenderImage.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScrollBar.cpp" />
+    <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="Slide.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprites.cpp" />

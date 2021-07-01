@@ -154,6 +154,9 @@
     <ClCompile Include="Worm.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="Shadow.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -302,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="Worm.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Shadow.h">
+      <Filter>Object\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
