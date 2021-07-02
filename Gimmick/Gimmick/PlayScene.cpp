@@ -28,6 +28,7 @@
 #include "Cannon.h"
 #include "CannonBall.h"
 #include "Electrode.h"
+#include "Shadow.h"
 #include "Sound.h"
 
 #include "Treasures.h"
@@ -83,6 +84,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_NARROWSPOT		26
 #define OBJECT_TYPE_ELECTRODE		27
 #define OBJECT_TYPE_KING_ELECTRODE	28
+#define OBJECT_TYPE_SHADOW			30
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
@@ -245,6 +247,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_KING_ELECTRODE:
 		obj = new CKingElectrode(x, y);
+		break;
+
+	case OBJECT_TYPE_SHADOW:
+		obj = new CShadow(x, y);
 		break;
 
 	case OBJECT_TYPE_ELECTRODE:

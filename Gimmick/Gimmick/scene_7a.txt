@@ -17,7 +17,7 @@ map/map7.txt	128	48	0	0
 # end layer1
 #1	1984	80	1	480	352
 # star layer 4
-1	32	630	1	480	352
+1	1900	700	1	480	352
 
 # Brick in first layer
 type	x	y	an_set
@@ -526,3 +526,6 @@ type	x	y	an_set
 
 # Pipes
 12	2016	240	4	16	144	1
+
+# Shadow
+30	1952	688	30
