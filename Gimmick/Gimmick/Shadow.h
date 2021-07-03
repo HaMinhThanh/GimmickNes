@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GameObject.h"
+#include "WindWall.h"
+#include "WhiteBall.h"
 
 #define SHADOW_POS_MAX
 #define SHADOW_POS_MIN
@@ -23,10 +25,15 @@
 #define SHADOW_ANI_ATTACK
 #define SHADOW_ANI_HURT
 
+#define BALL_NUMBER		3
+
 class CShadow : public CGameObject
 {
 	//int max, min;
 public:
+
+	CWindWall* wall;
+	vector<CWhiteBall*> ListBall;
 
 
 public:

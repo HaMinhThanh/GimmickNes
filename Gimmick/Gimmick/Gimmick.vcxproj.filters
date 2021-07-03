@@ -157,6 +157,12 @@
     <ClCompile Include="Shadow.cpp">
       <Filter>Object\Enemy\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="WhiteBall.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="WindWall.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -307,6 +313,12 @@
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Shadow.h">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="WhiteBall.h">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="WindWall.h">
       <Filter>Object\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>

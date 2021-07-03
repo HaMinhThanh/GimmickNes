@@ -68,6 +68,8 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Clody.h" />
+    <ClInclude Include="WhiteBall.h" />
+    <ClInclude Include="WindWall.h" />
     <ClInclude Include="Worm.h" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +124,8 @@
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Clody.cpp" />
+    <ClCompile Include="WhiteBall.cpp" />
+    <ClCompile Include="WindWall.cpp" />
     <ClCompile Include="Worm.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
