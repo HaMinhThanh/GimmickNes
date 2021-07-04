@@ -5,6 +5,8 @@
 
 #define WALL_POS_Y_FIXED		658
 
+#define WALL_SPEED_X		0.05f
+
 class CWindWall: public CGameObject
 {
 public:

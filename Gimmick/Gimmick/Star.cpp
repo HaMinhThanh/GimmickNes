@@ -8,6 +8,7 @@
 #include "KingElectrode.h"
 #include "Electrode.h"
 #include "Slide.h"
+#include "Shadow.h"
 
 #define STAR_ANIMATION_SET		2
 
@@ -51,7 +52,7 @@ void CStar::Render()
 
 	if (isBubble)
 		animation_set->at(1)->Render(x, y);		// star bubble in the end
-	else 
+	else
 		animation_set->at(0)->Render(x, y);		// normal
 
 	//RenderBoundingBox();
@@ -107,7 +108,7 @@ void CStar::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 
 void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{	
+{
 
 	if (isActive) {
 
@@ -127,7 +128,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (acting == 1) {
 
 			if (GetTickCount() - time_acting > STAR_BUBBLE_TIME) {
-				
+
 				time_acting = 0;
 				acting = 0;
 
@@ -135,10 +136,10 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isFinish = true;
 				isBubble = false;
 			}
-			else if (GetTickCount() - time_acting > STAR_ACTING_TIME 
+			else if (GetTickCount() - time_acting > STAR_ACTING_TIME
 				&& GetTickCount() - time_acting < STAR_BUBBLE_TIME)
-			{				
-				isBubble = true;				
+			{
+				isBubble = true;
 			}
 		}
 
@@ -157,7 +158,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				|| dynamic_cast<CBomb*>(coObjects->at(i))
 				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CElectrode*>(coObjects->at(i))
-				|| dynamic_cast<CWorm*>(coObjects->at(i))) {
+				|| dynamic_cast<CWorm*>(coObjects->at(i))
+				|| dynamic_cast<CShadow*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
 			}
@@ -180,7 +182,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float rdx, rdy;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-			
+
 
 			for (UINT i = 0; i < coEventsResult.size(); i++) {
 
@@ -204,7 +206,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->t > 0 && e->t <= 1) {
 
 						CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
-						
+
 						if (elec->isIdle) {
 							elec->isFinish = true;
 							CGimmick::GetInstance(0, 0)->score += 100;
@@ -228,7 +230,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 
-				if (dynamic_cast<CKingElectrode*>(e->obj)) {
+				else if (dynamic_cast<CKingElectrode*>(e->obj)) {
 
 					if (e->t > 0 && e->t <= 1) {
 
@@ -237,8 +239,34 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						king->live -= 1;
 						CGimmick::GetInstance(0, 0)->score += 100;
 
-						if(king->live<=0)
+						if (king->live <= 0)
 							CGimmick::GetInstance(0, 0)->score += 1000;
+
+						Reset();
+					}
+				}
+				else if (dynamic_cast<CShadow*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CShadow* shadow = dynamic_cast<CShadow*>(e->obj);
+
+						shadow->live -= 1;
+						CGimmick::GetInstance(0, 0)->score += 200;
+
+						if (shadow->live <= 0) {
+							if (shadow->isCloak) {
+								shadow->isCloak = false;
+								shadow->isLanky = true;
+								shadow->x = SHADOW_POS_MAX;
+								shadow->wall->vx = -WALL_SPEED_X;
+								shadow->wall->BackUpPos(SHADOW_POS_MAX, WALL_POS_Y_FIXED);
+							}
+							else {
+								shadow->isFinish = true;
+								CGimmick::GetInstance(0, 0)->score += 10000;
+							}
+						}
 
 						Reset();
 					}

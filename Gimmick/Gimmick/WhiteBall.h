@@ -3,6 +3,9 @@
 
 #define BALL_ANIMATION_SET		32
 
+#define BALL_SPEED_X	0.015f
+#define BALL_SPEED_Y	0.015f
+
 class CWhiteBall: public CGameObject
 {
 public:
