@@ -674,6 +674,11 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 
+				CGame::GetInstance()->playerX = p->getOldX();
+				CGame::GetInstance()->playerY = p->getOldY();
+
+				DebugOut(L"player X , y : %d\n%d\n", CGame::GetInstance()->playerX, CGame::GetInstance()->playerY);
+
 				if (e->t > 0 && e->t <= 1) {
 
 					DebugOut(L"SceneId %d", p->scene_id);

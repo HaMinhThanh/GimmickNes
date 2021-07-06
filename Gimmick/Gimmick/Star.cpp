@@ -261,6 +261,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								shadow->x = SHADOW_POS_MAX;
 								shadow->wall->vx = -WALL_SPEED_X;
 								shadow->wall->BackUpPos(SHADOW_POS_MAX, WALL_POS_Y_FIXED);
+								shadow->live = SHADOW_NINJA_LIVE;
 							}
 							else {
 								shadow->isFinish = true;

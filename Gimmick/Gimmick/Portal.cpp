@@ -1,7 +1,7 @@
 #include "Portal.h"
 
 
-CPortal::CPortal(float l, float t, float r, float b, int _scene_id, int cLeft, int cRight)
+CPortal::CPortal(float l, float t, float r, float b, int _scene_id, int cLeft, int cRight, float ox, float oy)
 {
 	scene_id = _scene_id;
 	x = l;
@@ -11,6 +11,9 @@ CPortal::CPortal(float l, float t, float r, float b, int _scene_id, int cLeft, i
 
 	oLeft = cLeft;
 	oRight = cRight;
+
+	oldX = ox;
+	oldY = oy;
 }
 
 CPortal::~CPortal()

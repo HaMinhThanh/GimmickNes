@@ -146,11 +146,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		}		
 
-		float reX = atof(tokens[4].c_str());
+		/*float reX = atof(tokens[4].c_str());
 		float reY = atof(tokens[5].c_str());
 
 		game->playerX = reX;
-		game->playerY = reY;
+		game->playerY = reY;*/
 
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		obj->SetAnimationSet(ani_set);
@@ -312,8 +312,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[6].c_str());
 		float caml = atof(tokens[7].c_str());
 		float camr = atof(tokens[8].c_str());
+		float oldX = atof(tokens[9].c_str());
+		float oldY = atof(tokens[10].c_str());
 
-		obj = new CPortal(x, y, r, b, scene_id, caml, camr);
+		obj = new CPortal(x, y, r, b, scene_id, caml, camr, oldX, oldY);
 
 		DebugOut(L"Portal %d", scene_id);
 	}
@@ -356,7 +358,7 @@ void CPlayScene::_ParseSection_MAP_TEXTURES(string line)
 	{
 		for (int j = 0; j < column; j++)
 		{
-			DebugOut(L"ok");
+			//DebugOut(L"ok");
 			CSprites::GetInstance()->Add(index, j * 16, i * 16, j * 16 + 16, i * 16 + 16, tex);
 			index = index + 1;
 		}
@@ -618,7 +620,7 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 				{
 					listObj.at(i)->SetPosition(listObj.at(i)->backupX, listObj.at(i)->backupY);
 
-					DebugOut(L"Set to begin%d\n", listObj.at(i)->backupX);
+					//DebugOut(L"Set to begin%d\n", listObj.at(i)->backupX);
 				}
 			}
 		}
