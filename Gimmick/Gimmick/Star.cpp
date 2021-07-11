@@ -9,14 +9,14 @@
 #include "Electrode.h"
 #include "Slide.h"
 #include "Shadow.h"
+#include "BombItem.h"
+#include "Medicine.h"
+#include "Fireball.h"
 
 #define STAR_ANIMATION_SET		2
 
-
 CStar::CStar()
 {
-	//SetState(STAR_STATE_ACTIVITY);
-
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(STAR_ANIMATION_SET);
 
@@ -194,6 +194,37 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
 						bomb->SetState(BOMB_STATE_DIE);
+
+						switch (bomb->item) {
+
+						case BOMB_ITEM_NON:
+							break;
+
+						case BOMB_ITEM_BOMB:
+						{
+							CBombItem* item = new CBombItem(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
+							item->SetPosition(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
+							CMap::GetInstance()->quadTree->insertEntity(item);				
+						}
+						break;
+
+						case BOMB_ITEM_MEDICINE:
+						{
+							CMedicine* item = new CMedicine(bomb->x, bomb->y + BOMB_BBOX_HEIGHT, MEDICINE_TYPE_1);
+							item->SetPosition(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
+							CMap::GetInstance()->quadTree->insertEntity(item);
+						}
+						break;
+
+						case BOMB_ITEM_FIREBALL:
+						{
+							CFireBall* item = new CFireBall(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
+							item->SetPosition(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
+							CMap::GetInstance()->quadTree->insertEntity(item);
+						}
+						break;
+
+						}
 
 						CGimmick::GetInstance(0, 0)->score += 100;
 

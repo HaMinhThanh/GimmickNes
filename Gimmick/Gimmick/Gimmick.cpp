@@ -5,6 +5,7 @@
 
 #include "Gimmick.h"
 #include "Game.h"
+#include "PlayScene.h"
 
 #include "Portal.h"
 #include "Bomb.h"
@@ -606,9 +607,6 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						item = MEDICINE_ITEM_INDEX;
 						numItem += 1;
-
-
-
 					}
 				}
 			}

@@ -17,7 +17,7 @@ protected:
 
 	CGimmick* player;					// A play scene has to have player, right? 
 	CMap* map;
-	CQuadTree* quadTree;
+	//CQuadTree* quadTree;
 	CCamera* camera;
 	CHUD* HUD;
 

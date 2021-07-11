@@ -17,12 +17,26 @@ CMap::CMap()
 {
 }
 
+CMap::~CMap()
+{
+	delete quadTree;
+	quadTree = NULL;
+}
+
 void CMap::SetValueInMap(int row, int column, int index, int align)
 {
     this->_column_max = column;
     this->_row_max = row;
     this->index = index;
     this->align = align;
+
+	RECT r;
+	r.left = 0;
+	r.top = row * 16;
+	r.right = column * 16;
+	r.bottom = 0;
+
+	quadTree = new CQuadTree(1, r);
 }
 
 int CMap::getTile(int x, int y)

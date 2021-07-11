@@ -2,6 +2,7 @@
 #include "Bomb.h"
 #include "Brick.h"
 #include "KingElectrode.h"
+#include "Map.h"
 
 CShadow::CShadow(float _x, float _y)
 {
@@ -27,11 +28,15 @@ CShadow::CShadow(float _x, float _y)
 	wall = new CWindWall(x, WALL_POS_Y_FIXED);
 	wall->vx = -WALL_SPEED_X;
 
+	CMap::GetInstance()->quadTree->insertEntity(wall);
+
 	for (int i = 0; i < BALL_NUMBER; i++) {
 
 		CWhiteBall* ball = new CWhiteBall(x, y);
 
 		ListBall.push_back(ball);
+
+		CMap::GetInstance()->quadTree->insertEntity(ball);
 	}
 }
 
@@ -183,7 +188,7 @@ void CShadow::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		wall->vx *= -1;
 		wall->BackUpPos(x, WALL_POS_Y_FIXED);
 	}
-	wall->Update(dt, coObjects);
+	//wall->Update(dt, coObjects);
 
 	if (isLanky) {
 		for (int i = 0; i < BALL_NUMBER; i++) {
@@ -193,7 +198,8 @@ void CShadow::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				ListBall[i]->vx = -BALL_SPEED_X * (BALL_NUMBER - i);
 				ListBall[i]->vy = -BALL_SPEED_Y * (i + 1);
 
-				ListBall[i]->Update(dt, coObjects);
+				ListBall[i]->isShot = true;
+				//ListBall[i]->Update(dt, coObjects);
 			}
 			else {
 				ListBall[i]->SetPosition(x, y);
@@ -207,7 +213,7 @@ void CShadow::Render()
 {
 	if (!isFinish) {
 
-		wall->Render();
+		/*wall->Render();*/
 
 		if (isCloak) {
 
@@ -215,9 +221,9 @@ void CShadow::Render()
 		}
 		else {
 
-			for (int i = 0; i < BALL_NUMBER; i++)
+			/*for (int i = 0; i < BALL_NUMBER; i++)
 				if (!ListBall[i]->isFinish)
-					ListBall[i]->Render();
+					ListBall[i]->Render();*/
 
 			if (isLanky)
 				animation_set->at(SHADOW_ANI_LANKY_FELLOW)->Render(x, y);

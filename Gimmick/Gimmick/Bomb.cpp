@@ -4,7 +4,7 @@
 #include "Gimmick.h"
 #include "Slide.h"
 
-CBomb::CBomb(float _x, float _y)
+CBomb::CBomb(float _x, float _y, int _item)
 {
 	this->x = _x;
 	this->y = _y;
@@ -12,10 +12,9 @@ CBomb::CBomb(float _x, float _y)
 	backupX = _x;
 	backupY = _y;
 
-	//vx = BOMB_SPEED_X;
 	SetState(BOMB_STATE_WALKING_RIGHT);
 	
-	//this->vy = BOMB_SPEED_Y_NORMAL;
+	item = _item;
 }
 
 CBomb::~CBomb()

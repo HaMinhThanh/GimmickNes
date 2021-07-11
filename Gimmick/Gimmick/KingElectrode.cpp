@@ -4,6 +4,7 @@
 #include "Define.h"
 #include "Gimmick.h"
 #include "Sound.h"
+#include "Map.h"
 
 CKingElectrode::CKingElectrode(float _x, float _y)
 {
@@ -20,12 +21,14 @@ CKingElectrode::CKingElectrode(float _x, float _y)
 
 	for (int i = 0; i < BOMB_NUMBER; i++) {
 
-		CBomb* bomb = new CBomb(x, y);
+		CBomb* bomb = new CBomb(x, y, BOMB_ITEM_NON);
 
 		CAnimationSets* ani = CAnimationSets::GetInstance();
 		LPANIMATION_SET ani_set = ani->Get(3);
 		bomb->SetAnimationSet(ani_set);
 		ListBomb.push_back(bomb);
+
+		CMap::GetInstance()->quadTree->insertEntity(bomb);
 	}
 
 	isFinish = false;
@@ -98,7 +101,7 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = -KING_SPEED_Y;
 	}
 
-	for (int i = 0; i < BOMB_NUMBER; i++)
+	/*for (int i = 0; i < BOMB_NUMBER; i++)
 		if (!ListBomb[i]->isFinish) {
 
 			float camx, camy;
@@ -135,19 +138,18 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					gimmick->star->Reset();
 				}
 			}
-		}
+		}*/
 }
 
 void CKingElectrode::Render()
 {
 	if (!isFinish) {
+
 		animation_set->at(0)->Render(x, y);
 		CAnimations::GetInstance()->Get(327)->Render(x + 6, y + KING_BBOX_BULB * 2 );
-
-		for (int i = 0; i < BOMB_NUMBER; i++)
-			if (!ListBomb[i]->isFinish)
-				ListBomb[i]->Render();
 	}
-	else
+	else {
+
 		animation_set->at(1)->Render(x, y + KING_BBOX_BULB);
+	}
 }

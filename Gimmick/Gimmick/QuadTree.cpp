@@ -2,6 +2,14 @@
 #include "Define.h"
 #include "Utils.h"
 
+CQuadTree* CQuadTree::__instance = NULL;
+
+CQuadTree* CQuadTree::GetInstance(int level, RECT r)
+{
+    if (__instance == NULL) __instance = new CQuadTree(level, r);
+    return __instance;
+}
+
 CQuadTree::CQuadTree(int level, RECT bound)
 {
 	//chia lam 4

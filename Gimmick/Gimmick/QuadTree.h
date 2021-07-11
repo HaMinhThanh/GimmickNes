@@ -12,6 +12,9 @@ class CQuadTree
 {
 public:
 
+    static CQuadTree* __instance;
+    static CQuadTree* GetInstance(int level, RECT r);
+
     CQuadTree(int level, RECT bound);
     ~CQuadTree();
     void Clear();

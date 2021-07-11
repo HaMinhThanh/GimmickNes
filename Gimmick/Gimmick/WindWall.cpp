@@ -26,8 +26,8 @@ void CWindWall::GetBoundingBox(float& left, float& top, float& right, float& bot
 {
 	left = x;
 	top = y;
-	right = x + 10;
-	bottom = y - 50;
+	right = x + WALL_BBOX_WIDTH;
+	bottom = y - WALL_BBOX_HEIGHT;
 }
 
 void CWindWall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

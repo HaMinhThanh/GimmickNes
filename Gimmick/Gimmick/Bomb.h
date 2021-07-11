@@ -18,6 +18,11 @@
 #define BOMB_SPEED_Y_NORMAL			0.18f
 #define BOMB_SPEED_Y_COLLISION		-0.03f
 
+#define BOMB_ITEM_NON			0
+#define BOMB_ITEM_BOMB			1
+#define BOMB_ITEM_MEDICINE		2
+#define BOMB_ITEM_FIREBALL		3
+
 #define BOMB_BBOX_WIDTH		16
 #define BOMB_BBOX_HEIGHT	16
 
@@ -27,8 +32,6 @@
 class CBomb: public CGameObject
 {
 public:
-	CBomb(float x, float y);
-	~CBomb();
 
 	bool isDie = false;
 
@@ -40,7 +43,13 @@ public:
 
 	int go_direct = 0;
 
+	int item;
+
 public:
+
+
+	CBomb(float x, float y, int item);
+	~CBomb();
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

@@ -218,7 +218,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 
 	case OBJECT_TYPE_BOMB:
-		obj = new CBomb(x, y);
+	{
+		int item = atof(tokens[4].c_str());
+		obj = new CBomb(x, y, item);
+	}
 		break;
 
 	case OBJECT_TYPE_MINIBOMB:
@@ -336,7 +339,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	if (isObj) {
 		//objects.push_back(obj);
-		quadTree->insertEntity(obj);
+		map->quadTree->insertEntity(obj);
 	}
 }
 
@@ -394,13 +397,13 @@ void CPlayScene::_ParseSection_MAP(string line)
 	map->SetValueInMap(row, column, index, align);
 	map->LoadMap(filePath);
 
-	RECT r;
+	/*RECT r;
 	r.left = 0;
 	r.top = row * 16;
 	r.right = column * 16;
 	r.bottom = 0;
 
-	quadTree = new CQuadTree(1, r);
+	quadTree = new CQuadTree(1, r);*/
 
 	//DebugOut(L" bound.right = %d\n", r.right);
 }
@@ -483,7 +486,7 @@ void CPlayScene::Update(DWORD dt)
 	float camX, camY;
 	camera->GetCamPos(camX, camY);
 
-	quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
+	map->quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
 
 	//DebugOut(L" total objects = %d\n", coObjects.size());
 
@@ -594,9 +597,6 @@ void CPlayScene::Unload()
 		delete ani_backs[i];
 
 	ani_backs.clear();
-
-	delete quadTree;
-	quadTree = NULL;
 
 	//player = NULL;
 

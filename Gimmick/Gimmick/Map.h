@@ -5,7 +5,8 @@
 #include "Sprites.h"
 #include "Textures.h"
 #include "Sprites.h"
-#include"Utils.h"
+#include "Utils.h"
+#include "QuadTree.h"
 
 #define MAP_CELL_SIZE	16
 
@@ -30,10 +31,13 @@ public:
 	static CMap* GetInstance();
 
 	CMap();
+	~CMap();
 	void SetValueInMap(int row, int column, int index, int align);
 	int getTile(int x, int y);
 	void LoadMap(wstring filePathTxt);
 	void DrawMap(int cam_x, int cam_y);
 	int GetColumn() { return _column_max; }
+
+	CQuadTree* quadTree;
 };
 #endif 

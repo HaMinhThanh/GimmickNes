@@ -11,6 +11,7 @@ CWhiteBall::CWhiteBall(float _x, float _y)
 	backupY = y;
 
 	isFinish = false;
+	isShot = false;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(BALL_ANIMATION_SET);
@@ -26,12 +27,15 @@ void CWhiteBall::GetBoundingBox(float& left, float& top, float& right, float& bo
 {
 	left = x;
 	top = y;
-	right = x + 4;
-	bottom = y - 5;
+	right = x + BALL_BBOX_WIDTH;
+	bottom = y - BALL_BBOX_HEIGHT;
 }
 
 void CWhiteBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (!isShot)
+		return;
+
 	CGameObject::Update(dt);
 
 	vy += BOMB_GRAVITY * dt;
@@ -94,5 +98,6 @@ void CWhiteBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWhiteBall::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	if (!isFinish)
+		animation_set->at(0)->Render(x, y);
 }

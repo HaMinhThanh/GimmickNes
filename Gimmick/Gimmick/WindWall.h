@@ -7,6 +7,9 @@
 
 #define WALL_SPEED_X		0.05f
 
+#define WALL_BBOX_WIDTH		10
+#define WALL_BBOX_HEIGHT	50
+
 class CWindWall: public CGameObject
 {
 public:
