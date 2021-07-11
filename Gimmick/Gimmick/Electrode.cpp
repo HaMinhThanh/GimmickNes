@@ -40,8 +40,8 @@ void CElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx = ELECTRODE_SPEED_X;
 	}
 
-	if (((x > CGimmick::GetInstance(0, 0)->GetX() && x - CGimmick::GetInstance(0, 0)->GetX() > 64 && vx > 0)
-		|| (x < CGimmick::GetInstance(0, 0)->GetX() && CGimmick::GetInstance(0, 0)->GetX() - x > 64 && vx<0))
+	if (((x > CGimmick::GetInstance(0, 0)->GetX() && x - CGimmick::GetInstance(0, 0)->GetX() > ELECTRODE_DISTANCE_GIMMICK && vx > 0)
+		|| (x < CGimmick::GetInstance(0, 0)->GetX() && CGimmick::GetInstance(0, 0)->GetX() - x > ELECTRODE_DISTANCE_GIMMICK && vx<0))
 		&& isActive) {
 
 		vx *= -1;
@@ -117,6 +117,7 @@ void CElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CElectrode::Render()
 {
+
 	if (!isFinish) {
 
 		if (vx == 0) {
@@ -133,4 +134,13 @@ void CElectrode::Render()
 	}
 	else
 		animation_set->at(4)->Render(x, y);
+
+	if (isActive) {
+		CSprites::GetInstance()->Get(WINDOW_OPEN_SPRITES_1)->Draw(backupX - ELECTRODE_BBOX_WIDTH, backupY);
+		//CSprites::GetInstance()->Get(WINDOW_OPEN_SPRITES_2)->Draw(x, y);
+		CSprites::GetInstance()->Get(WINDOW_OPEN_SPRITES_3)->Draw(backupX + ELECTRODE_BBOX_WIDTH, backupY);
+	}
+	else {
+		CSprites::GetInstance()->Get(WINDOW_CLOSE_SPRITE)->Draw(x, y);
+	}
 }

@@ -19,6 +19,11 @@
 
 #define ELECTRODE_DISTANCE_GIMMICK		64
 
+#define WINDOW_OPEN_SPRITES_1		80021
+#define WINDOW_OPEN_SPRITES_2		80022
+#define WINDOW_OPEN_SPRITES_3		80023
+#define WINDOW_CLOSE_SPRITE			80024
+
 class CElectrode: public CGameObject
 {
 public:
