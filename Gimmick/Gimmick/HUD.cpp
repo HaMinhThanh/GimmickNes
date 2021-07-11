@@ -91,8 +91,8 @@ void CHUD::Render()
 	event->DrawEnergy(cx + 126, (int)cy + 5 -16, gimmick->GetEnergy());
 
 	// Draw item
-	if (gimmick->item != 0)
-		DebugOut(L"Item = %d\n", gimmick->numItem);
+	/*if (gimmick->item != 0)
+		DebugOut(L"Item = %d\n", gimmick->numItem);*/
 
 	if (it1 != -1) {
 		event->DrawItem(cx + 177, cy -5, it1);

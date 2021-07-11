@@ -1,4 +1,6 @@
 #include "NarrowSpot.h"
+#include "Camera.h"
+#include "Define.h"
 
 CNarrowSpot::CNarrowSpot(float _x, float _y)
 {
@@ -8,7 +10,11 @@ CNarrowSpot::CNarrowSpot(float _x, float _y)
 	vx = 0;
 	vx = 0;
 
+	backupX = _x;
+	backupY = _y;
+
 	isMoving = false;
+	isFinish = false;
 }
 
 CNarrowSpot::~CNarrowSpot()
@@ -19,6 +25,22 @@ void CNarrowSpot::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (isMoving)
 		vx = NARROWSPOT_SPEED_X;
+
+	if (isFinish) {
+
+		float camx, camy;
+		CCamera::GetInstance()->GetCamPos(camx, camy);
+
+		if (x< camx || x> camx + SCREEN_WIDTH || y< camy || y> camy + SCREEN_HEIGHT_MAP) {
+
+			isFinish = false;
+			isMoving = false;
+			moving = 0;
+
+			SetPosition(backupX, backupY);
+
+		}
+	}
 
 	if (moving > 0)
 	{

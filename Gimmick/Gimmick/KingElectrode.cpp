@@ -1,5 +1,9 @@
 #include "KingElectrode.h"
 #include "Bomb.h"
+#include "Camera.h"
+#include "Define.h"
+#include "Gimmick.h"
+#include "Sound.h"
 
 CKingElectrode::CKingElectrode(float _x, float _y)
 {
@@ -95,8 +99,43 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	for (int i = 0; i < BOMB_NUMBER; i++)
-		if (!ListBomb[i]->isFinish)
-			ListBomb[i]->Update(dt, coObjects);
+		if (!ListBomb[i]->isFinish) {
+
+			float camx, camy;
+			CCamera::GetInstance()->GetCamPos(camx, camy);
+
+			if (!(ListBomb[i]->x< camx || ListBomb[i]->x> camx + SCREEN_WIDTH || ListBomb[i]->y< camy || ListBomb[i]->y> camy + SCREEN_HEIGHT_MAP)) {
+
+				ListBomb[i]->Update(dt, coObjects);
+
+				CGimmick* gimmick = CGimmick::GetInstance(0, 0);
+				if (gimmick->isCollisionWithObject(ListBomb[i])) {
+					if (gimmick->untouchable == 0)
+					{
+						if (gimmick->GetState() != GIMMICK_STATE_DIE)
+						{
+							if (gimmick->energy > 0)
+							{
+								Sound::GetInstance()->Play("Collision", 0, 1);
+								gimmick->energy -= 1;
+								gimmick->StartUntouchable();
+
+							}
+							else
+							{
+								gimmick->SetState(GIMMICK_STATE_DIE);
+							}
+						}
+					}
+				}
+
+				if (gimmick->star->isCollisionWithObject(ListBomb[i])) {
+
+					ListBomb[i]->isFinish = true;
+					gimmick->star->Reset();
+				}
+			}
+		}
 }
 
 void CKingElectrode::Render()

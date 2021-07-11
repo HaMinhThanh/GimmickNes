@@ -396,11 +396,13 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	RECT r;
 	r.left = 0;
-	r.top = 0;
+	r.top = row * 16;
 	r.right = column * 16;
-	r.bottom = row * 16;
+	r.bottom = 0;
 
 	quadTree = new CQuadTree(1, r);
+
+	//DebugOut(L" bound.right = %d\n", r.right);
 }
 
 void CPlayScene::Load()
@@ -483,7 +485,13 @@ void CPlayScene::Update(DWORD dt)
 
 	quadTree->getAllEntitiesOnCam(coObjects, camX, camY);
 
+	//DebugOut(L" total objects = %d\n", coObjects.size());
+
 	GetCollideEnemy(coObjects, quadObj);
+
+	//DebugOut(L"Objects in camera = %d\n", quadObj.size());
+
+	//quadTree->getEntitiesCollideAble(quadObj, player);
 
 	for (int i = 0; i < quadObj.size(); i++)
 		listObj.push_back(quadObj[i]);
@@ -496,14 +504,15 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-	player->Update(dt, &coObjects);
+	//player->Update(dt, &coObjects);
+	player->Update(dt, &quadObj);
 
 	// skip update if colide uiwth portal
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	float cx, cy;
-	player->GetPosition(cx, cy);
+	float cx = 0, cy = 0;
+	CGimmick::GetInstance(0, 0)->GetPosition(cx, cy);
 
 	CGame* game = CGame::GetInstance();
 

@@ -154,7 +154,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (loading == 1)
 		load_star->Update(dt, coObjects);
 
-	if (!isSlide && !isFollow && !isPiping && !isMovingBrick)
+	if (!isSlide && !isFollow && !isPiping /*&& !isMovingBrick*/)
 		vy += GIMMICK_GRAVITY * dt;
 
 	// Calculate dx, dy 
@@ -525,20 +525,11 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CMovingBrick* mb = dynamic_cast<CMovingBrick*>(e->obj);
 
-				isMovingBrick = true;
+				//isMovingBrick = true;
 
 				isFollow = true;
 				obj = mb;
-				//if (e->t > 0 && e->t <= 1) {
-
-				//addVx = mb->vx;
-				//autoVy = 0;
-
-				//if (mb->direct == 0)
-				//	y = mb->y + GIMMICK_BBOX_HEIGHT;
-
-				////if (mb->vy < 0)
-				//	DebugOut(L"vy of moving brick %d\n", mb->vy);
+				
 			}
 			else {
 

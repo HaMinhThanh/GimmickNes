@@ -116,9 +116,12 @@ void CQuadTree::getAllEntitiesOnCam(vector<LPGAMEOBJECT>& entitiesOut, float cam
     RECT bound;
 
     bound.left = camX;
-    bound.top = camY;
+    bound.top = camY + SCREEN_HEIGHT_MAP;
     bound.right = camX + SCREEN_WIDTH;
-    bound.bottom = camY + SCREEN_HEIGHT_MAP;
+    bound.bottom = camY;
+
+    /*DebugOut(L" top = %d\n", bound.top);
+    DebugOut(L" bottom = %d\n", bound.bottom);*/
 
     int index = this->getIndex(bound);
 
@@ -183,9 +186,9 @@ int CQuadTree::getIndex(RECT body)
     -1: bi dinh > 2 node con*/
 
     float middleVerticle = Bound.left + (Bound.right - Bound.left) / 2.0f;
-    float middleHorizontal = Bound.top + (Bound.bottom - Bound.top) / 2.0f;
+    float middleHorizontal = Bound.top - (Bound.top - Bound.bottom) / 2.0f;
 
-    if (body.top >= Bound.top && body.bottom <= middleHorizontal)
+    if (body.top <= Bound.top && body.bottom >= middleHorizontal)
     {
         //nam phia ben tren
         if (body.left >= Bound.left && body.right <= middleVerticle)
@@ -199,7 +202,7 @@ int CQuadTree::getIndex(RECT body)
             return 1;
         }
     }
-    else if (body.top >= middleHorizontal && body.bottom <= Bound.bottom)
+    else if (body.top <= middleHorizontal && body.bottom >= Bound.bottom)
     {
         //nam phia ben duoi
         if (body.left >= Bound.left && body.right <= middleVerticle)
@@ -225,34 +228,34 @@ void CQuadTree::split()
     RECT bound;
 
     int width = (Bound.right - Bound.left) / 2;
-    int height = (Bound.bottom - Bound.top) / 2;
+    int height = (Bound.top - Bound.bottom) / 2;
 
     //phan goc trai tren
     bound.left = Bound.left;
     bound.right = bound.left + width;
     bound.top = Bound.top;
-    bound.bottom = bound.top + height;
+    bound.bottom = bound.top - height;
     Nodes[0] = new CQuadTree(mLevel + 1, bound);
 
     //phan goc phai tren
     bound.left = Bound.left + width;
     bound.right = bound.left + width;
     bound.top = Bound.top;
-    bound.bottom = bound.top + height;
+    bound.bottom = bound.top - height;
     Nodes[1] = new CQuadTree(mLevel + 1, bound);
 
     //phan goc trai duoi
     bound.left = Bound.left;
     bound.right = bound.left + width;
-    bound.top = Bound.top + height;
-    bound.bottom = bound.top + height;
+    bound.top = Bound.top - height;
+    bound.bottom = bound.top - height;
     Nodes[2] = new CQuadTree(mLevel + 1, bound);
 
     //phan goc phai duoi
     bound.left = Bound.left + width;
     bound.right = bound.left + width;
-    bound.top = Bound.top + height;
-    bound.bottom = bound.top + height;
+    bound.top = Bound.top - height;
+    bound.bottom = bound.top - height;
     Nodes[3] = new CQuadTree(mLevel + 1, bound);
 }
 
@@ -269,7 +272,7 @@ bool CQuadTree::isContain(LPGAMEOBJECT obj)
     bound.right = r;
     bound.bottom = b;
 
-    if (bound.left >= Bound.left && bound.right <= Bound.right && bound.top >= Bound.top && bound.bottom <= Bound.bottom)
+    if (bound.left >= Bound.left && bound.right <= Bound.right && bound.top <= Bound.top && bound.bottom >= Bound.bottom)
     {
         return true;
     }
