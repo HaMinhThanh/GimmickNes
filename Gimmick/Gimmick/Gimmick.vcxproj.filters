@@ -172,7 +172,13 @@
     <ClCompile Include="GreenFattie.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="PirateCannonBall.cpp" />
+    <ClCompile Include="PirateCannonBall.cpp">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="BossPirate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -340,7 +346,13 @@
     <ClInclude Include="GreenFattie.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="PirateCannonBall.h" />
+    <ClInclude Include="PirateCannonBall.h">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPirate.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">

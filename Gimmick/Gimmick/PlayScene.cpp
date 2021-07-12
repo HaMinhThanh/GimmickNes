@@ -40,6 +40,8 @@
 #include "Boat.h"
 #include "GreenTurtle.h"
 #include "GreenFattie.h"
+#include "Bird.h"
+#include "BossPirate.h"
 
 using namespace std;
 
@@ -92,6 +94,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define  OBJECT_TYPE_BOAT			200			
 #define OBJECT_TYPE_TURTLE			201
 #define OBJECT_TYPE_GREEN_FATTIE	202
+#define OBJECT_TYPE_BIRD			203
+#define OBJECT_TYPE_BOSS_PIRATE		204
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
@@ -230,6 +234,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBomb(x, y, item);
 	}
 		break;
+	case OBJECT_TYPE_BOSS_PIRATE:
+	{
+		int item = atof(tokens[4].c_str());
+		obj = new CBossPirate(x, y, item);
+	}
+	break;
 
 	case OBJECT_TYPE_GREEN_FATTIE:
 	{
@@ -256,6 +266,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BOAT:
 		obj = new CBoat(x,y);
 		break;
+
+	case OBJECT_TYPE_BIRD:
+		obj = new CBird(x, y);
+		break;
+		
 
 	case OBJECT_TYPE_WORM:
 	{
@@ -637,7 +652,8 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 
 	for (UINT i = 0; i < listObj.size(); i++)
 	{
-		if (dynamic_cast<CGreenFattie*>(listObj.at(i))
+		if (dynamic_cast<CBossPirate*>(listObj.at(i))
+			||dynamic_cast<CGreenFattie*>(listObj.at(i))
 			||dynamic_cast<CGreenTurtle*>(listObj.at(i))
 			||dynamic_cast<CCannon*>(listObj.at(i))
 			|| dynamic_cast<CCannonBall*>(listObj.at(i))

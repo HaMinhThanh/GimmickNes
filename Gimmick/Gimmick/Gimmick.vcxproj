@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClInclude Include="AniBrick.h" />
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="Bird.h" />
     <ClInclude Include="Boat.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombItem.h" />
+    <ClInclude Include="BossPirate.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cannon.h" />
@@ -79,9 +81,11 @@
   <ItemGroup>
     <ClCompile Include="AniBrick.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Bird.cpp" />
     <ClCompile Include="Boat.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombItem.cpp" />
+    <ClCompile Include="BossPirate.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cannon.cpp" />
