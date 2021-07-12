@@ -169,6 +169,7 @@
     <ClCompile Include="GreenTurtle.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="GreenFattie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -333,6 +334,7 @@
     <ClInclude Include="GreenTurtle.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
+    <ClInclude Include="GreenFattie.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">

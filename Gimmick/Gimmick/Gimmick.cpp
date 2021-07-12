@@ -30,6 +30,8 @@
 
 #include "Boat.h"
 #include "GreenTurtle.h"
+#include "GreenFattie.h"
+
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -232,6 +234,48 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						//if (vx==0 && vy==0) {							
 						isFollow = true;
 						obj = bomb;
+						SetState(GIMMICK_STATE_IDLE);
+
+						//}
+					}
+					else //if (e->nx != 0)
+					{
+						//isNotCollide = true;
+						isFollow = false;
+						isGoThrough = true;
+
+						if (untouchable == 0)
+						{
+							if (GetState() != GIMMICK_STATE_DIE)
+							{
+								if (energy > 0)
+								{
+									Sound::GetInstance()->Play("Collision", 0, 1);
+									energy -= 1;
+									StartUntouchable();
+
+								}
+								else
+								{
+									SetState(GIMMICK_STATE_DIE);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if (dynamic_cast<CGreenFattie*>(e->obj) && !isSlide) {
+
+				CGreenFattie* fattie = dynamic_cast<CGreenFattie*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1 && fattie->GetState() != BOMB_STATE_DIE) {
+
+					if (e->ny > 0)
+					{
+						//if (vx==0 && vy==0) {							
+						isFollow = true;
+						obj = fattie;
 						SetState(GIMMICK_STATE_IDLE);
 
 						//}

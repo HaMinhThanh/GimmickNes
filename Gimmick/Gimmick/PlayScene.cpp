@@ -39,7 +39,7 @@
 #include "HiddenObject.h"
 #include "Boat.h"
 #include "GreenTurtle.h"
-
+#include "GreenFattie.h"
 
 using namespace std;
 
@@ -91,6 +91,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 //Enemy level 2
 #define  OBJECT_TYPE_BOAT			200			
 #define OBJECT_TYPE_TURTLE			201
+#define OBJECT_TYPE_GREEN_FATTIE	202
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
@@ -230,6 +231,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 		break;
 
+	case OBJECT_TYPE_GREEN_FATTIE:
+	{
+		int item = atof(tokens[4].c_str());
+		obj = new CGreenFattie(x, y, item);
+	}
+	break;
 	case OBJECT_TYPE_MINIBOMB:
 		obj = new CMiniBomb();
 		break;
@@ -629,7 +636,8 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 
 	for (UINT i = 0; i < listObj.size(); i++)
 	{
-		if (dynamic_cast<CGreenTurtle*>(listObj.at(i))
+		if (dynamic_cast<CGreenFattie*>(listObj.at(i))
+			||dynamic_cast<CGreenTurtle*>(listObj.at(i))
 			||dynamic_cast<CCannon*>(listObj.at(i))
 			|| dynamic_cast<CCannonBall*>(listObj.at(i))
 			|| dynamic_cast<CBomb*>(listObj.at(i))

@@ -14,6 +14,7 @@
 #include "Fireball.h"
 
 #include "GreenTurtle.h"
+#include "GreenFattie.h"
 
 #define STAR_ANIMATION_SET		2
 
@@ -158,6 +159,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
 				|| dynamic_cast<CSlide*>(coObjects->at(i))
 				|| dynamic_cast<CBomb*>(coObjects->at(i))
+				|| dynamic_cast<CGreenFattie*>(coObjects->at(i))
 				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CWorm*>(coObjects->at(i))
@@ -229,6 +231,57 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						}
 
+						CGimmick::GetInstance(0, 0)->score += 100;
+
+						nx = ny = 0;
+					}
+				}
+
+				if (dynamic_cast<CGreenFattie*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CGreenFattie* fattie = dynamic_cast<CGreenFattie*>(e->obj);
+						if (fattie->damaged < 3)
+						{
+							fattie->damaged++;							
+							fattie->SetState(BOMB_STATE_DAMAGED);
+						}
+						else
+						{
+							fattie->SetState(BOMB_STATE_DIE);
+
+							switch (fattie->item) {
+
+							case BOMB_ITEM_NON:
+								break;
+
+							case BOMB_ITEM_BOMB:
+							{
+								CBombItem* item = new CBombItem(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								item->SetPosition(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->quadTree->insertEntity(item);
+							}
+							break;
+
+							case BOMB_ITEM_MEDICINE:
+							{
+								CMedicine* item = new CMedicine(fattie->x, fattie->y + BOMB_BBOX_HEIGHT, MEDICINE_TYPE_1);
+								item->SetPosition(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->quadTree->insertEntity(item);
+							}
+							break;
+
+							case BOMB_ITEM_FIREBALL:
+							{
+								CFireBall* item = new CFireBall(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								item->SetPosition(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->quadTree->insertEntity(item);
+							}
+							break;
+
+							}
+						}
 						CGimmick::GetInstance(0, 0)->score += 100;
 
 						nx = ny = 0;
