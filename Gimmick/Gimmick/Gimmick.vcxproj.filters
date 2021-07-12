@@ -172,6 +172,10 @@
     <ClCompile Include="Bird.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="Boat.cpp" />
+    <ClCompile Include="GreenFattie.cpp" />
+    <ClCompile Include="GreenTurtle.cpp" />
+    <ClCompile Include="PirateCannonBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -339,6 +343,10 @@
     <ClInclude Include="Bird.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
+    <ClInclude Include="Boat.h" />
+    <ClInclude Include="GreenFattie.h" />
+    <ClInclude Include="GreenTurtle.h" />
+    <ClInclude Include="PirateCannonBall.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">
