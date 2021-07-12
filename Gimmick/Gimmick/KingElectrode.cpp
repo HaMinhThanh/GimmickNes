@@ -28,7 +28,7 @@ CKingElectrode::CKingElectrode(float _x, float _y)
 		bomb->SetAnimationSet(ani_set);
 		ListBomb.push_back(bomb);
 
-		CMap::GetInstance()->quadTree->insertEntity(bomb);
+		CMap::GetInstance()->ListObjects.push_back(bomb);
 	}
 
 	isFinish = false;

@@ -389,8 +389,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	if (isObj) {
 
-		objects.push_back(obj);
-		//map->quadTree->insertEntity(obj);
+		//objects.push_back(obj);
+		map->ListObjects.push_back(obj);
 		
 	}
 }
@@ -533,9 +533,9 @@ void CPlayScene::Update(DWORD dt)
 	map->ResetQuadTree();
 	map->quadTree = new CQuadTree(1, map->GetBoundary());
 
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 1; i < map->ListObjects.size(); i++)
 	{
-		map->quadTree->insertEntity(objects.at(i));
+		map->quadTree->insertEntity(map->ListObjects.at(i));
 	}
 
 	float camX, camY;
@@ -653,7 +653,11 @@ void CPlayScene::Unload()
 
 	ani_backs.clear();
 
-	//player = NULL;
+	for (int i = 0; i < map->ListObjects.size(); i++) {
+		delete map->ListObjects[i];
+	}
+
+	map->ListObjects.clear();
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }

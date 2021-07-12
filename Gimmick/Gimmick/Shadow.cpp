@@ -28,7 +28,7 @@ CShadow::CShadow(float _x, float _y)
 	wall = new CWindWall(x, WALL_POS_Y_FIXED);
 	wall->vx = -WALL_SPEED_X;
 
-	CMap::GetInstance()->quadTree->insertEntity(wall);
+	CMap::GetInstance()->ListObjects.push_back(wall);
 
 	for (int i = 0; i < BALL_NUMBER; i++) {
 
@@ -36,7 +36,7 @@ CShadow::CShadow(float _x, float _y)
 
 		ListBall.push_back(ball);
 
-		CMap::GetInstance()->quadTree->insertEntity(ball);
+		CMap::GetInstance()->ListObjects.push_back(ball);
 	}
 }
 

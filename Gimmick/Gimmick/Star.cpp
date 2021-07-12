@@ -208,7 +208,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							CBombItem* item = new CBombItem(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
 							item->SetPosition(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
-							CMap::GetInstance()->quadTree->insertEntity(item);				
+							CMap::GetInstance()->ListObjects.push_back(item);
 						}
 						break;
 
@@ -216,7 +216,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							CMedicine* item = new CMedicine(bomb->x, bomb->y + BOMB_BBOX_HEIGHT, MEDICINE_TYPE_1);
 							item->SetPosition(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
-							CMap::GetInstance()->quadTree->insertEntity(item);
+							CMap::GetInstance()->ListObjects.push_back(item);
 						}
 						break;
 
@@ -224,7 +224,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							CFireBall* item = new CFireBall(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
 							item->SetPosition(bomb->x, bomb->y + BOMB_BBOX_HEIGHT);
-							CMap::GetInstance()->quadTree->insertEntity(item);
+							CMap::GetInstance()->ListObjects.push_back(item);
 						}
 						break;
 

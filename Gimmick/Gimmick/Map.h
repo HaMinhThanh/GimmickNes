@@ -43,5 +43,7 @@ public:
 	void ResetQuadTree();
 
 	CQuadTree* quadTree;
+
+	vector<LPGAMEOBJECT> ListObjects;
 };
 #endif 

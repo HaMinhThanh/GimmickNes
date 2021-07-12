@@ -21,6 +21,12 @@ CMap::~CMap()
 {
 	delete quadTree;
 	quadTree = NULL;
+
+	for (int i = 0; i < ListObjects.size(); i++) {
+		delete ListObjects[i];
+	}
+
+	ListObjects.clear();
 }
 
 void CMap::SetValueInMap(int row, int column, int index, int align)
