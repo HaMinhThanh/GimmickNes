@@ -13,7 +13,7 @@ CBomb::CBomb(float _x, float _y, int _item)
 	backupY = _y;
 
 	SetState(BOMB_STATE_WALKING_RIGHT);
-	
+
 	item = _item;
 }
 
@@ -23,14 +23,69 @@ CBomb::~CBomb()
 
 void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (flying == 0 ) {
+		StartFlying();
+		
+	}
+
+	if (flying == 1 && GetState() != BOMB_STATE_DIE) {
+
+		if (GetTickCount() - waitToFly > BOMB_WAIT_FLYING && !isFlying) {
+
+			isFlying = true;
+			StartFlyUp();
+
+			waitToFly = 0;
+		}
+
+		if (flyUp == 1) {
+
+			SetState(BOMB_STATE_FLY_UP);
+
+			{
+				vx = 0;
+				vy = BOMB_SPEED_FLY_Y;
+			}
+
+			if (GetTickCount() - flyingUp > BOMB_FLYING_UP_TIME) {
+
+				StartFlyDown();
+				flyUp = 0;
+				flyingUp = 0;
+			}
+		}
+
+		if (flyDown == 1) {
+
+			SetState(BOMB_STATE_FLY_DOWN);
+
+			if (x < CGimmick::GetInstance(0, 0)->GetX()) {
+				vx = BOMB_SPEED_FLY_X;
+				vy = -BOMB_SPEED_FLY_Y;
+			}
+			else {
+				vx = -BOMB_SPEED_FLY_X;
+				vy = -BOMB_SPEED_FLY_Y;
+			}
+
+			if (GetTickCount() - flyingDown > BOMB_FLYING_DOWN_TIME) {
+
+				StartFlyUp();
+				flyDown = 0;
+				flyingDown = 0;
+			}
+		}
+
+	}
+
 	CGameObject::Update(dt);
 
 	vy += BOMB_GRAVITY * dt;
-	
+
 	vector<LPGAMEOBJECT> Bricks;
 	Bricks.clear();
 
-	if (GetState() != BOMB_STATE_DIE) {		
+	if (GetState() != BOMB_STATE_DIE) {
 
 		for (UINT i = 0; i < coObjects->size(); i++) {
 
@@ -71,7 +126,7 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.04f;
 		y += min_ty * dy + ny * 0.04f;
 
-		for (UINT i = 0; i < coEventsResult.size(); i++){
+		for (UINT i = 0; i < coEventsResult.size(); i++) {
 
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
@@ -82,20 +137,20 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (sc->GetType() == SCROLLBAR_TYPE_INCREASE) {
 
 					if (vx > 0) {
-						go_direct = 1;						
+						go_direct = 1;
 					}
 					else {
-						go_direct = -1;						
+						go_direct = -1;
 					}
 					SetState(BOMB_STATE_SCROLLBAR_IN);
 				}
 				else if (sc->GetType() == SCROLLBAR_TYPE_DECREASE) {
 
 					if (vx > 0) {
-						go_direct = 1;		
+						go_direct = 1;
 					}
 					else {
-						go_direct = -1;						
+						go_direct = -1;
 					}
 					SetState(BOMB_STATE_SCROLLBAR_DE);
 				}
@@ -123,36 +178,39 @@ void CBomb::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		if (r1 - BOMB_JUMP_ALIGN > max && vx > 0 || l1 + BOMB_JUMP_ALIGN < min && vx < 0) {
+		if (!isFlying) {
 
-			Jumping();			
-		}	
+			if (r1 - BOMB_JUMP_ALIGN > max && vx > 0 || l1 + BOMB_JUMP_ALIGN < min && vx < 0) {
 
-		if (abs(CGimmick::GetInstance(0, 0)->GetX() - x) >= BOMB_MAX_DISTANCE_WITH_GIMMICK) {
-
-			if (GetState() == BOMB_STATE_WALKING_LEFT && CGimmick::GetInstance(0, 0)->GetX() > x)
-				SetState(BOMB_STATE_WALKING_RIGHT);
-			
-			if (GetState() == BOMB_STATE_WALKING_RIGHT && CGimmick::GetInstance(0, 0)->GetX() < x)
-				SetState(BOMB_STATE_WALKING_LEFT);
-		}
-
-		if (nx != 0 && ny == 0) {
-
-			if ((x < CGimmick::GetInstance(0, 0)->GetX() && vx < 0)
-				|| (x > CGimmick::GetInstance(0, 0)->GetX() && vx > 0)) {
-
-				if (GetState() == BOMB_STATE_WALKING_LEFT) {
-
-					SetState(BOMB_STATE_WALKING_RIGHT);
-				}
-				else {
-
-					SetState(BOMB_STATE_WALKING_LEFT);
-				}
+				Jumping();
 			}
-		
-			Jumping();
+
+			if (abs(CGimmick::GetInstance(0, 0)->GetX() - x) >= BOMB_MAX_DISTANCE_WITH_GIMMICK) {
+
+				if (GetState() == BOMB_STATE_WALKING_LEFT && CGimmick::GetInstance(0, 0)->GetX() > x)
+					SetState(BOMB_STATE_WALKING_RIGHT);
+
+				if (GetState() == BOMB_STATE_WALKING_RIGHT && CGimmick::GetInstance(0, 0)->GetX() < x)
+					SetState(BOMB_STATE_WALKING_LEFT);
+			}
+
+			if (nx != 0 && ny == 0) {
+
+				if ((x < CGimmick::GetInstance(0, 0)->GetX() && vx < 0)
+					|| (x > CGimmick::GetInstance(0, 0)->GetX() && vx > 0)) {
+
+					if (GetState() == BOMB_STATE_WALKING_LEFT) {
+
+						SetState(BOMB_STATE_WALKING_RIGHT);
+					}
+					else {
+
+						SetState(BOMB_STATE_WALKING_LEFT);
+					}
+				}
+
+				Jumping();
+			}
 		}
 
 		if (ny != 0) {
@@ -170,21 +228,33 @@ void CBomb::Render()
 	int state = GetState();
 
 	if (state == BOMB_STATE_WALKING_RIGHT)
-		animation_set->at(0)->Render(x, y-1);
+		animation_set->at(0)->Render(x, y - 1);
 
 	else if (state == BOMB_STATE_WALKING_LEFT)
-		animation_set->at(1)->Render(x, y-1);
+		animation_set->at(1)->Render(x, y - 1);
 
-	else if (state == BOMB_STATE_FLY_RIGHT)
-		animation_set->at(2)->Render(x, y);
+	else if (state == BOMB_STATE_FLY_UP)
+	{
+		if (vx > 0 || nx > 0)
+			animation_set->at(2)->Render(x, y);
+		else
+			animation_set->at(3)->Render(x, y);
+	}
 
-	else if (state == BOMB_STATE_FLY_LEFT)
-		animation_set->at(3)->Render(x, y);
+	else if (state == BOMB_STATE_FLY_DOWN)
+	{
+		if (vx > 0 || nx > 0)
+			animation_set->at(2)->Render(x, y);
+		else
+			animation_set->at(3)->Render(x, y);
+	}
 
 	else if (state == BOMB_STATE_DIE)
 		animation_set->at(4)->Render(x, y);
+
 	else if (vx > 0)
 		animation_set->at(0)->Render(x, y);
+
 	else
 		animation_set->at(1)->Render(x, y);
 }
@@ -208,7 +278,7 @@ void CBomb::SetState(int state)
 	case BOMB_STATE_WALKING_RIGHT:
 		vx = BOMB_SPEED_X;
 		break;
-	
+
 	case BOMB_STATE_WALKING_LEFT:
 		vx = -BOMB_SPEED_X;
 		break;
@@ -217,9 +287,9 @@ void CBomb::SetState(int state)
 		if (go_direct == 1)
 			vx = 0.075f;
 		else if (go_direct == -1)
-			vx = -0.025f; 
+			vx = -0.025f;
 	}
-		break;
+	break;
 
 	case BOMB_STATE_SCROLLBAR_DE:
 	{
@@ -228,16 +298,30 @@ void CBomb::SetState(int state)
 		else if (go_direct == -1)
 			vx = -0.075f;
 	}
-		break;
+	break;
 
 	case BOMB_STATE_SLIDE_UP:
-		break;
+	{
+		/*vx = 0;
+		vy = BOMB_SPEED_Y_NORMAL;*/
+	}
+	break;
 	case BOMB_STATE_SLIDE_DOWN:
-		break;
-	case BOMB_STATE_FLY_RIGHT:
+	{
+		/*if (x < CGimmick::GetInstance(0, 0)->GetX()) {
+			vx = BOMB_SPEED_X;
+			vy = -BOMB_SPEED_FLY_Y;
+		}
+		else {
+			vx = -BOMB_SPEED_X;
+			vy = -BOMB_SPEED_FLY_Y;
+		}*/
+	}
+	break;
+	case BOMB_STATE_FLY_UP:
 		break;
 
-	case BOMB_STATE_FLY_LEFT:
+	case BOMB_STATE_FLY_DOWN:
 		break;
 
 	case BOMB_STATE_DIE:

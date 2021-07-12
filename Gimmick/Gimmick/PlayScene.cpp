@@ -629,7 +629,11 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 				{
 					listObj.at(i)->SetPosition(listObj.at(i)->backupX, listObj.at(i)->backupY);
 
-					//DebugOut(L"Set to begin%d\n", listObj.at(i)->backupX);
+					if (dynamic_cast<CBomb*>(listObj.at(i))) {
+						CBomb* bomb = dynamic_cast<CBomb*>(listObj.at(i));
+						bomb->flying = 0;
+						bomb->isFlying = false;
+					}
 				}
 			}
 		}

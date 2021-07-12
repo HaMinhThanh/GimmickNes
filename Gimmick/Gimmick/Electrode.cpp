@@ -1,6 +1,7 @@
 #include "Electrode.h"
 #include "Gimmick.h"
 #include "Brick.h"
+#include "AniBrick.h"
 
 CElectrode::CElectrode(float _x, float _y)
 {
@@ -141,6 +142,6 @@ void CElectrode::Render()
 		CSprites::GetInstance()->Get(WINDOW_OPEN_SPRITES_3)->Draw(backupX + ELECTRODE_BBOX_WIDTH, backupY);
 	}
 	else {
-		CSprites::GetInstance()->Get(WINDOW_CLOSE_SPRITE)->Draw(x, y);
+		CSprites::GetInstance()->Get(WINDOW_CLOSE_SPRITE)->Draw(backupX, backupY);
 	}
 }
