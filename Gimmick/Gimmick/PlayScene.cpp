@@ -37,6 +37,8 @@
 #include "Fireball.h"
 
 #include "HiddenObject.h"
+#include "Boat.h"
+#include "GreenTurtle.h"
 
 
 using namespace std;
@@ -85,6 +87,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_ELECTRODE		27
 #define OBJECT_TYPE_KING_ELECTRODE	28
 #define OBJECT_TYPE_SHADOW			30
+
+//Enemy level 2
+#define  OBJECT_TYPE_BOAT			200			
+#define OBJECT_TYPE_TURTLE			201
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
@@ -239,6 +245,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CNarrowSpot(x, y);
 		break;
 
+	case OBJECT_TYPE_BOAT:
+		obj = new CBoat(x,y);
+		break;
+
 	case OBJECT_TYPE_WORM:
 	{
 		int max = atof(tokens[4].c_str());
@@ -247,6 +257,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CWorm(x, y, max, min); 
 	}
 		break;
+
+	case OBJECT_TYPE_TURTLE:
+	{
+		int max = atof(tokens[4].c_str());
+		int min = atof(tokens[5].c_str());
+
+		obj = new CGreenTurtle(x, y, max, min);
+	}
+	break;
 
 	case OBJECT_TYPE_KING_ELECTRODE:
 		obj = new CKingElectrode(x, y);
@@ -610,7 +629,8 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 
 	for (UINT i = 0; i < listObj.size(); i++)
 	{
-		if (dynamic_cast<CCannon*>(listObj.at(i))
+		if (dynamic_cast<CGreenTurtle*>(listObj.at(i))
+			||dynamic_cast<CCannon*>(listObj.at(i))
 			|| dynamic_cast<CCannonBall*>(listObj.at(i))
 			|| dynamic_cast<CBomb*>(listObj.at(i))
 			|| dynamic_cast<CElectrode*>(listObj.at(i))

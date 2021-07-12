@@ -13,6 +13,8 @@
 #include "Medicine.h"
 #include "Fireball.h"
 
+#include "GreenTurtle.h"
+
 #define STAR_ANIMATION_SET		2
 
 CStar::CStar()
@@ -159,6 +161,7 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CWorm*>(coObjects->at(i))
+				|| dynamic_cast<CGreenTurtle*>(coObjects->at(i))
 				|| dynamic_cast<CShadow*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
@@ -255,6 +258,18 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CWorm* worm = dynamic_cast<CWorm*>(e->obj);
 
 						worm->isFinish = true;
+						CGimmick::GetInstance(0, 0)->score += 100;
+
+						Reset();
+					}
+				}
+				else if (dynamic_cast<CGreenTurtle*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CGreenTurtle* turtle = dynamic_cast<CGreenTurtle*>(e->obj);
+
+						turtle->isFinish = true;
 						CGimmick::GetInstance(0, 0)->score += 100;
 
 						Reset();

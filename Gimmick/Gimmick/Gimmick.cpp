@@ -28,6 +28,9 @@
 #include "Treasures.h"
 #include "MovingBrick.h"
 
+#include "Boat.h"
+#include "GreenTurtle.h"
+
 CGimmick* CGimmick::_instance = NULL;
 
 CGimmick* CGimmick::GetInstance(float x, float y)
@@ -288,7 +291,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			if (dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
+			if (dynamic_cast<CGreenTurtle*>(e->obj) ||dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
 
 				if (e->t > 0 && e->t <= 1) {
 
@@ -350,6 +353,29 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isAutoGo = false;
 			}
+
+			if (dynamic_cast<CBoat*>(e->obj)) {
+
+				CBoat* boat = dynamic_cast<CBoat*>(e->obj);
+
+				if (boat->moving == 0)
+					boat->StarMoving();
+
+				if (boat->isMoving) {
+					isAutoGo = true;
+					addVx = BOAT_SPEED_X;
+				}
+				else {
+
+					isAutoGo = false;
+				}
+			}
+			else {
+
+				isAutoGo = false;
+			}
+
+
 
 			if (dynamic_cast<CStar*>(e->obj)) {
 

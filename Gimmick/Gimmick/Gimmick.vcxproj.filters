@@ -163,6 +163,12 @@
     <ClCompile Include="WindWall.cpp">
       <Filter>Object\Enemy\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Boat.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenTurtle.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -306,9 +312,6 @@
     <ClInclude Include="Electrode.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Bomb.h">
-      <Filter>Object\Enemy\NormalEnemy</Filter>
-    </ClInclude>
     <ClInclude Include="Worm.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
@@ -320,6 +323,15 @@
     </ClInclude>
     <ClInclude Include="WindWall.h">
       <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Boat.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenTurtle.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
