@@ -1,12 +1,18 @@
 #include "ScrollBar.h"
-
+#include "Game.h"
 
 void CScrollBar::Render()
 {
-	if (type == SCROLLBAR_TYPE_INCREASE)
-		animation_set->at(SCROLLBAR_ANI_INCREASE)->Render(x, y);
-	else
-		animation_set->at(SCROLLBAR_ANI_DECREASE)->Render(x, y);
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+
+	if (id !=71)
+	{
+		if (type == SCROLLBAR_TYPE_INCREASE)
+			animation_set->at(SCROLLBAR_ANI_INCREASE)->Render(x, y);
+		else
+			animation_set->at(SCROLLBAR_ANI_DECREASE)->Render(x, y);
+	}
+	
 
 	//RenderBoundingBox();
 }

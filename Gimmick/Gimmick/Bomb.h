@@ -23,6 +23,7 @@
 
 #define BOMB_MAX_DISTANCE_WITH_GIMMICK	80
 #define BOMB_JUMP_ALIGN		5
+#define BOMB_TYLE_CAT	1
 
 class CBomb: public CGameObject
 {

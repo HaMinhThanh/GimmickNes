@@ -26,6 +26,7 @@
 #include "Fireball.h"
 #include "Treasures.h"
 #include "MovingBrick.h"
+#include "white.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -286,6 +287,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+
+
 
 			if (dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
 
@@ -642,6 +645,19 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				numItem += 1;
 
 			}
+
+			else if (dynamic_cast<CWhite*>(e->obj)) {
+				CWhite* white = dynamic_cast<CWhite*>(e->obj);
+				if (e->ny>0)
+				{
+					Sound::GetInstance()->Play("item", 0, 1);
+					white->SetState(WHITE_STATE_IDLE);
+					white->StartUntouchable();
+					
+				}
+				
+
+			}
 			else if (dynamic_cast<CTreasures*>(e->obj)) {
 				e->obj->isFinish = true;
 				score += 2000;
@@ -669,6 +685,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				camera->SetCamBoundary(hidden->cam_left, hidden->cam_right, camera->_yTop);
 			}
+
 
 			if (dynamic_cast<CPortal*>(e->obj)) {
 

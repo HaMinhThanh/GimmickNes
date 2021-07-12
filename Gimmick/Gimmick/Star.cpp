@@ -8,6 +8,9 @@
 #include "KingElectrode.h"
 #include "Electrode.h"
 #include "Slide.h"
+#include "Cat.h"
+#include "White.h"
+
 
 #define STAR_ANIMATION_SET		2
 
@@ -157,6 +160,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				|| dynamic_cast<CBomb*>(coObjects->at(i))
 				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CElectrode*>(coObjects->at(i))
+				|| dynamic_cast<CCat*>(coObjects->at(i))
+				|| dynamic_cast<CWhite*>(coObjects->at(i))
 				|| dynamic_cast<CWorm*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
@@ -199,6 +204,27 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 
+				else if (dynamic_cast<CWhite*>(e->obj)) {
+					CWhite* white = dynamic_cast<CWhite*>(e->obj);
+					white->StartBack();
+					white->StartIdleBack();
+					SetState(STAR_STATE_IDLE);
+					isBubble = true;
+
+				}
+
+				else if (dynamic_cast<CCat*>(e->obj)) {
+
+					CCat* cat = dynamic_cast<CCat*>(e->obj);
+					cat->shoot = 1;
+					if (cat ->nx > 0)
+					{
+						cat->SetState(CAT_STATE_WALKING_RIGHT);
+					}
+					else if(cat->nx < 0)
+						cat->SetState(CAT_STATE_WALKING_LEFT);	
+				}
+
 				if (dynamic_cast<CElectrode*>(e->obj)) {
 
 					if (e->t > 0 && e->t <= 1) {
@@ -215,6 +241,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						nx = ny = 0;
 					}
 				}
+
+
 				else if (dynamic_cast<CWorm*>(e->obj)) {
 
 					if (e->t > 0 && e->t <= 1) {

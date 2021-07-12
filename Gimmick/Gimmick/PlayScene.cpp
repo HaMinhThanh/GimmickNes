@@ -12,6 +12,8 @@
 #include "Portal.h"
 #include "Star.h"
 
+#include "Cat.h"
+
 #include "Brick.h"
 #include "ScrollBar.h"
 #include "Slide.h"
@@ -34,6 +36,9 @@
 #include "Medicine.h"
 #include "BombItem.h"
 #include "Fireball.h"
+#include "white.h"
+#include "Driller.h"
+#include "Bird.h"
 
 #include "HiddenObject.h"
 
@@ -83,6 +88,14 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_NARROWSPOT		26
 #define OBJECT_TYPE_ELECTRODE		27
 #define OBJECT_TYPE_KING_ELECTRODE	28
+#define OBJECT_TYPE_WHITE	35
+#define OBJECT_TYPE_WHITE_LEFT	37
+#define OBJECT_TYPE_CAT	36
+#define OBJECT_TYPE_DRILLER	39
+#define OBJECT_TYPE_DRILLER_REVERSE	40
+#define OBJECT_TYPE_CAT_RIGHT	41
+#define OBJECT_TYPE_WHITE_CAT	42
+#define OBJECT_TYPE_BIRD_IDLE	43
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
@@ -162,9 +175,40 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK:
 		obj = new CBrick();
 		break;
+	case OBJECT_TYPE_BIRD_IDLE:
+		obj = new CBird(1);
+		break;
 
 	case OBJECT_TYPE_STAR:
 		obj = new CStar();
+		break;
+
+	case OBJECT_TYPE_CAT:
+		obj = new CCat(1);
+		break;
+	case OBJECT_TYPE_CAT_RIGHT:
+		obj = new CCat(2);
+		break;
+	
+	case OBJECT_TYPE_DRILLER:
+		obj = new CDriller(1);
+		break;
+
+	case OBJECT_TYPE_DRILLER_REVERSE:
+		obj = new CDriller(2);
+		break;
+
+
+	case OBJECT_TYPE_WHITE:
+		obj = new CWhite(1);
+		break;
+
+	case OBJECT_TYPE_WHITE_CAT:
+		obj = new CWhite(2);
+		break;
+
+	case OBJECT_TYPE_WHITE_LEFT:
+		obj = new CWhite(3);
 		break;
 
 	case OBJECT_TYPE_ANI_BRICK:
@@ -694,6 +738,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_Z:
 		game->SwitchScene(MAP_ID_7A);
+		gimmick->SetPosition(0, 73);
+		Sound::GetInstance()->Stop("Opening2");
+		break;
+	case DIK_R:
+		gimmick->SetPosition(32, 640);
 		break;
 	case DIK_U:
 		gimmick->SetPosition(736, 480);
@@ -703,6 +752,10 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_8:
 		gimmick->SetPosition(1344, 432);
+		break;
+
+	case DIK_9:
+		gimmick->SetPosition(1792, 432);
 		break;
 	}
 }
