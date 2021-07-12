@@ -244,7 +244,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_CANNON:
 	{
 		int n = atof(tokens[4].c_str());
-		obj = new CCannon(x, y, n);
+		int ani_id = atof(tokens[3].c_str());
+		obj = new CCannon(x, y, n, ani_id);
 	}
 	break;
 

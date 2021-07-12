@@ -169,7 +169,10 @@
     <ClCompile Include="GreenTurtle.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="GreenFattie.cpp" />
+    <ClCompile Include="GreenFattie.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PirateCannonBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -334,7 +337,10 @@
     <ClInclude Include="GreenTurtle.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="GreenFattie.h" />
+    <ClInclude Include="GreenFattie.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PirateCannonBall.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">

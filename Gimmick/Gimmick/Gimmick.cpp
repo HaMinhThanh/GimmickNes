@@ -31,6 +31,7 @@
 #include "Boat.h"
 #include "GreenTurtle.h"
 #include "GreenFattie.h"
+#include "PirateCannonBall.h"
 
 
 CGimmick* CGimmick::_instance = NULL;
@@ -263,6 +264,28 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+			}
+
+			if (dynamic_cast<CPirateCannonBall*>(e->obj)) {
+
+				CPirateCannonBall* pball = dynamic_cast<CPirateCannonBall*>(e->obj);
+					
+					if (e->ny > 0)
+					{
+						//if (vx==0 && vy==0) {							
+						isFollow = true;
+						obj = pball;
+						SetState(GIMMICK_STATE_IDLE);
+
+						//}
+					}
+					/*else //if (e->nx != 0)
+					{
+						//isNotCollide = true;
+						isFollow = false;
+						isGoThrough = true;
+					}*/
+				
 			}
 
 			if (dynamic_cast<CGreenFattie*>(e->obj) && !isSlide) {

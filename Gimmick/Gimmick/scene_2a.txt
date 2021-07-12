@@ -879,3 +879,6 @@ map/map2.txt	128	60	0	0
 
 #Green Fattie
 202	850	512	222	2
+
+#Cannon
+23	718	512	227	2
