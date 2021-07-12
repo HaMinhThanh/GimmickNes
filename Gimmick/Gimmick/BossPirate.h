@@ -62,5 +62,6 @@ public:
 	void Jumping() { vy = PBOSS_SPEED_Y_NORMAL; }
 
 	void StartFlying() { flying = 1; waitToFly = GetTickCount(); }
+	void LoadKnife();
 };
 

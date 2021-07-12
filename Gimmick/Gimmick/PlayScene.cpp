@@ -96,6 +96,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_GREEN_FATTIE	202
 #define OBJECT_TYPE_BIRD			203
 #define OBJECT_TYPE_BOSS_PIRATE		204
+#define OBJECT_TYPE_KNIFE			205
 
 // Item
 #define OBJECT_TYPE_TREASURE	31

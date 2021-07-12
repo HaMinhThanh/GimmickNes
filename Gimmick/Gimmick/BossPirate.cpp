@@ -4,6 +4,8 @@
 #include "Gimmick.h"
 #include "Slide.h"
 #include "Star.h"
+#include "PBKnife.h"
+#include "CannonBall.h"
 
 int flag = 1; //jump or walk
 CBossPirate::CBossPirate(float _x, float _y, int _item)
@@ -314,8 +316,14 @@ void CBossPirate::SetState(int state)
 	case BOMB_STATE_DIE:
 		vy = PBOSS_SPEED_Y_NORMAL;
 		vx *= -1;
+		LoadKnife();
 		isFinish = true;
 
 		break;
 	}
+}
+void CBossPirate::LoadKnife()
+{
+	CPBKnife *knife = new CPBKnife(1800, 200, 1);
+	CCannonBall* ball = new CCannonBall(1800, 200, 1); // try
 }

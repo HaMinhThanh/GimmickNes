@@ -54,6 +54,7 @@
     <ClInclude Include="MiniBomb.h" />
     <ClInclude Include="MovingBrick.h" />
     <ClInclude Include="NarrowSpot.h" />
+    <ClInclude Include="PBKnife.h" />
     <ClInclude Include="Pipes.h" />
     <ClInclude Include="PirateCannonBall.h" />
     <ClInclude Include="PlayScene.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="MiniBomb.cpp" />
     <ClCompile Include="MovingBrick.cpp" />
     <ClCompile Include="NarrowSpot.cpp" />
+    <ClCompile Include="PBKnife.cpp" />
     <ClCompile Include="Pipes.cpp" />
     <ClCompile Include="PirateCannonBall.cpp" />
     <ClCompile Include="PlayScene.cpp" />
