@@ -58,9 +58,6 @@
     <ClCompile Include="BombItem.cpp">
       <Filter>Object\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Clody.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
@@ -163,6 +160,18 @@
     <ClCompile Include="WindWall.cpp">
       <Filter>Object\Enemy\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="White.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Driller.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Cat.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -218,9 +227,6 @@
     </ClInclude>
     <ClInclude Include="BombItem.h">
       <Filter>Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Clody.h">
-      <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Object\Enemy</Filter>
@@ -320,6 +326,18 @@
     </ClInclude>
     <ClInclude Include="WindWall.h">
       <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="White.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Driller.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Cat.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

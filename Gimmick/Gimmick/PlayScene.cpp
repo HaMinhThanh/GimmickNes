@@ -38,6 +38,11 @@
 
 #include "HiddenObject.h"
 
+#include "white.h"
+#include "Driller.h"
+#include "Bird.h"
+#include "Cat.h"
+
 
 using namespace std;
 
@@ -93,6 +98,16 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_FIREBALL	34
 
 // Effect
+
+// Enemies in Map 7th
+#define OBJECT_TYPE_WHITE	35
+#define OBJECT_TYPE_WHITE_LEFT	37
+#define OBJECT_TYPE_CAT	36
+#define OBJECT_TYPE_DRILLER	39
+#define OBJECT_TYPE_DRILLER_REVERSE	40
+#define OBJECT_TYPE_CAT_RIGHT	41
+#define OBJECT_TYPE_WHITE_CAT	42
+#define OBJECT_TYPE_BIRD_IDLE	43
 
 
 #define OBJECT_TYPE_PORTAL	50
@@ -176,6 +191,39 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		ani_backs.push_back(obj);
 
 		break;
+
+	case OBJECT_TYPE_BIRD_IDLE:
+		obj = new CBird(1);
+		break;
+
+	case OBJECT_TYPE_CAT:
+		obj = new CCat(1);
+		break;
+	case OBJECT_TYPE_CAT_RIGHT:
+		obj = new CCat(2);
+		break;
+
+	case OBJECT_TYPE_DRILLER:
+		obj = new CDriller(1);
+		break;
+
+	case OBJECT_TYPE_DRILLER_REVERSE:
+		obj = new CDriller(2);
+		break;
+
+
+	case OBJECT_TYPE_WHITE:
+		obj = new CWhite(1);
+		break;
+
+	case OBJECT_TYPE_WHITE_CAT:
+		obj = new CWhite(2);
+		break;
+
+	case OBJECT_TYPE_WHITE_LEFT:
+		obj = new CWhite(3);
+		break;
+
 
 	case OBJECT_TYPE_ANI_BRICK_1:
 		obj = new CAniBrick(1);
@@ -305,6 +353,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		obj = new CHiddenObject(x, y, w, h, cam_l, cam_r, type);
 
+		//DebugOut(L"Hidden Object : %f\n", obj->x);
+
 	}
 	break;
 
@@ -338,8 +388,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetAnimationSet(ani_set);
 
 	if (isObj) {
-		//objects.push_back(obj);
-		map->quadTree->insertEntity(obj);
+
+		objects.push_back(obj);
+		//map->quadTree->insertEntity(obj);
+		
 	}
 }
 
@@ -478,10 +530,13 @@ void CPlayScene::Update(DWORD dt)
 	quadObj.clear();
 	listObj.clear();
 
-	/*for (size_t i = 1; i < objects.size(); i++)
+	map->ResetQuadTree();
+	map->quadTree = new CQuadTree(1, map->GetBoundary());
+
+	for (size_t i = 1; i < objects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
-	}*/
+		map->quadTree->insertEntity(objects.at(i));
+	}
 
 	float camX, camY;
 	camera->GetCamPos(camX, camY);

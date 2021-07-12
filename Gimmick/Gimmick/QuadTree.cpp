@@ -184,6 +184,24 @@ int CQuadTree::getTotalEntities()
     return total;
 }
 
+void CQuadTree::Unload()
+{
+    if (Nodes)
+    {
+        for (size_t i = 0; i < 4; i++)
+        {
+            if (Nodes[i])
+            {
+                Nodes[i]->Clear();
+                delete Nodes[i];
+                Nodes[i] = nullptr;
+            }
+        }
+
+        delete[] Nodes;
+    }
+}
+
 int CQuadTree::getIndex(RECT body)
 {
     /*lay vi tri cua Entity

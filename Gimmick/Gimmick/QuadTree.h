@@ -32,6 +32,8 @@ public:
 
     RECT Bound;
 
+    void Unload();
+
 protected:
     CQuadTree** Nodes;
     vector<LPGAMEOBJECT> mListEntity; //danh sach cac phan tu co trong vung va cham (Bound)

@@ -38,6 +38,10 @@ public:
 	void DrawMap(int cam_x, int cam_y);
 	int GetColumn() { return _column_max; }
 
+	RECT GetBoundary();
+
+	void ResetQuadTree();
+
 	CQuadTree* quadTree;
 };
 #endif 

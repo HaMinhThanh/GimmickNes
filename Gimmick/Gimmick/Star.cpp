@@ -12,6 +12,8 @@
 #include "BombItem.h"
 #include "Medicine.h"
 #include "Fireball.h"
+#include "Cat.h"
+#include "White.h"
 
 #define STAR_ANIMATION_SET		2
 
@@ -159,7 +161,9 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				|| dynamic_cast<CKingElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CElectrode*>(coObjects->at(i))
 				|| dynamic_cast<CWorm*>(coObjects->at(i))
-				|| dynamic_cast<CShadow*>(coObjects->at(i))) {
+				|| dynamic_cast<CShadow*>(coObjects->at(i))
+				|| dynamic_cast<CCat*>(coObjects->at(i))
+				|| dynamic_cast<CWhite*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
 			}
@@ -303,6 +307,27 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						Reset();
 					}
 				}
+				else if (dynamic_cast<CWhite*>(e->obj)) {
+					CWhite* white = dynamic_cast<CWhite*>(e->obj);
+					white->StartBack();
+					white->StartIdleBack();
+					SetState(STAR_STATE_IDLE);
+					isBubble = true;
+
+				}
+
+				else if (dynamic_cast<CCat*>(e->obj)) {
+
+					CCat* cat = dynamic_cast<CCat*>(e->obj);
+					cat->shoot = 1;
+					if (cat->nx > 0)
+					{
+						cat->SetState(CAT_STATE_WALKING_RIGHT);
+					}
+					else if (cat->nx < 0)
+						cat->SetState(CAT_STATE_WALKING_LEFT);
+				}
+
 			}
 
 			x += min_tx * dx + nx * 0.04f;

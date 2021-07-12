@@ -27,6 +27,9 @@
 #include "Fireball.h"
 #include "Treasures.h"
 #include "MovingBrick.h"
+#include "Cat.h"
+#include "White.h"
+#include "Bird.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -328,6 +331,19 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else {
 
 
+			}
+
+			if (dynamic_cast<CWhite*>(e->obj)) {
+
+				CWhite* white = dynamic_cast<CWhite*>(e->obj);
+
+				if (e->ny > 0)
+				{
+					Sound::GetInstance()->Play("item", 0, 1);
+					white->SetState(WHITE_STATE_IDLE);
+					white->StartUntouchable();
+
+				}
 			}
 
 			if (dynamic_cast<CNarrowSpot*>(e->obj)) {
@@ -642,6 +658,10 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isGoThrough = true;
 
 				CHiddenObject* hidden = dynamic_cast<CHiddenObject*>(e->obj);
+
+				nx = ny = 0;
+
+				DebugOut(L"Hidden Object : %f\n", hidden->x);
 
 				if (vx < 0)
 				{

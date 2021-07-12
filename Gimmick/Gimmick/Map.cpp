@@ -92,3 +92,21 @@ void CMap::DrawMap(int cam_x, int cam_y)
 	}
 	sprites = NULL;
 }
+
+RECT CMap::GetBoundary()
+{
+	RECT r;
+	r.left = 0;
+	r.top = _row_max * 16;
+	r.right = _column_max * 16;
+	r.bottom = 0;
+
+	return r;
+}
+
+void CMap::ResetQuadTree()
+{
+	quadTree->Unload();
+
+	quadTree = NULL;
+}
