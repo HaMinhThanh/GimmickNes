@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "Define.h"
 
-CBoat::CBoat(float _x, float _y)
+CBoat::CBoat(float _x, float _y, int max, int min)
 {
 	x = _x;
 	y = _y;
@@ -15,6 +15,9 @@ CBoat::CBoat(float _x, float _y)
 
 	isMoving = false;
 	isFinish = false;
+
+	this->max = max;
+	this->min = min;
 }
 
 CBoat::~CBoat()
@@ -27,6 +30,14 @@ void CBoat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vx = BOAT_SPEED_X;
 
+	}
+
+	if (moving == 1) {
+
+		if (x <= min && vx <= 0)
+			vx = BOAT_SPEED_X;
+		else if (x >= max && vx > 0)
+			vx = -BOAT_SPEED_X;
 	}
 
 	if (isFinish) {
@@ -45,7 +56,7 @@ void CBoat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	if (moving > 0)
+	/*if (moving > 0)
 	{
 		if (GetTickCount() - time_end >= 19200) {
 
@@ -62,17 +73,17 @@ void CBoat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = 0;
 			isMoving = false;
 		}
-		else if (GetTickCount() - time_end >= 500 && GetTickCount() - time_end < 18000) {
+		else if (GetTickCount() - time_end >= 500 && GetTickCount() - time_end < 60000) {
 
 			isMoving = true;
 		}
 
-		CGameObject::Update(dt);
+	}*/
 
-		x += dx;
-		y += dy;
+	CGameObject::Update(dt);
 
-	}
+	x += dx;
+	y += dy;
 }
 
 void CBoat::Render()
@@ -90,7 +101,7 @@ void CBoat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	if (!isFinish) {
 
 		left = x;
-		top = y;
+		top = y - 2;
 		right = x + 36;
 		bottom = y - 200;
 	}

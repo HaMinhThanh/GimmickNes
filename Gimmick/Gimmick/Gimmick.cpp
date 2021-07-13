@@ -477,19 +477,15 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isAutoGo = false;
 				}
 			}
-			else {
-
-				isAutoGo = false;
-			}
-
-			if (dynamic_cast<CBoat*>(e->obj)) {
+			else if (dynamic_cast<CBoat*>(e->obj)) {
 
 				CBoat* boat = dynamic_cast<CBoat*>(e->obj);
 
 				if (boat->moving == 0)
-					boat->StarMoving();
+					boat->moving = 1;
 
-				if (boat->isMoving) {
+				if (boat->moving == 1) {
+					
 					isAutoGo = true;
 					addVx = BOAT_SPEED_X;
 				}
@@ -498,12 +494,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isAutoGo = false;
 				}
 			}
-			else {
-
-				isAutoGo = false;
-			}
-
-			if (dynamic_cast<CBlackBird*>(e->obj)) {
+			else if (dynamic_cast<CBlackBird*>(e->obj)) {
 
 				CBlackBird* bird = dynamic_cast<CBlackBird*>(e->obj);
 
@@ -522,8 +513,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else {
 
 				isAutoGo = false;
-			}
-
+			}			
 
 			if (dynamic_cast<CStar*>(e->obj)) {
 

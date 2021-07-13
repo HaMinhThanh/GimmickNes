@@ -262,7 +262,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 
 	case OBJECT_TYPE_BOAT:
-		obj = new CBoat(x, y);
+	{
+		int max = atof(tokens[4].c_str());
+		int min = atof(tokens[5].c_str());
+
+		obj = new CBoat(x, y, max, min);
+	}
 		break;
 
 	case OBJECT_TYPE_BIRD:

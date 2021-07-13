@@ -12,9 +12,11 @@ public:
 	int moving = 0;
 	DWORD time_end = 0;
 
+	int max, min;
+
 public:
 
-	CBoat(float x, float y);
+	CBoat(float x, float y, int max, int min);
 	~CBoat();
 
 	void StarMoving() { moving = 1; time_end = GetTickCount64(); }

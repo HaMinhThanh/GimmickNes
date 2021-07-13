@@ -822,7 +822,7 @@ map/map2.txt	128	60	0	0
 # Gimmick
 
 #----START----
-#1	48	304	1	480	352
+1	48	304	1	480	352
 
 #start
 #1	1650	384	1	480	352
@@ -833,7 +833,7 @@ map/map2.txt	128	60	0	0
 #lower-deck check
 #1	1350	142	1	480	352
 #upper-rewards check
-1	160	946	1	480	352
+#1	160	946	1	480	352
 
 
 # Turtle
@@ -841,8 +841,8 @@ map/map2.txt	128	60	0	0
 201	414	320	221	460	414
 
 # Boat
-# id	x	y	ani	min	max	type
-200	496	224	225
+# id	x	y	ani	max	min	type
+200	496	224	225	2000	496
 
 
 # BIRD
