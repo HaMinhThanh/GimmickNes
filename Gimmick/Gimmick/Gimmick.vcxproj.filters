@@ -139,9 +139,6 @@
     <ClCompile Include="Cannon.cpp">
       <Filter>Object\Enemy\Hazards</Filter>
     </ClCompile>
-    <ClCompile Include="CannonBall.cpp">
-      <Filter>Object\Enemy\Hazards</Filter>
-    </ClCompile>
     <ClCompile Include="Electrode.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
@@ -172,13 +169,30 @@
     <ClCompile Include="Bird.cpp">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="Boat.cpp" />
-    <ClCompile Include="GreenFattie.cpp" />
-    <ClCompile Include="GreenTurtle.cpp" />
-    <ClCompile Include="PirateCannonBall.cpp" />
-    <ClCompile Include="BossPirate.cpp" />
-    <ClCompile Include="BlackBird.cpp" />
-    <ClCompile Include="PBKnife.cpp" />
+    <ClCompile Include="CannonBall.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="PBKnife.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="PirateCannonBall.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenTurtle.cpp">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenFattie.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Boat.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackBird.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="BossPirate.cpp">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -346,13 +360,27 @@
     <ClInclude Include="Bird.h">
       <Filter>Object\Enemy\NormalEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Boat.h" />
-    <ClInclude Include="GreenFattie.h" />
-    <ClInclude Include="GreenTurtle.h" />
-    <ClInclude Include="PirateCannonBall.h" />
-    <ClInclude Include="BossPirate.h" />
-    <ClInclude Include="BlackBird.h" />
-    <ClInclude Include="PBKnife.h" />
+    <ClInclude Include="PBKnife.h">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPirate.h">
+      <Filter>Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="PirateCannonBall.h">
+      <Filter>Object\Enemy\Hazards</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenTurtle.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenFattie.h">
+      <Filter>Object\Enemy\NormalEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Boat.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackBird.h">
+      <Filter>Object\Ground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">

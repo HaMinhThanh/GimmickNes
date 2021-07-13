@@ -16,7 +16,7 @@
 
 #define BOMB_GRAVITY				-0.0005f
 
-#define PBOSS_SPEED_X				0.08f
+#define PBOSS_SPEED_X				0.06f
 #define PBOSS_SPEED_Y_NORMAL			0.1f
 #define PBOSS_SPEED_Y_DAMAGED			0.17f
 #define BOMB_SPEED_Y_COLLISION		-0.03f
