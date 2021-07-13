@@ -19,6 +19,8 @@ CBossPirate::CBossPirate(float _x, float _y, int _item)
 	SetState(BOMB_STATE_WALKING_RIGHT);
 
 	item = _item;
+
+	isFinish = false;
 }
 
 CBossPirate::~CBossPirate()

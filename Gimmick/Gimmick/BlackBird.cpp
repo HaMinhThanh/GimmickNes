@@ -43,14 +43,11 @@ void CBlackBird::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float camx, camy;
 		CCamera::GetInstance()->GetCamPos(camx, camy);
 
-		if (x + 50 < camx || x - 10 > camx + SCREEN_WIDTH || y< camy || y> camy + SCREEN_HEIGHT_MAP) {
-
-			isFinish = false;
+		if (x + 50 < camx || x - 10 > camx + SCREEN_WIDTH || y< camy || y - 300> camy + SCREEN_HEIGHT_MAP) {
 			isMoving = false;
 			moving = 0;
 
 			//SetPosition(backupX, backupY);
-
 		}
 	}
 

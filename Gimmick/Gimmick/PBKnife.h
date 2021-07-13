@@ -1,15 +1,18 @@
 #pragma once
 #include "GameObject.h"
 
-#define CANNONBALL_SPEED_X		0.05f
+#define KNIFE_SPEED_X		0.08f
+#define KNIFE_SPEED_Y		0.2f
+
+#define BACKUP_X		1872
+#define BACKUP_Y		512
+
 
 class CPBKnife : public CGameObject
 {
 public:
 
-	int index;
-
-	bool isRolling;
+	int index;	
 
 	int ending = 0;
 	DWORD time_end = 0;

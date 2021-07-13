@@ -37,6 +37,7 @@
 #include "PirateCannonBall.h"
 #include "BlackBird.h"
 #include "BossPirate.h"
+#include "PBKnife.h"
 
 CGimmick* CGimmick::_instance = NULL;
 
@@ -443,8 +444,25 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			else {
+			else if (dynamic_cast<CPBKnife*>(e->obj)){
 
+				if (untouchable == 0)
+				{
+					if (GetState() != GIMMICK_STATE_DIE)
+					{
+						if (energy > 0)
+						{
+							Sound::GetInstance()->Play("Collision", 0, 1);
+							energy -= 1;
+							StartUntouchable();
+
+						}
+						else
+						{
+							SetState(GIMMICK_STATE_DIE);
+						}
+					}
+				}
 
 			}
 

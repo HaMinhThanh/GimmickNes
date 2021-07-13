@@ -18,6 +18,7 @@
 #include "GreenTurtle.h"
 #include "GreenFattie.h"
 #include "BossPirate.h"
+#include "PBKnife.h"
 
 
 #define STAR_ANIMATION_SET		2
@@ -305,10 +306,15 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							pboss->damaged++;
 							pboss->SetState(BOMB_STATE_DAMAGED);
+							
 						}
 						else
 						{
 							pboss->SetState(BOMB_STATE_DIE);
+
+							CPBKnife* kn = new CPBKnife(BACKUP_X, BACKUP_Y, 0);
+							kn->SetSpeed(KNIFE_SPEED_X, KNIFE_SPEED_Y);
+							CMap::GetInstance()->ListObjects.push_back(kn);
 
 							switch (pboss->item) {
 
