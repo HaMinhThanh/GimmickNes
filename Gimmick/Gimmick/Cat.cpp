@@ -7,7 +7,7 @@
 #include "White.h"
 
 
-CCat::CCat(int t)
+CCat::CCat(float x, float y, int t)
 {
 	type = t;
 	if (type == 1)
@@ -16,6 +16,11 @@ CCat::CCat(int t)
 	}
 	else
 		SetState(CAT_STATE_IDLE_RIGHT);
+
+	backupX = x;
+	backupY = y;
+
+	isFinish = false;
 }
 
 

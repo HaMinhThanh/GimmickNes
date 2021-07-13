@@ -35,7 +35,7 @@ class CWhite : public CGameObject
 	DWORD idleBack_start;
 public:
 
-	CWhite(int type);
+	CWhite(float x, float y, int type);
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

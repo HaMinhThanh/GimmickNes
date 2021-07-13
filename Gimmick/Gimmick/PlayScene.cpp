@@ -96,6 +96,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_ELECTRODE		27
 #define OBJECT_TYPE_KING_ELECTRODE	28
 #define OBJECT_TYPE_SHADOW			30
+#define OBJECT_TYPE_CANNON_PIRATE	29
 
 // Item
 #define OBJECT_TYPE_TREASURE	31
@@ -211,10 +212,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 
 	case OBJECT_TYPE_CAT:
-		obj = new CCat(1);
+		obj = new CCat(x, y, 1);
 		break;
 	case OBJECT_TYPE_CAT_RIGHT:
-		obj = new CCat(2);
+		obj = new CCat(x, y, 2);
 		break;
 
 	case OBJECT_TYPE_DRILLER:
@@ -227,15 +228,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 
 	case OBJECT_TYPE_WHITE:
-		obj = new CWhite(1);
+		obj = new CWhite(x, y,1);
 		break;
 
 	case OBJECT_TYPE_WHITE_CAT:
-		obj = new CWhite(2);
+		obj = new CWhite(x, y, 2);
 		break;
 
 	case OBJECT_TYPE_WHITE_LEFT:
-		obj = new CWhite(3);
+		obj = new CWhite(x, y, 3);
 		break;
 
 	case OBJECT_TYPE_BOSS_PIRATE:
@@ -331,6 +332,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int n = atof(tokens[4].c_str());
 		obj = new CCannon(x, y, n);
+	}
+	break;
+
+	case OBJECT_TYPE_CANNON_PIRATE:
+	{
+		int n = atof(tokens[4].c_str());
+		obj = new CCannon(x, y, ani_set_id, n);
 	}
 	break;
 
@@ -720,12 +728,17 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 
 	for (UINT i = 0; i < listObj.size(); i++)
 	{
-		if (dynamic_cast<CCannon*>(listObj.at(i))
+		if (dynamic_cast<CBossPirate*>(listObj.at(i))
+			|| dynamic_cast<CGreenFattie*>(listObj.at(i))
+			|| dynamic_cast<CGreenTurtle*>(listObj.at(i))			
+			|| dynamic_cast<CCannon*>(listObj.at(i))
 			|| dynamic_cast<CCannonBall*>(listObj.at(i))
 			|| dynamic_cast<CBomb*>(listObj.at(i))
 			|| dynamic_cast<CElectrode*>(listObj.at(i))
 			|| dynamic_cast<CKingElectrode*>(listObj.at(i))
-			|| dynamic_cast<CWorm*>(listObj.at(i))) {
+			|| dynamic_cast<CWorm*>(listObj.at(i))
+			|| dynamic_cast<CCat*>(listObj.at(i))
+			|| dynamic_cast<CWhite*>(listObj.at(i))) {
 
 			if (listObj.at(i)->x >= camX - 16 && listObj.at(i)->x <= camX + SCREEN_WIDTH
 				&& listObj.at(i)->y <= camY + SCREEN_HEIGHT && listObj.at(i)->y >= camY)

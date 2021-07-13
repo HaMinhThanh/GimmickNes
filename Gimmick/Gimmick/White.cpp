@@ -4,7 +4,7 @@
 #include"PlayScene.h"
 
 
-CWhite::CWhite(int t)
+CWhite::CWhite(float x, float y, int t)
 {
 	type = t;
 	if (type == 2)
@@ -17,6 +17,11 @@ CWhite::CWhite(int t)
 	}
 	else
 		SetState(WHITE_STATE_WALKING_LEFT);
+
+	backupX = x;
+	backupY = y;
+
+	isFinish = false;
 
 }
 void CWhite::GetBoundingBox(float& left, float& top, float& right, float& bottom)

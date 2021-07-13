@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 
-#define PIRATE_CANNONBALL_SPEED_X		-0.08f
+#define PIRATE_CANNONBALL_SPEED_X		0.05f
 
 class CPirateCannonBall : public CGameObject
 {
@@ -11,6 +11,7 @@ public:
 	int index;
 
 	bool isRolling;
+	bool isMoving;
 
 	int ending = 0;
 	DWORD time_end = 0;

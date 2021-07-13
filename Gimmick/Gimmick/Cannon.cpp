@@ -6,6 +6,7 @@
 #include "Water.h"
 #include "Gimmick.h"
 #include "CannonBall.h"
+#include "Map.h"
 
 
 CPirateCannonBall* pirate_ball = NULL;
@@ -28,7 +29,7 @@ CCannon::CCannon(float _x, float _y, int _n)
 }
 
 
-CCannon::CCannon(float _x, float _y, int _n, int ani_id)
+CCannon::CCannon(float _x, float _y, int ani_id, int _n)
 {
 	x = _x;
 	y = _y;
@@ -40,12 +41,14 @@ CCannon::CCannon(float _x, float _y, int _n, int ani_id)
 
 	num_ball = _n;
 
-	if (render == 227) // pirate cannon
+	if (render == CANNON_TYPE_PIRATE_BALL) // pirate cannon
 	{
 		pirate_ball = new CPirateCannonBall(x, y, 1);
 		LPGAMEOBJECT obj = pirate_ball;
 
-		ListBall.push_back(obj);
+		//ListBall.push_back(obj);
+
+		CMap::GetInstance()->ListObjects.push_back(obj);
 	}
 	else
 	{
@@ -64,12 +67,12 @@ CCannon::~CCannon()
 
 void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
+	if (render == CANNON_TYPE_PIRATE_BALL) {
 
-	if (render == 227) {
-		pirate_ball->backupX = x;
-		pirate_ball->backupY = y;
+		pirate_ball->BackUpPos(x, y);
 	}
+
+	CGameObject::Update(dt);
 
 	vy += BOMB_GRAVITY * dt;
 
@@ -154,36 +157,40 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if (!isSlide)
 		vx = 0;
 
-	CCannonBall* cb = (CCannonBall*)ListBall.at(current_ball);
+	if (render != CANNON_TYPE_PIRATE_BALL) {
+		CCannonBall* cb = (CCannonBall*)ListBall.at(current_ball);
 
-	if (cb->isFinish) {
+		if (cb->isFinish) {
 
-		current_ball += 1;
-		cb->ReturnPosition(x + 16, y);
+			current_ball += 1;
+			cb->ReturnPosition(x + 16, y);
+		}
+
+		if (current_ball >= ListBall.size() - 1)
+			current_ball = 0;
+
+		CCannonBall* cb1 = (CCannonBall*)ListBall.at(current_ball);
+
+		if (!cb1->isRolling) {
+
+			cb1->vx = CANNONBALL_SPEED_X;
+			cb1->isRolling = true;
+		}
+		cb1->Update(dt, coObjects);
 	}
-
-	if (current_ball >= ListBall.size() - 1)
-		current_ball = 0;
-
-	CCannonBall* cb1 = (CCannonBall*)ListBall.at(current_ball);
-
-	if (!cb1->isRolling) {
-
-		cb1->vx = CANNONBALL_SPEED_X;
-		cb1->isRolling = true;
-	}
-	cb1->Update(dt, coObjects);
 }
 
 void CCannon::Render()
 {
 	animation_set->at(0)->Render(x, (int)y);
-	ListBall.at(current_ball)->Render();
+
+	if (render != CANNON_TYPE_PIRATE_BALL)
+		ListBall.at(current_ball)->Render();
 }
 
 void CCannon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (render == 227)	// pirate cannon
+	if (render == CANNON_TYPE_PIRATE_BALL)	// pirate cannon
 	{
 		left = x;
 		top = y;

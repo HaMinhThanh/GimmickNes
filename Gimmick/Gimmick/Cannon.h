@@ -11,6 +11,9 @@
 
 #define PIRATE_CANNON_BBOX_WIDTH		24
 #define PIRATE_CANNON_BBOX_HEIGHT		30
+
+#define CANNON_TYPE_PIRATE_BALL			227
+
 class CCannon : public CGameObject
 {
 public:

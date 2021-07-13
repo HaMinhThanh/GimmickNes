@@ -312,27 +312,27 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			if (dynamic_cast<CPirateCannonBall*>(e->obj)) {
+			//if (dynamic_cast<CPirateCannonBall*>(e->obj)) {
 
-				CPirateCannonBall* pball = dynamic_cast<CPirateCannonBall*>(e->obj);
+			//	CPirateCannonBall* pball = dynamic_cast<CPirateCannonBall*>(e->obj);
 
-				if (e->ny > 0)
-				{
-					//if (vx==0 && vy==0) {							
-					isFollow = true;
-					obj = pball;
-					SetState(GIMMICK_STATE_IDLE);
+			//	if (e->ny > 0)
+			//	{
+			//		//if (vx==0 && vy==0) {							
+			//		isFollow = true;
+			//		obj = pball;
+			//		SetState(GIMMICK_STATE_IDLE);
 
-					//}
-				}
-				/*else //if (e->nx != 0)
-				{
-					//isNotCollide = true;
-					isFollow = false;
-					isGoThrough = true;
-				}*/
+			//		//}
+			//	}
+			//	/*else //if (e->nx != 0)
+			//	{
+			//		//isNotCollide = true;
+			//		isFollow = false;
+			//		isGoThrough = true;
+			//	}*/
 
-			}
+			//}
 
 			if (dynamic_cast<CGreenFattie*>(e->obj) && !isSlide) {
 
@@ -508,6 +508,45 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else {
 
 					isAutoGo = false;
+				}
+			}
+			else if (dynamic_cast<CPirateCannonBall*>(e->obj)) {
+
+				CPirateCannonBall* pc = dynamic_cast<CPirateCannonBall*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1) {
+
+					if (e->ny > 0) {
+
+						/*isAutoGo = true;
+						addVx = -0.05f;*/
+
+						isFollow = true;
+						obj = pc;
+
+						SetState(GIMMICK_STATE_IDLE);
+					}
+					else {
+						isFollow = false;
+
+						if (untouchable == 0)
+						{
+							if (GetState() != GIMMICK_STATE_DIE)
+							{
+								if (energy > 0)
+								{
+									Sound::GetInstance()->Play("Collision", 0, 1);
+									energy -= 1;
+									StartUntouchable();
+
+								}
+								else
+								{
+									SetState(GIMMICK_STATE_DIE);
+								}
+							}
+						}
+					}
 				}
 			}
 			else {
@@ -741,9 +780,17 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CCannon* can = dynamic_cast<CCannon*>(e->obj);
 
 				if (e->t > 0 && e->t <= 1) {
+					
+					if (e->ny > 0) {
 
-					can->isMoving = true;
-					isPushCannon = true;
+						isFollow = true;
+						obj = can;
+					}
+					else {
+
+						can->isMoving = true;
+						isPushCannon = true;
+					}
 				}
 			}
 			else {

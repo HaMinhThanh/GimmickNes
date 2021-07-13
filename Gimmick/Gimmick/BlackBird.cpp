@@ -168,14 +168,14 @@ void CBlackBird::Render()
 
 void CBlackBird::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (moving == 0)
+	/*if (moving == 0)
 	{
 		left = x - 72;
 		top = y - 12 - 32;
 		right = x + 36 - 60;
 		bottom = y - 24 - 32;
 	}
-	else if (!isFinish) {
+	else */if (!isFinish) {
 
 		left = x;
 		top = y - 12;

@@ -28,7 +28,7 @@
 class CCat : public CGameObject
 {
 public:
-	CCat(int type);
+	CCat(float x, float y, int type);
 	int type;
 	bool isDie = false;
 	DWORD waitToFly = 0;

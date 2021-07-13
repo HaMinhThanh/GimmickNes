@@ -17,11 +17,12 @@ CPirateCannonBall::CPirateCannonBall(float _x, float _y, int _index)
 	backupX = _x;
 	backupY = _y;
 
-	vx = PIRATE_CANNONBALL_SPEED_X;
+	vx = -PIRATE_CANNONBALL_SPEED_X;
 	vy = 0;
 
 	isFinish = false;
 	isRolling = false;
+	isMoving = true;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(10);
@@ -35,7 +36,7 @@ CPirateCannonBall::~CPirateCannonBall()
 
 void CPirateCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (ending == 1) {
+	/*if (ending == 1) {
 
 		isRolling = false;
 
@@ -53,119 +54,77 @@ void CPirateCannonBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetSpeed(PIRATE_CANNONBALL_SPEED_X, 0);
 
 		}
-	}
+	}*/
 
 
 	float camx, camy;
 	CCamera::GetInstance()->GetCamPos(camx, camy);
 	if (x + 16 < camx || x + 16 > camx + SCREEN_WIDTH) {
-		/*
-		backupX = camx + SCREEN_WIDTH / 2 - 32;
-		if (backupX <= 660)
-		{
-			backupY = 464;
-			SetPosition(backupX, backupY);
-		}
-		else
-		{
-			backupX = camx + SCREEN_WIDTH / 2 - 40;
-			SetPosition(backupX, backupY);
-		}
-		*/
+
 		SetPosition(backupX, backupY);
 	}
 
-	if (isRolling) {
-
-		CGimmick* gimmick = CGimmick::GetInstance(0, 0);
-
-		if (isCollisionWithObject(gimmick)) {
-
-			if (gimmick->untouchable == 0)
-			{
-				if (GetState() != GIMMICK_STATE_DIE)
-				{
-					if (gimmick->energy > 0)
-					{
-						gimmick->energy -= 1;
-						Sound::GetInstance()->Play("Collision", 0, 1);
-						gimmick->StartUntouchable();
-					}
-					else
-					{
-						gimmick->SetState(GIMMICK_STATE_DIE);
-					}
-				}
-			}
-		}
+	//if (isRolling) {
 
 
-		CGameObject::Update(dt);
+	CGameObject::Update(dt);
 
-		vy += 0 * dt;
+	/*x += dx;
+	y += dy;*/
 
-		vector<LPGAMEOBJECT> Bricks;
-		Bricks.clear();
+	vector<LPGAMEOBJECT> Bricks;
+	Bricks.clear();
 
-		for (UINT i = 0; i < coObjects->size(); i++) {
+	for (UINT i = 0; i < coObjects->size(); i++) {
 
-			if (dynamic_cast<CBrick*>(coObjects->at(i))
-				|| dynamic_cast<CScrollBar*>(coObjects->at(i))
-				|| dynamic_cast<CSlide*>(coObjects->at(i))
-				|| dynamic_cast<CWater*>(coObjects->at(i))) {
+		if (dynamic_cast<CBrick*>(coObjects->at(i))
+			|| dynamic_cast<CScrollBar*>(coObjects->at(i))
+			|| dynamic_cast<CSlide*>(coObjects->at(i))
+			|| dynamic_cast<CWater*>(coObjects->at(i))) {
 
-				Bricks.push_back(coObjects->at(i));
-			}
-		}
-
-		vector<LPCOLLISIONEVENT>  coEvents;
-		vector<LPCOLLISIONEVENT>  coEventsResult;
-
-		coEvents.clear();
-
-		CalcPotentialCollisions(&Bricks, coEvents);
-
-		if (coEvents.size() == 0) {
-
-			x -= dx;
-			y += dy;
-		}
-		else {
-
-			float min_tx, min_ty, nx = 0, ny;
-			float rdx, rdy;
-
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			x += dx;
-			y += min_ty * dy + ny * 0.04f;
-
-			for (UINT i = 0; i < coEventsResult.size(); i++) {
-
-				LPCOLLISIONEVENT e = coEventsResult[i];
-
-				if (dynamic_cast<CWater*>(e->obj)) {
-
-					StarEnding();
-				}
-				if (dynamic_cast<CSlide*>(e->obj)) {
-
-					CSlide* slide = dynamic_cast<CSlide*>(e->obj);
-
-					/*if (slide->direct == 1)
-						vx = CANNONBALL_SPEED_X;
-					else
-						vx = -CANNONBALL_SPEED_X;*/
-				}
-			}
-			if (nx != 0 && ny == 0)
-				vx *= -1;
-
-			if (ny != 0) {
-				vy = 0;
-			}
+			Bricks.push_back(coObjects->at(i));
 		}
 	}
+
+	vector<LPCOLLISIONEVENT>  coEvents;
+	vector<LPCOLLISIONEVENT>  coEventsResult;
+
+	coEvents.clear();
+
+	CalcPotentialCollisions(&Bricks, coEvents);
+
+	if (coEvents.size() == 0) {
+
+		x += dx;
+		y += dy;
+	}
+	else {
+
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx, rdy;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		x += dx;
+		y += min_ty * dy + ny * 0.04f;
+
+		for (UINT i = 0; i < coEventsResult.size(); i++) {
+
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<CWater*>(e->obj)) {
+
+
+			}
+		}
+		if (nx != 0 && ny == 0)
+			vx *= -1;
+
+		if (ny != 0) {
+			vy = 0;
+		}
+	}
+	
 }
 
 void CPirateCannonBall::Render()
@@ -180,7 +139,7 @@ void CPirateCannonBall::GetBoundingBox(float& left, float& top, float& right, fl
 {
 	if (!isFinish)
 	{
-		left = x + 1;
+		left = x;
 		top = y;
 		right = x + 15;
 		bottom = y - 15;
