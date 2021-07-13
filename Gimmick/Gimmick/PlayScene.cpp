@@ -757,6 +757,10 @@ void CPlayScene::GetCollideEnemy(vector<LPGAMEOBJECT> listObj, vector<LPGAMEOBJE
 						bomb->flying = 0;
 						bomb->isFlying = false;
 					}
+					else if (dynamic_cast<CElectrode*>(listObj.at(i))) {
+						CElectrode* elec = dynamic_cast<CElectrode*>(listObj.at(i));
+						elec->isActive = false;
+					}
 				}
 			}
 		}

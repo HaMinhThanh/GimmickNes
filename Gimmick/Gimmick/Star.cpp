@@ -362,6 +362,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (elec->isIdle) {
 							elec->isFinish = true;
 							CGimmick::GetInstance(0, 0)->score += 100;
+
+							elec->SetSpeed(-ELECTRODE_SPEED_X*2, ELECTRODE_SPEED_Y);
 						}
 						else
 							Reset();

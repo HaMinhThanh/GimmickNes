@@ -83,6 +83,7 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					ListBomb[i]->vx = BOMB_SPEED_VX*(i+1);
 					ListBomb[i]->vy = BOMB_SPEED_VY * (i+1);
+					ListBomb[i]->flying = 0;
 				}					
 		}
 	}
@@ -97,8 +98,22 @@ void CKingElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isDie) {
 
+		time_end = GetTickCount();
+		ending = 1;
+
 		isDie = false;
-		vy = -KING_SPEED_Y;
+		vy = KING_SPEED_Y;
+		vx = -KING_SPEED_X*3;
+	}
+
+	if (ending == 1) {
+
+		if (GetTickCount() - time_end > 500) {
+			vy = -KING_SPEED_Y;
+			vx = 0;
+			ending = 0;
+			time_end = 0;
+		}
 	}
 
 	/*for (int i = 0; i < BOMB_NUMBER; i++)

@@ -406,7 +406,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			if (dynamic_cast<CGreenTurtle*>(e->obj) || dynamic_cast<CKingElectrode*>(e->obj) 
+			if (dynamic_cast<CGreenTurtle*>(e->obj) || dynamic_cast<CKingElectrode*>(e->obj)
 				|| dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
 
 				if (e->t > 0 && e->t <= 1) {
@@ -444,7 +444,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			else if (dynamic_cast<CPBKnife*>(e->obj)){
+			else if (dynamic_cast<CPBKnife*>(e->obj)) {
 
 				if (untouchable == 0)
 				{
@@ -503,7 +503,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					boat->moving = 1;
 
 				if (boat->moving == 1) {
-					
+
 					isAutoGo = true;
 					addVx = BOAT_SPEED_X;
 				}
@@ -570,7 +570,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else {
 
 				isAutoGo = false;
-			}			
+			}
 
 			if (dynamic_cast<CStar*>(e->obj)) {
 
@@ -747,11 +747,14 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				CMovingBrick* mb = dynamic_cast<CMovingBrick*>(e->obj);
 
-				//isMovingBrick = true;
+				if (e->t > 0 && e->t <= 1)
 
-				isFollow = true;
-				obj = mb;
-				
+					if (e->ny > 0) {
+
+						isFollow = true;
+						obj = mb;
+					}
+
 			}
 			else {
 
@@ -770,18 +773,18 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					//SetState(GIMMICK_STATE_PIPING);
 
-					if (pipe->type == PIPE_TYPE_HORIZONTAL) {
+				if (pipe->type == PIPE_TYPE_HORIZONTAL) {
 
-						//if (vx > 0 || CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) x += 0.1f;
-						//else if(vx > 0 && CGame::GetInstance()->IsKeyDown(DIK_LEFT))x -= 0.1f;
-					}
-					else if (pipe->type == PIPE_TYPE_VERTICAL) {
+					//if (vx > 0 || CGame::GetInstance()->IsKeyDown(DIK_RIGHT)) x += 0.1f;
+					//else if(vx > 0 && CGame::GetInstance()->IsKeyDown(DIK_LEFT))x -= 0.1f;
+				}
+				else if (pipe->type == PIPE_TYPE_VERTICAL) {
 
-						x = pipe->x;
+					x = pipe->x;
 
-						if (vy > 0) y += 0.1f;
-						else if (vy < 0)y -= 0.1f;
-					}
+					if (vy > 0) y += 0.1f;
+					else if (vy < 0)y -= 0.1f;
+				}
 
 				//}
 				//else {
@@ -798,7 +801,7 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CCannon* can = dynamic_cast<CCannon*>(e->obj);
 
 				if (e->t > 0 && e->t <= 1) {
-					
+
 					if (e->ny > 0) {
 
 						isFollow = true;

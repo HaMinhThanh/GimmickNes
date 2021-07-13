@@ -39,6 +39,9 @@ public:
 	
 	vector<CBomb*> ListBomb;
 
+	DWORD time_end = 0;
+	int ending = 0;
+
 public:
 	CKingElectrode(float x, float y);
 	~CKingElectrode();

@@ -35,6 +35,10 @@ void CElectrode::GetBoundingBox(float& left, float& top, float& right, float& bo
 
 void CElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (!isActive) {
+
+		vx = vy = 0;
+	}
 	if (abs(x - CGimmick::GetInstance(0, 0)->GetX()) < 8 && !isActive) {
 
 		isActive = true;
@@ -50,7 +54,8 @@ void CElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isIdle) {
 
-		vx = 0;
+		if (!isFinish)
+			vx = 0;
 
 		if (CGimmick::GetInstance(0, 0)->GetState() != GIMMICK_STATE_IDLE) {
 			isIdle = false;
@@ -61,7 +66,7 @@ void CElectrode::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isDie) {
 		isDie = false;
-		vy = -ELECTRODE_SPEED_Y;
+		vy = ELECTRODE_SPEED_Y;
 	}
 
 	CGameObject::Update(dt);
