@@ -5,7 +5,10 @@
 #include "Slide.h"
 #include "Water.h"
 #include "Gimmick.h"
+#include "CannonBall.h"
 
+
+CPirateCannonBall* pirate_ball = NULL;
 CCannon::CCannon(float _x, float _y, int _n)
 {
 	x = _x;
@@ -20,8 +23,38 @@ CCannon::CCannon(float _x, float _y, int _n)
 
 		LPGAMEOBJECT obj = NULL;
 		obj = new CCannonBall(x, y, i);
+		ListBall.push_back(obj);
+	}
+}
+
+
+CCannon::CCannon(float _x, float _y, int _n, int ani_id)
+{
+	x = _x;
+	y = _y;
+
+	render = ani_id;
+
+	backupX = _x;
+	backupY = _y;
+
+	num_ball = _n;
+
+	if (render == 227) // pirate cannon
+	{
+		pirate_ball = new CPirateCannonBall(x, y, 1);
+		LPGAMEOBJECT obj = pirate_ball;
 
 		ListBall.push_back(obj);
+	}
+	else
+	{
+		for (int i = 0; i < num_ball; i++) {
+			LPGAMEOBJECT obj = NULL;
+			obj = new CCannonBall(x, y, i);
+
+			ListBall.push_back(obj);
+		}
 	}
 }
 
@@ -32,6 +65,11 @@ CCannon::~CCannon()
 void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
+
+	if (render == 227) {
+		pirate_ball->backupX = x;
+		pirate_ball->backupY = y;
+	}
 
 	vy += BOMB_GRAVITY * dt;
 
@@ -78,7 +116,7 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CSlide*>(e->obj)) {
 
 				CSlide* slide = dynamic_cast<CSlide*>(e->obj);
-				
+
 				isSlide = true;
 
 				if (slide->direct == 1)
@@ -113,7 +151,7 @@ void CCannon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (gm->vx < 0)
 			vx = -CANNON_MOVING_SPEED;
 	}
-	else if(!isSlide)
+	else if (!isSlide)
 		vx = 0;
 
 	CCannonBall* cb = (CCannonBall*)ListBall.at(current_ball);
@@ -145,8 +183,18 @@ void CCannon::Render()
 
 void CCannon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + CANNON_BBOX_WIDTH - 1;
-	bottom = y - CANNON_BBOX_HEIGHT;
+	if (render == 227)	// pirate cannon
+	{
+		left = x;
+		top = y;
+		right = x + PIRATE_CANNON_BBOX_WIDTH;
+		bottom = y - PIRATE_CANNON_BBOX_HEIGHT;
+	}
+	else
+	{
+		left = x;
+		top = y;
+		right = x + CANNON_BBOX_WIDTH - 1;
+		bottom = y - CANNON_BBOX_HEIGHT;
+	}
 }

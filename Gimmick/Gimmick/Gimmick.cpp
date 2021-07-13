@@ -31,6 +31,13 @@
 #include "White.h"
 #include "Bird.h"
 
+#include "Boat.h"
+#include "GreenTurtle.h"
+#include "GreenFattie.h"
+#include "PirateCannonBall.h"
+#include "BlackBird.h"
+#include "BossPirate.h"
+
 CGimmick* CGimmick::_instance = NULL;
 
 CGimmick* CGimmick::GetInstance(float x, float y)
@@ -263,6 +270,113 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+			if (dynamic_cast<CBossPirate*>(e->obj) && !isSlide) {
+
+				CBossPirate* boss = dynamic_cast<CBossPirate*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1 && boss->GetState() != BOMB_STATE_DIE) {
+
+					if (e->ny > 0)
+					{
+						//if (vx==0 && vy==0) {							
+						isFollow = true;
+						obj = boss;
+						SetState(GIMMICK_STATE_IDLE);
+
+						//}
+					}
+					else //if (e->nx != 0)
+					{
+						//isNotCollide = true;
+						isFollow = false;
+						isGoThrough = true;
+
+						if (untouchable == 0)
+						{
+							if (GetState() != GIMMICK_STATE_DIE)
+							{
+								if (energy > 0)
+								{
+									Sound::GetInstance()->Play("Collision", 0, 1);
+									energy -= 1;
+									StartUntouchable();
+
+								}
+								else
+								{
+									SetState(GIMMICK_STATE_DIE);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if (dynamic_cast<CPirateCannonBall*>(e->obj)) {
+
+				CPirateCannonBall* pball = dynamic_cast<CPirateCannonBall*>(e->obj);
+
+				if (e->ny > 0)
+				{
+					//if (vx==0 && vy==0) {							
+					isFollow = true;
+					obj = pball;
+					SetState(GIMMICK_STATE_IDLE);
+
+					//}
+				}
+				/*else //if (e->nx != 0)
+				{
+					//isNotCollide = true;
+					isFollow = false;
+					isGoThrough = true;
+				}*/
+
+			}
+
+			if (dynamic_cast<CGreenFattie*>(e->obj) && !isSlide) {
+
+				CGreenFattie* fattie = dynamic_cast<CGreenFattie*>(e->obj);
+
+				if (e->t > 0 && e->t <= 1 && fattie->GetState() != BOMB_STATE_DIE) {
+
+					if (e->ny > 0)
+					{
+						//if (vx==0 && vy==0) {							
+						isFollow = true;
+						obj = fattie;
+						SetState(GIMMICK_STATE_IDLE);
+
+						//}
+					}
+					else //if (e->nx != 0)
+					{
+						//isNotCollide = true;
+						isFollow = false;
+						isGoThrough = true;
+
+						if (untouchable == 0)
+						{
+							if (GetState() != GIMMICK_STATE_DIE)
+							{
+								if (energy > 0)
+								{
+									Sound::GetInstance()->Play("Collision", 0, 1);
+									energy -= 1;
+									StartUntouchable();
+
+								}
+								else
+								{
+									SetState(GIMMICK_STATE_DIE);
+								}
+							}
+						}
+					}
+				}
+			}
+
+
 			if (dynamic_cast<CMiniBomb*>(e->obj)) {
 
 				CMiniBomb* mn = dynamic_cast<CMiniBomb*>(e->obj);
@@ -291,7 +405,8 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			if (dynamic_cast<CKingElectrode*>(e->obj) || dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
+			if (dynamic_cast<CGreenTurtle*>(e->obj) || dynamic_cast<CKingElectrode*>(e->obj) 
+				|| dynamic_cast<CWorm*>(e->obj) || dynamic_cast<CElectrode*>(e->obj)) {
 
 				if (e->t > 0 && e->t <= 1) {
 
@@ -366,6 +481,49 @@ void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				isAutoGo = false;
 			}
+
+			if (dynamic_cast<CBoat*>(e->obj)) {
+
+				CBoat* boat = dynamic_cast<CBoat*>(e->obj);
+
+				if (boat->moving == 0)
+					boat->StarMoving();
+
+				if (boat->isMoving) {
+					isAutoGo = true;
+					addVx = BOAT_SPEED_X;
+				}
+				else {
+
+					isAutoGo = false;
+				}
+			}
+			else {
+
+				isAutoGo = false;
+			}
+
+			if (dynamic_cast<CBlackBird*>(e->obj)) {
+
+				CBlackBird* bird = dynamic_cast<CBlackBird*>(e->obj);
+
+				if (bird->moving == 0)
+					bird->StarMoving();
+
+				if (bird->isMoving) {
+					isAutoGo = true;
+					addVx = BOAT_SPEED_X;
+				}
+				else {
+
+					isAutoGo = false;
+				}
+			}
+			else {
+
+				isAutoGo = false;
+			}
+
 
 			if (dynamic_cast<CStar*>(e->obj)) {
 

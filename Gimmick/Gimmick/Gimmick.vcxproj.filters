@@ -176,6 +176,9 @@
     <ClCompile Include="GreenFattie.cpp" />
     <ClCompile Include="GreenTurtle.cpp" />
     <ClCompile Include="PirateCannonBall.cpp" />
+    <ClCompile Include="BossPirate.cpp" />
+    <ClCompile Include="BlackBird.cpp" />
+    <ClCompile Include="PBKnife.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -347,6 +350,9 @@
     <ClInclude Include="GreenFattie.h" />
     <ClInclude Include="GreenTurtle.h" />
     <ClInclude Include="PirateCannonBall.h" />
+    <ClInclude Include="BossPirate.h" />
+    <ClInclude Include="BlackBird.h" />
+    <ClInclude Include="PBKnife.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FrameWork">

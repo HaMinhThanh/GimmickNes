@@ -818,40 +818,92 @@ map/map2.txt	128	60	0	0
 4	1488	208	401
 4	1504	208	401
 4	1520	208	401
+
 # Gimmick
+
+#----START----
+#1	48	304	1	480	352
+
 #start
-1	470	384	1	480	352
+#1	1650	384	1	480	352
 #upper-deck check
-#1	1280	480	1	480	352
+#1	900	480	1	480	352
 #flag check
-#1	1000	800	1	480	352
+#1	1800	800	1	480	352
 #lower-deck check
-#1	1280	64	1	480	352
+#1	1350	142	1	480	352
 #upper-rewards check
-#1	160	946	1	480	352
+1	160	946	1	480	352
 
 
+# Turtle
+201	310	286	221	382	292
+201	414	320	221	460	414
 
-# Moving brick (chưa vẽ thuyền)						
+# Boat
 # id	x	y	ani	min	max	type
-8	496	224	411	496	1700	1
-#8	650	224	411	700	1000	1
-#8	1000	224	411	1000	1400	1
-#8	1400	224	411	1400	1744	1
+200	496	224	225
 
 
-# Moving brick (chưa vẽ chim)
+# BIRD
 # id	x	y	ani	min	max	type
-8	336	688	411	320	500	1
+203	320	720	223
 
-
-# Moving brick (chưa vẽ chim cuối)						
+# BIRD END						
 # id	x	y	ani	min	max	type
-8	1568	656	411	1568	1650	1
+203	1668	688	223
 
-# Moving brick (chưa vẽ cannon)						
+
+
+# Cannon Ball (drop down like MiniBomb)
+22	900	320	10
+22	980	320	10
+22	1060	320	10
+22	1140	320	10
+22	1220	320	10
+22	1300	320	10
+22	1380	320	10
+22	1460	320	10
+22	1540	320	10
+
+#PIRATE KING
+204	1880	600	224	0
+
+# Moving brick (chưa vẽ cannon)			
 # id	x	y	ani	min	max	type
-8	656	464	411	464	656	1
+#8	656	416	411	464	656	1
+
+
+#Bomb
+21	1504	128	3	0
+21	1280	64	3	0
+21	1200	64	3	0
+
+
+
+21	980	700	3	0
+21	1100	700	3	0
+21	1120	700	3	1
+
+21	1400	700	3	0
+
+#Bomb idle + bomb limited
+21	1100	112	3	1140	1060
+25	1155	128	226	1156	1152
+
+#Green Fattie
+202	850	512	222	2
+
+#Cannon
+23	718	512	227	2
+
+# ===== Items ========
+# Treasures					
+# id	x	y	ani_id	width	height
+31	124	700	7	22	43
+
+# Bình màu vàng-Item
+32	1504	128	4	2
 
 # Portal
 #id	x	y	ani_set	w	h	idscene	caml	camr	newx	newy

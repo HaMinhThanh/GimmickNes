@@ -15,6 +15,11 @@
 #include "Cat.h"
 #include "White.h"
 
+#include "GreenTurtle.h"
+#include "GreenFattie.h"
+#include "BossPirate.h"
+
+
 #define STAR_ANIMATION_SET		2
 
 CStar::CStar()
@@ -163,7 +168,10 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				|| dynamic_cast<CWorm*>(coObjects->at(i))
 				|| dynamic_cast<CShadow*>(coObjects->at(i))
 				|| dynamic_cast<CCat*>(coObjects->at(i))
-				|| dynamic_cast<CWhite*>(coObjects->at(i))) {
+				|| dynamic_cast<CWhite*>(coObjects->at(i))
+				|| dynamic_cast<CBossPirate*>(coObjects->at(i))
+				|| dynamic_cast<CGreenFattie*>(coObjects->at(i))
+				|| dynamic_cast<CGreenTurtle*>(coObjects->at(i))) {
 
 				Bricks.push_back(coObjects->at(i));
 			}
@@ -236,6 +244,109 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 
+				if (dynamic_cast<CGreenFattie*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CGreenFattie* fattie = dynamic_cast<CGreenFattie*>(e->obj);
+						if (fattie->damaged < 3)
+						{
+							fattie->damaged++;
+							fattie->SetState(BOMB_STATE_DAMAGED);
+						}
+						else
+						{
+							fattie->SetState(BOMB_STATE_DIE);
+
+							switch (fattie->item) {
+
+							case BOMB_ITEM_NON:
+								break;
+
+							case BOMB_ITEM_BOMB:
+							{
+								CBombItem* item = new CBombItem(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								item->SetPosition(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->ListObjects.push_back(item);
+							}
+							break;
+
+							case BOMB_ITEM_MEDICINE:
+							{
+								CMedicine* item = new CMedicine(fattie->x, fattie->y + BOMB_BBOX_HEIGHT, MEDICINE_TYPE_1);
+								item->SetPosition(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->ListObjects.push_back(item);
+							}
+							break;
+
+							case BOMB_ITEM_FIREBALL:
+							{
+								CFireBall* item = new CFireBall(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								item->SetPosition(fattie->x, fattie->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->ListObjects.push_back(item);
+							}
+							break;
+
+							}
+						}
+						CGimmick::GetInstance(0, 0)->score += 100;
+
+						nx = ny = 0;
+					}
+				}
+
+
+				if (dynamic_cast<CBossPirate*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CBossPirate* pboss = dynamic_cast<CBossPirate*>(e->obj);
+						if (pboss->damaged < 5)
+						{
+							pboss->damaged++;
+							pboss->SetState(BOMB_STATE_DAMAGED);
+						}
+						else
+						{
+							pboss->SetState(BOMB_STATE_DIE);
+
+							switch (pboss->item) {
+
+							case BOMB_ITEM_NON:
+								break;
+
+							case BOMB_ITEM_BOMB:
+							{
+								CBombItem* item = new CBombItem(pboss->x, pboss->y + BOMB_BBOX_HEIGHT);
+								item->SetPosition(pboss->x, pboss->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->ListObjects.push_back(item);
+							}
+							break;
+
+							case BOMB_ITEM_MEDICINE:
+							{
+								CMedicine* item = new CMedicine(pboss->x, pboss->y + BOMB_BBOX_HEIGHT, MEDICINE_TYPE_1);
+								item->SetPosition(pboss->x, pboss->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->ListObjects.push_back(item);
+							}
+							break;
+
+							case BOMB_ITEM_FIREBALL:
+							{
+								CFireBall* item = new CFireBall(pboss->x, pboss->y + BOMB_BBOX_HEIGHT);
+								item->SetPosition(pboss->x, pboss->y + BOMB_BBOX_HEIGHT);
+								CMap::GetInstance()->ListObjects.push_back(item);
+							}
+							break;
+
+							}
+						}
+						CGimmick::GetInstance(0, 0)->score += 100;
+
+						nx = ny = 0;
+					}
+				}
+
 				if (dynamic_cast<CElectrode*>(e->obj)) {
 
 					if (e->t > 0 && e->t <= 1) {
@@ -264,6 +375,20 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						Reset();
 					}
 				}
+
+				else if (dynamic_cast<CGreenTurtle*>(e->obj)) {
+
+					if (e->t > 0 && e->t <= 1) {
+
+						CGreenTurtle* turtle = dynamic_cast<CGreenTurtle*>(e->obj);
+
+						turtle->isFinish = true;
+						CGimmick::GetInstance(0, 0)->score += 100;
+
+						Reset();
+					}
+				}
+
 
 				else if (dynamic_cast<CKingElectrode*>(e->obj)) {
 

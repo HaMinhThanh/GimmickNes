@@ -43,6 +43,12 @@
 #include "Bird.h"
 #include "Cat.h"
 
+#include "Boat.h"
+#include "GreenTurtle.h"
+#include "GreenFattie.h"
+#include "BlackBird.h"
+#include "BossPirate.h"
+
 
 using namespace std;
 
@@ -108,6 +114,14 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_CAT_RIGHT	41
 #define OBJECT_TYPE_WHITE_CAT	42
 #define OBJECT_TYPE_BIRD_IDLE	43
+
+//Enemy level 2
+#define  OBJECT_TYPE_BOAT			200			
+#define OBJECT_TYPE_TURTLE			201
+#define OBJECT_TYPE_GREEN_FATTIE	202
+#define OBJECT_TYPE_BIRD			203
+#define OBJECT_TYPE_BOSS_PIRATE		204
+#define OBJECT_TYPE_KNIFE			205
 
 
 #define OBJECT_TYPE_PORTAL	50
@@ -223,6 +237,38 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_WHITE_LEFT:
 		obj = new CWhite(3);
 		break;
+
+	case OBJECT_TYPE_BOSS_PIRATE:
+	{
+		int item = atof(tokens[4].c_str());
+		obj = new CBossPirate(x, y, item);
+	}
+	break;
+
+	case OBJECT_TYPE_GREEN_FATTIE:
+	{
+		int item = atof(tokens[4].c_str());
+		obj = new CGreenFattie(x, y, item);
+	}
+	break;
+
+	case OBJECT_TYPE_TURTLE:
+	{
+		int max = atof(tokens[4].c_str());
+		int min = atof(tokens[5].c_str());
+
+		obj = new CGreenTurtle(x, y, max, min);
+	}
+	break;
+
+	case OBJECT_TYPE_BOAT:
+		obj = new CBoat(x, y);
+		break;
+
+	case OBJECT_TYPE_BIRD:
+		obj = new CBlackBird(x, y);
+		break;
+
 
 
 	case OBJECT_TYPE_ANI_BRICK_1:
