@@ -37,7 +37,7 @@ void CBoat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (x <= min && vx <= 0)
 			vx = BOAT_SPEED_X;
 		else if (x >= max && vx > 0)
-			vx = -BOAT_SPEED_X;
+			vx = 0;
 	}
 
 	if (isFinish) {

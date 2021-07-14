@@ -19,6 +19,7 @@
 #include "GreenFattie.h"
 #include "BossPirate.h"
 #include "PBKnife.h"
+#include "Sound.h"
 
 
 #define STAR_ANIMATION_SET		2
@@ -205,6 +206,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					if (e->t > 0 && e->t <= 1) {
 
+						Sound::GetInstance()->Play("Collision", 0, 1);
+
 						CBomb* bomb = dynamic_cast<CBomb*>(e->obj);
 						bomb->SetState(BOMB_STATE_DIE);
 
@@ -357,6 +360,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					if (e->t > 0 && e->t <= 1) {
 
+						Sound::GetInstance()->Play("Collision", 0, 1);
+
 						CElectrode* elec = dynamic_cast<CElectrode*>(e->obj);
 
 						if (elec->isIdle) {
@@ -374,6 +379,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CWorm*>(e->obj)) {
 
 					if (e->t > 0 && e->t <= 1) {
+
+						Sound::GetInstance()->Play("Collision", 0, 1);
 
 						CWorm* worm = dynamic_cast<CWorm*>(e->obj);
 
@@ -401,6 +408,8 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (dynamic_cast<CKingElectrode*>(e->obj)) {
 
 					if (e->t > 0 && e->t <= 1) {
+
+						Sound::GetInstance()->Play("Collision", 0, 1);
 
 						CKingElectrode* king = dynamic_cast<CKingElectrode*>(e->obj);
 

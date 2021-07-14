@@ -842,7 +842,7 @@ map/map2.txt	128	60	0	0
 
 # Boat
 # id	x	y	ani	max	min	type
-200	496	224	225	2000	496
+200	496	224	225	1696	496
 
 
 # BIRD
